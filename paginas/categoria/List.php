@@ -121,7 +121,7 @@
                                 echo "<tr>";
                                     echo "<td>".$row['tipo_id']."</td>";
                                     echo "<td>".$row['nombre']."</td>";
-                                    echo "<td> <a class='btn btn-link' href='View.html'>Ver</a><a class='btn btn-link' href='Edit.html'>Editar</a><a class='btn btn-link' onclick='eliminar()'>Eliminar</a></td>";
+                                    echo "<td> <a class='btn btn-link' href='View.html'>Ver</a><a class='btn btn-link' href='Edit.html'>Editar</a><a class='btn btn-link' data-toggle='modal' data-target='#confirmarCampo' >Eliminar</a></td>";
                                 echo "</tr>";
                             }
                             ?>
@@ -295,6 +295,29 @@
                     </div>
                 </div>
             </div>
+
+            <!--Letrero de confirmación para eliminar una categoria-->
+            <div class="modal fade" id="confirmarCampo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmacion">Confirmación</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Seguro que quieres eliminar esta categoría?</p>
+                            <p>Por favor confirma el id de la categoría que quieres eliminar</p>
+                            <input class="form-control" id="idCat" type="text"/>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button class="btn btn-ambar" onclick="eliminar()">Confirmar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
       <!-- Bootstrap core JavaScript-->
         <script src="/ProyectoBases2/resources/vendor/jquery/jquery.min.js"></script>
@@ -305,38 +328,4 @@
         <script src="/ProyectoBases2/resources/js/controlBarra.js"></script>
         <script src="/ProyectoBases2/Logica/Javascript/Categoria.js"></script>
     </body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-
-    <ui:composition template="/template.xhtml">
-        <ui:define name="title">
-            <h:outputText value="#{bundle.ListCategoriaTitle}"></h:outputText>
-        </ui:define>
-        <ui:define name="entidad">
-            
-        </ui:define>
-    </ui:composition>
-
 </html>
