@@ -47,7 +47,7 @@
                         <a data-toggle="collapse" href="#list" role="button" aria-expanded="false" aria-controls="list" class="nav-link"><i class="fa fa-list-alt"></i> Listar </a>
                     </li>
                     <li>
-                        <a href="paginas/factura/List.xhtml" class="nav-link"><i class="fa fa-book"></i> Facturas </a>
+                        <a href="/ProyectoBases2/paginas/factura/List.php" class="nav-link"><i class="fa fa-book"></i> Facturas </a>
                     </li>
                      <li>
                         <a data-toggle="collapse" href="#settings" role="button" aria-expanded="false" aria-controls="settings" class="nav-link"><i class="fa fa-support"></i> Funciones Base </a>
@@ -79,7 +79,7 @@
                             <a data-toggle="collapse" href="#list" role="button" aria-expanded="false" aria-controls="list" class="nav-link"><i class="fa fa-list"></i> Listar </a>
                         </li>
                         <li class="nav-item">
-                            <a href="paginas/factura/List.xhtml" class="nav-link"><i class="fa fa-book"></i> Facturas </a>
+                            <a href="/ProyectoBases2/paginas/factura/List.php" class="nav-link"><i class="fa fa-book"></i> Facturas </a>
                         </li>
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#settings" role="button" aria-expanded="false" aria-controls="settings" class="nav-link"><i class="fa fa-support"></i> Funciones Base </a>
@@ -104,37 +104,39 @@
                 </div>    
 
 
-                <!--Contenido de ver categoria-->
-                <div class="contenido">
+                <!--Contenido de listar producto-->
+                <div class="contenido-lista">
                     <table class="table table-light text-font">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col">Id categoria</th>
+                                <th scope="col">Id Producto</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Descripción</th>
                                 <th scope="col">Categoría</th>
+                                <th scope="col">Valor unitario</th>
+                                <th scope="col">Cantidad Disponible</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $consultaCategoria=mysqli_query($link,"SELECT * from categoria;");
-                            while($row= mysqli_fetch_array($consultaCategoria)){
+                            $consultaProducto=mysqli_query($link,"select *, (select c.nombre from categoria c, producto p where p.categoria_id=c.tipo_id) as 'categoria' from producto p;");
+                            while($row= mysqli_fetch_array($consultaProducto)){
                                 echo "<tr>";
-                                    echo "<td>".$row['tipo_id']."</td>";
+                                    echo "<td>".$row['producto_id']."</td>";
                                     echo "<td>".$row['nombre']."</td>";
-                                    echo "<td> <a class='btn btn-link' href='View.html'>Ver</a><a class='btn btn-link' href='Edit.html'>Editar</a><a class='btn btn-link' data-toggle='modal' data-target='#confirmarCampo' >Eliminar</a></td>";
+                                    echo "<td>".$row['descripcion']."</td>";
+                                    echo "<td>".$row['categoria']."</td>";
+                                    echo "<td>".$row['valor_unidad']."</td>";
+                                    echo "<td>".$row['cantidad']."</td>";
+                                    echo "<td><a class='btn btn-link' href='Edit.php'>Editar</a><a class='btn btn-link' data-toggle='modal' data-target='#confirmarCampo' >Eliminar</a></td>";
                                 echo "</tr>";
                             }
                             ?>
                         </tbody>
                     </table>
-                <h:commandLink class="btn btn-ambar" action="#{categoriaController.destroyAndView}" value="#{bundle.ViewCategoriaDestroyLink}"/>
-                <h:link class="btn btn-ambar" outcome="Edit" value="#{bundle.ViewCategoriaEditLink}"/>
-                <h:commandLink class="btn btn-ambar" action="#{categoriaController.prepareCreate}" value="#{bundle.ViewCategoriaCreateLink}" />
-                <br/>
-                <br/>
-                <h:commandLink class="btn btn-ambar" action="#{categoriaController.prepareList}" value="#{bundle.ViewCategoriaShowAllLink}"/>
-                <h:link class="btn btn-ambar" outcome="/index" value="#{bundle.ViewCategoriaIndexLink}"/>
-            </h:form>
+                    <a class="btn btn-ambar" href="Create.php">Agregar nuevo producto</a>
+                    <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a>
                 </div>
 
                 <!--espacio agregar-->
@@ -149,7 +151,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Proveedor</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/proveedor/Create.html" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/proveedor/Create.html" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -158,7 +160,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Cliente</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/cliente/Create.html" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/cliente/Create.html" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -167,7 +169,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Producto</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/producto/Create.html" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/producto/Create.php" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -178,7 +180,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Empleado</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/empleado/Create.html" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/empleado/Create.html" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -187,7 +189,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Categoria de producto</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/categoria/Create.html" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/categoria/Create.html" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -206,7 +208,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Proveedor</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/proveedor/List.xhtml" class="btn btn-danger">Mostrar</a>
+                                        <a href="/ProyectoBases2/paginas/proveedor/List.php" class="btn btn-danger">Mostrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -215,7 +217,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Cliente</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/cliente/List.xhtml" class="btn btn-danger">Mostrar</a>
+                                        <a href="/ProyectoBases2/paginas/cliente/List.php" class="btn btn-danger">Mostrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -224,7 +226,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Producto</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/producto/List.xhtml" class="btn btn-danger">Mostrar</a>
+                                        <a href="/ProyectoBases2/paginas/producto/List.php" class="btn btn-danger">Mostrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -235,7 +237,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Empleado</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/empleado/List.xhtml" class="btn btn-danger">Mostrar</a>
+                                        <a href="/ProyectoBases2/paginas/empleado/List.php" class="btn btn-danger">Mostrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -244,7 +246,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Categoria de producto</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/categoria/List.xhtml" class="btn btn-danger">Mostrar</a>
+                                        <a href="/ProyectoBases2/paginas/categoria/List.php" class="btn btn-danger">Mostrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -260,22 +262,22 @@
                         que sea con ayuda de un experto.</p>
                         <ul class="list-group">
                             <li class="list-group-item" aria-disabled="true">
-                                <a href="paginas/departamento/List.xhtml">Lista de Departamentos</a>
+                                <a href="/ProyectoBases2/paginas/departamento/List.php">Lista de Departamentos</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="paginas/ciudad/List.xhtml">Lista de Ciudades</a>
+                                <a href="/ProyectoBases2/paginas/ciudad/List.php">Lista de Ciudades</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="paginas/barrio/List.xhtml">Lista de Barrios</a>
+                                <a href="/ProyectoBases2/paginas/barrio/List.php">Lista de Barrios</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="paginas/ubicacion/List.xhtml">Lista de Direcciones</a>
+                                <a href="/ProyectoBases2/paginas/ubicacion/List.php">Lista de Direcciones</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="paginas/cargo/List.xhtml">Lista de Cargos</a>
+                                <a href="/ProyectoBases2/paginas/cargo/List.php">Lista de Cargos</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="paginas/ubicacion/List.xhtml">Lista de Ubicaciones</a>
+                                <a href="/ProyectoBases2/paginas/ubicacion/List.php">Lista de Ubicaciones</a>
                             </li>
                         </ul>
                     </div>
@@ -296,7 +298,30 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <a class="btn btn-ambar" href="index.xhtml">Cerrar sesión</a>
+                            <a class="btn btn-ambar" href="/ProyectoBases2/index.html">Cerrar sesión</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Letrero de confirmación para eliminar una categoria-->
+            <div class="modal fade" id="confirmarCampo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmacion">Confirmación</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Seguro que quieres eliminar este producto?</p>
+                            <p>Por favor confirma el id del producto que quieres eliminar</p>
+                            <input class="form-control" id="idPro" type="text"/>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button class="btn btn-ambar" onclick="eliminar()">Confirmar</button>
                         </div>
                     </div>
                 </div>
@@ -309,6 +334,6 @@
         <script src="/ProyectoBases2/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
         <!--Mis scripts-->
         <script src="/ProyectoBases2/resources/js/controlBarra.js"></script>
-        <script src="/ProyectoBases2/Logica/Javascript/Categoria.js"></script>
+        <script src="/ProyectoBases2/Logica/Javascript/Producto.js"></script>
     </body>
 </html>
