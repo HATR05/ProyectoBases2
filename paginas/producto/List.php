@@ -120,7 +120,7 @@
                         </thead>
                         <tbody>
                             <?php
-                            $consultaProducto=mysqli_query($link,"select p.producto_id, p.nombre, p.descripcion, p.valor_unidad, p.cantidad, (select c.nombre from categoria c, producto p where p.categoria_id=c.tipo_id) as 'categoria' from producto p;");
+                            $consultaProducto=mysqli_query($link,"select *, (select c.nombre from categoria c, producto p where p.categoria_id=c.tipo_id) as 'categoria' from producto p;");
                             while($row= mysqli_fetch_array($consultaProducto)){
                                 echo "<tr>";
                                     echo "<td>".$row['producto_id']."</td>";
