@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditProductoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="entidad">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <div class="form-group row">
+                    <h:outputLabel class="col-md-2 col-form-label" value="#{bundle.EditProductoLabel_productoId}" for="productoId" />
+                    <div class="col-md-10">
+                        <h:inputText class="form-control" id="productoId" value="#{productoController.selected.productoId}" title="#{bundle.EditProductoTitle_productoId}" required="true" requiredMessage="#{bundle.EditProductoRequiredMessage_productoId}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <h:outputLabel class="col-md-2 col-form-label" value="#{bundle.EditProductoLabel_nombre}" for="nombre" />
+                    <div class="col-md-10">
+                        <h:inputText class="form-control" id="nombre" value="#{productoController.selected.nombre}" title="#{bundle.EditProductoTitle_nombre}" required="true" requiredMessage="#{bundle.EditProductoRequiredMessage_nombre}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <h:outputLabel class="col-md-2 col-form-label" value="#{bundle.EditProductoLabel_descripcion}" for="descripcion" />
+                    <div class="col-md-10">
+                        <h:inputText class="form-control" id="descripcion" value="#{productoController.selected.descripcion}" title="#{bundle.EditProductoTitle_descripcion}" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <h:outputLabel class="col-md-2 col-form-label" value="#{bundle.EditProductoLabel_valorUnidad}" for="valorUnidad" />
+                    <div class="col-md-10">
+                        <h:inputText class="form-control" id="valorUnidad" value="#{productoController.selected.valorUnidad}" title="#{bundle.EditProductoTitle_valorUnidad}" required="true" requiredMessage="#{bundle.EditProductoRequiredMessage_valorUnidad}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <h:outputLabel class="col-md-2 col-form-label" value="#{bundle.EditProductoLabel_cantidad}" for="cantidad" />
+                    <div class="col-md-10">
+                        <h:inputText class="form-control" id="cantidad" value="#{productoController.selected.cantidad}" title="#{bundle.EditProductoTitle_cantidad}" required="true" requiredMessage="#{bundle.EditProductoRequiredMessage_cantidad}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <h:outputLabel class="col-md-2 col-form-label" value="#{bundle.EditProductoLabel_categoriaId}" for="categoriaId" />
+                    <div class="col-md-10">
+                        <h:selectOneMenu class="form-control" id="categoriaId" value="#{productoController.selected.categoriaId}" title="#{bundle.EditProductoTitle_categoriaId}" required="true" requiredMessage="#{bundle.EditProductoRequiredMessage_categoriaId}">
+                            <f:selectItems value="#{categoriaController.itemsAvailableSelectOne}"/>
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+                    <h:commandLink class="btn btn-ambar" action="#{productoController.update}" value="#{bundle.EditProductoSaveLink}"/>
+                <h:link class="btn btn-ambar" outcome="View" value="#{bundle.EditProductoViewLink}"/>
+                <h:commandLink class="btn btn-ambar" action="#{productoController.prepareList}" value="#{bundle.EditProductoShowAllLink}" immediate="true"/>
+                <h:link class="btn btn-ambar" outcome="/index" value="#{bundle.EditProductoIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
