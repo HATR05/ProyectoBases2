@@ -37,12 +37,14 @@
 	function editar(){
 		require("connect_DB.php");
 		$name=$_POST["name"];
-		$newName=$_POST["newName"];
+		$newName=$_POST["newNombre"];
+		$salario=$_POST["salario"];
 		$respuesta="";
-		$query=mysqli_query($link,"SELECT nombre from categoria where nombre='".$name."';");
+		$query=mysqli_query($link,"SELECT nombre from cargo where nombre='".$name."';");
 		$check_categoria=mysqli_fetch_array($query);
 		if($check_categoria['nombre']== $name){
-			mysqli_query($link,"update categoria set nombre='".$newName."' where nombre='".$name."';");
+			mysqli_query($link,"update cargo set nombre='".$newName."' where nombre='".$name."';");
+			mysqli_query($link,"update cargo set salario='".$salario."' where nombre='".$newName."';");
 			$respuesta="Categoría modificada con éxito";
 		}else{	
 			$respuesta="La categoria ".$name." no existe";

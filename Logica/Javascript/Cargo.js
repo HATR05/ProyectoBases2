@@ -15,12 +15,11 @@ function crear() {
 }
 
 function editar(){
-	var url="/ProyectoBases2/Logica/Entidades/Categoria.php"
-	var nombre_categoria= document.getElementById("nombre");
-	var nuevo_categoria= document.getElementById("nuevoNombre");
-	var nombre= nombre_categoria.value;
-	var nuevoNombre= nuevo_categoria.value;
-	var info="opcion=editar&name="+nombre+"&newName="+nuevoNombre;
+	var url="/ProyectoBases2/Logica/Entidades/Cargo.php"
+	var nombre= document.getElementById("nombreCargo").value;
+	var nuevoNombre= document.getElementById("nuevoCargo").value;
+	var salario= document.getElementById("salario").value;
+	var info="opcion=editar&name="+nombre+"&newNombre="+nuevoNombre+"&salario="+salario;
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST",url,true);
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
