@@ -1,3 +1,10 @@
+<?php
+    $link =mysqli_connect("localhost","root","");
+    if($link){
+        mysqli_select_db($link,"ferreteriacolmex");
+    }
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -99,22 +106,48 @@
 
                 <!--Contenido de agregar categoria-->
                 <div class="contenido">
-                    <h1 class="titleCreate">Agregar nuevo cargo.</h1>
+                    <h1 class="titleCreate">Editar empleado.</h1>
                     <form>
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label" for="nombre">Nombre del cargo: </label>
+                            <label class="col-md-2 col-form-label" for="empleado">Empleado: </label>
                             <div class="col-md-10">
-                                <input id="nombreCargo" class="form-control" required="true">
+                              <select id="empleado" class="browser-default custom-select">
+                                <?php
+                                      $empleado=mysqli_query($link,"SELECT nombre, apellido from empleado;");
+                                      while($row= mysqli_fetch_array($empleado)){
+                                          echo "<option>".$row['nombre']." ".$row['apellido']."</option>";
+                                      }
+                                  ?>
+                              </select>
+                            </div><br/><br/>
+                            <label class="col-md-2 col-form-label" for="nombreCargo">Nombre del cargo: </label>
+                            <div class="col-md-10">
+                              <select id="nombreCargo" class="browser-default custom-select">
+                                <?php
+                                      $consultaCargo=mysqli_query($link,"SELECT nombre from cargo;");
+                                      while($row= mysqli_fetch_array($consultaCargo)){
+                                          echo "<option>".$row['nombre']."</option>";
+                                      }
+                                  ?>
+                              </select>
                             </div>
-                            <label class="col-md-2 col-form-label" for="nombre">Salario: </label>
+                            <label class="col-md-2 col-form-label" for="nombre">Nombre del empleado: </label>
                             <div class="col-md-10">
-                                <input id="salario" class="form-control" required="true">
+                                <input id="nombre" class="form-control" required="true">
+                            </div>
+                            <label class="col-md-2 col-form-label" for="apellido">Apellido del empleado: </label>
+                            <div class="col-md-10">
+                                <input id="apellido" class="form-control" required="true">
+                            </div>
+                            <label class="col-md-2 col-form-label" for="telefono">Telefono del empleado: </label>
+                            <div class="col-md-10">
+                                <input id="telefono" class="form-control" required="true">
                             </div>
                         </div>
                         <!-- Botón de guardar -->
-                        <button id="save" class="btn btn-ambar" onclick="crear()">Guardar</button>
+                        <button id="save" class="btn btn-ambar" onclick="editar()">Guardar</button>
                         <!-- Botón de mostrar todas las categorías -->
-                        <a id="mostrar" class="btn btn-ambar" href="">Mostrar cargos</a>
+                        <a id="mostrar" class="btn btn-ambar" href="">Mostrar empleados</a>
                         <!-- Botón de inicio -->
                         <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a>
                     </form>
@@ -292,6 +325,6 @@
         <script src="/ProyectoBases2/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
         <!--Mis scripts-->
         <script src="/ProyectoBases2/resources/js/controlBarra.js"></script>
-        <script src="/ProyectoBases2/Logica/Javascript/Cargo.js"></script>
+        <script src="/ProyectoBases2/Logica/Javascript/Empleado.js"></script>
     </body>
 </html>
