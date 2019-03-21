@@ -52,14 +52,21 @@
 		$apellido=$_POST["apellido"];
 		$telefono=$_POST["telefono"];
 		$respuesta="";
-		$query=mysqli_query($link,"SELECT nombre, apellido from cargo where concat(nombre, ' ', apellido)='".$oldEmpleado."';");
+		$id= explode("-", $oldEmpleado);
+		$query=mysqli_query($link,"SELECT empleado_id from empleado where empleado_id=".$id[0].";");
 		$check_empleado=mysqli_fetch_array($query);
-		if(($check_empleado['nombre']." ".$check_empleado['apellido']) == $oldEmpleado){
-			mysqli_query($link,"update empleado set cargo_id='".$nombreCargo."' where concat(nombre, ' ', apellido)='".$oldEmpleado."';");
-			mysqli_query($link,"update empleado set nombre='".$nombre."' where concat(nombre, ' ', apellido)='".$oldEmpleado."';");
-			mysqli_query($link,"update empleado set apellido='".$apellido."' where nombre='".$nombre."';");
-			mysqli_query($link,"update empleado set telefono='".$telefono."' where nombre='".$nombre."';");
-			$respuesta="Categoría modificada con éxito";
+		if( $check_empleado['empleado_id'] == $id[0] ){
+			mysqli_query($link,"update empleado set cargo_id='".$nombreCargo."' where empleado_id=".$id[0].";");
+			if(strlen($nombre) > 0){
+				mysqli_query($link,"update empleado set nombre='".$nombre."' where empleado_id=".$id[0].";");
+			}
+			if(strlen($apellido) > 0){
+				mysqli_query($link,"update empleado set apellido='".$apellido."' where empleado_id=".$id[0].";");
+			}
+			if(strlen($telefono) > 0){
+				mysqli_query($link,"update empleado set telefono='".$telefono."' where empleado_id=".$id[0].";");
+			}
+			$respuesta="Empleado modificado con éxito";
 		}else{	
 			$respuesta="El empleado ".$nombre." no existe";
 		}

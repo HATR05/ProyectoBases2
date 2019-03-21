@@ -106,48 +106,37 @@
 
                 <!--Contenido de agregar categoria-->
                 <div class="contenido">
-                    <h1 class="titleCreate">Editar empleado.</h1>
+                    <h1 class="titleCreate">Agregar nuevo cliente.</h1>
                     <form>
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label" for="empleado">Empleado: </label>
+                            <label class="col-md-2 col-form-label" for="ubicacion">Ubicación: </label>
                             <div class="col-md-10">
-                              <select id="empleado" class="browser-default custom-select">
+                              <select id="ubicacion" class="browser-default custom-select">
                                 <?php
-                                      $empleado=mysqli_query($link,"SELECT empleado_id, nombre, apellido from empleado;");
-                                      while($row= mysqli_fetch_array($empleado)){
-                                          echo "<option>".$row['empleado_id']."-".$row['nombre']." ".$row['apellido']."</option>";
-                                      }
-                                  ?>
-                              </select>
-                            </div><br/><br/>
-                            <label class="col-md-2 col-form-label" for="nombreCargo">Nombre del cargo: </label>
-                            <div class="col-md-10">
-                              <select id="nombreCargo" class="browser-default custom-select">
-                                <?php
-                                      $consultaCargo=mysqli_query($link,"SELECT nombre from cargo;");
-                                      while($row= mysqli_fetch_array($consultaCargo)){
-                                          echo "<option>".$row['nombre']."</option>";
+                                      $consulta_ubicacion=mysqli_query($link,"SELECT ubicacion_id, direccion from ubicacion;");
+                                      while($row= mysqli_fetch_array($consulta_ubicacion)){
+                                          echo "<option>".$row['ubicacion_id']."-".$row['direccion']."</option>";
                                       }
                                   ?>
                               </select>
                             </div>
-                            <label class="col-md-2 col-form-label" for="nombre">Nombre del empleado: </label>
+                            <label class="col-md-2 col-form-label" for="nombre">Nombre del cliente: </label>
                             <div class="col-md-10">
-                                <input id="nombre" class="form-control" required="false">
+                                <input id="nombre" class="form-control" required="true">
                             </div>
-                            <label class="col-md-2 col-form-label" for="apellido">Apellido del empleado: </label>
+                            <label class="col-md-2 col-form-label" for="apellido">Apellido del cliente: </label>
                             <div class="col-md-10">
-                                <input id="apellido" class="form-control" required="false">
+                                <input id="apellido" class="form-control" required="true">
                             </div>
-                            <label class="col-md-2 col-form-label" for="telefono">Telefono del empleado: </label>
+                            <label class="col-md-2 col-form-label" for="telefono">Telefono del cliente: </label>
                             <div class="col-md-10">
-                                <input id="telefono" class="form-control" required="false">
+                                <input id="telefono" class="form-control" required="true">
                             </div>
                         </div>
                         <!-- Botón de guardar -->
-                        <button id="save" class="btn btn-ambar" onclick="editarEmpleado()">Guardar</button>
+                        <button id="save" class="btn btn-ambar" onclick="crear()">Guardar</button>
                         <!-- Botón de mostrar todas las categorías -->
-                        <a id="mostrar" class="btn btn-ambar" href="">Mostrar empleados</a>
+                        <a id="mostrar" class="btn btn-ambar" href="">Mostrar clientes</a>
                         <!-- Botón de inicio -->
                         <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a>
                     </form>
@@ -325,6 +314,6 @@
         <script src="/ProyectoBases2/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
         <!--Mis scripts-->
         <script src="/ProyectoBases2/resources/js/controlBarra.js"></script>
-        <script src="/ProyectoBases2/Logica/Javascript/Empleado.js"></script>
+        <script src="/ProyectoBases2/Logica/Javascript/Cliente.js"></script>
     </body>
 </html>
