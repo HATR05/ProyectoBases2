@@ -121,7 +121,7 @@
                                 echo "<tr>";
                                     echo "<td>".$row['tipo_id']."</td>";
                                     echo "<td>".$row['nombre']."</td>";
-                                    echo "<td> <a class='btn btn-link' href='View.html'>Ver</a><a class='btn btn-link' href='Edit.html'>Editar</a><a class='btn btn-link' data-toggle='modal' data-target='#confirmarCampo' >Eliminar</a></td>";
+                                    echo "<td> <a class='btn btn-link' href='Edit.html'>Editar</a><a class='btn btn-link' data-toggle='modal' data-target='#confirmarCampo' >Eliminar</a></td>";
                                 echo "</tr>";
                             }
                             ?>
