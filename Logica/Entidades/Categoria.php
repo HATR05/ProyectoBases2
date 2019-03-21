@@ -9,8 +9,8 @@
 		case 'editar':
 			$mensaje= editar();
 			break;
-		case 'listar':
-			$mensaje= lista();
+		case 'eliminar':
+			$mensaje= eliminar();
 			break;
 		case 'ver':
 			$mensaje= ver();
@@ -49,9 +49,18 @@
 		return $respuesta;
 	}
 
-	function lista(){
+	function eliminar(){
+		require("connect_DB.php");
+		$idCat=$_POST["idCat"];
 		$respuesta="";
-
+		$query=mysqli_query($link,"SELECT * from categoria where tipo_id='".$idCat."';");
+		$check_categoria=mysqli_fetch_array($query);
+		if($check_categoria['tipo_id']== $idCat){
+			mysqli_query($link,"delete from categoria where tipo_id=".$idCat.";");
+			$respuesta="Categoría ".$check_categoria['nombre']." eliminada con éxito";
+		}else{	
+			$respuesta="La categoria con id ".$idCat." no existe";
+		}
 		return $respuesta;
 	}
 

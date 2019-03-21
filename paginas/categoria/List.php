@@ -1,3 +1,10 @@
+<?php
+    $link =mysqli_connect("localhost","root","");
+    if($link){
+        mysqli_select_db($link,"ferreteriacolmex");
+    }
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -97,26 +104,31 @@
                 </div>    
 
 
-                <!--Contenido de editar categoria-->
+                <!--Contenido de listar categoria-->
                 <div class="contenido">
-                    <h1 class="titleCreate">Editar categoría.</h1>
-                    <form>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label" for="nombre">Nombre de categoría: </label>
-                            <div class="col-md-10">
-                                <input class="form-control" id="nombre" required="true"/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label" for="nuevoNombre">Nuevo nombre: </label>
-                            <div class="col-md-10">
-                                <input class="form-control" id="nuevoNombre" required="true"/>
-                            </div>
-                        </div>
-                        <button id="edit" class="btn btn-ambar" onclick="editar()">Guardar</button>
-                        <a class="btn btn-ambar" href="List.php">Mostrar categorias</a>
-                        <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a>
-                    </form>
+                    <table class="table table-light text-font">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Id categoria</th>
+                                <th scope="col">Categoría</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $consultaCategoria=mysqli_query($link,"SELECT * from categoria;");
+                            while($row= mysqli_fetch_array($consultaCategoria)){
+                                echo "<tr>";
+                                    echo "<td>".$row['tipo_id']."</td>";
+                                    echo "<td>".$row['nombre']."</td>";
+                                    echo "<td> <a class='btn btn-link' href='View.html'>Ver</a><a class='btn btn-link' href='Edit.html'>Editar</a><a class='btn btn-link' data-toggle='modal' data-target='#confirmarCampo' >Eliminar</a></td>";
+                                echo "</tr>";
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                    <a class="btn btn-ambar" href="Create.html">Crear nueva categoria</a>
+                    <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a>
                 </div>
 
                 <!--espacio agregar-->
@@ -279,6 +291,29 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                             <a class="btn btn-ambar" href="/ProyectoBases2/index.html">Cerrar sesión</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Letrero de confirmación para eliminar una categoria-->
+            <div class="modal fade" id="confirmarCampo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmacion">Confirmación</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Seguro que quieres eliminar esta categoría?</p>
+                            <p>Por favor confirma el id de la categoría que quieres eliminar</p>
+                            <input class="form-control" id="idCat" type="text"/>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button class="btn btn-ambar" onclick="eliminar()">Confirmar</button>
                         </div>
                     </div>
                 </div>
