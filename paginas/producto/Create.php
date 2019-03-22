@@ -168,7 +168,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Proveedor</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="/ProyectoBases2/paginas/proveedor/Create.html" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/proveedor/Create.php" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
