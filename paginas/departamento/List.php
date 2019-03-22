@@ -1,3 +1,52 @@
+<?php require_once('../../Connections/connDB.php'); ?>
+<?php
+if (!function_exists("GetSQLValueString")) {
+function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
+{
+  if (PHP_VERSION < 6) {
+    $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
+  }
+
+  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+
+  switch ($theType) {
+    case "text":
+      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+      break;    
+    case "long":
+    case "int":
+      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
+      break;
+    case "double":
+      $theValue = ($theValue != "") ? doubleval($theValue) : "NULL";
+      break;
+    case "date":
+      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+      break;
+    case "defined":
+      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
+      break;
+  }
+  return $theValue;
+}
+}
+
+$colname_departamento = "-1";
+if (isset($_GET['departamento_id'])) {
+  $colname_departamento = $_GET['departamento_id'];
+}
+mysql_select_db($database_connDB, $connDB);
+$query_departamento = sprintf("SELECT * FROM departamento WHERE departamento_id = %s", GetSQLValueString($colname_departamento, "int"));
+$departamento = mysql_query($query_departamento, $connDB) or die(mysql_error());
+$row_departamento = mysql_fetch_assoc($departamento);
+$totalRows_departamento = mysql_num_rows($departamento);
+
+    $link =mysqli_connect("localhost","root","");
+    if($link){
+        mysqli_select_db($link,"ferreteriacolmex");
+    }
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -97,26 +146,31 @@
                 </div>    
 
 
-                <!--Contenido de editar categoria-->
+                <!--Contenido de listar categoria-->
                 <div class="contenido">
-                    <h1 class="titleCreate">Editar categoría.</h1>
-                    <form>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label" for="nombre">Nombre del Departamento: </label>
-                            <div class="col-md-10">
-                                <input class="form-control" id="nombre" required/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label" for="nuevoNombre">Nuevo nombre: </label>
-                            <div class="col-md-10">
-                                <input class="form-control" id="nuevoNombre" required/>
-                            </div>
-                        </div>
-                        <button id="edit" class="btn btn-ambar" onclick="editar()">Guardar</button>
-                        <a class="btn btn-ambar" href="List.php">Mostrar Departamento</a>
-                        <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a>
-                    </form>
+                    <table class="table table-light text-font">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Id categoria</th>
+                                <th scope="col">Categoría</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $consultaCategoria=mysqli_query($link,"SELECT * from departamento;");
+                            while($row= mysqli_fetch_array($consultaCategoria)){
+                                echo "<tr>";
+                                    echo "<td>".$row['departamento_id']."</td>";
+                                    echo "<td>".$row['nombre_departamento']."</td>";
+                                    echo "<td> <a class='btn btn-link' href='Edit.html'>Editar</a><a class='btn btn-link' data-toggle='modal' data-target='#confirmarCampo' >Eliminar</a></td>";
+                                echo "</tr>";
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                    <a class="btn btn-ambar" href="Create.html">Crear nuevo Departamento</a>
+                    <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a>
                 </div>
 
                 <!--espacio agregar-->
@@ -283,6 +337,29 @@
                     </div>
                 </div>
             </div>
+
+            <!--Letrero de confirmación para eliminar una categoria-->
+            <div class="modal fade" id="confirmarCampo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmacion">Confirmación</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Seguro que quieres eliminar esta categoría?</p>
+                            <p>Por favor confirma el id de la categoría que quieres eliminar</p>
+                            <input class="form-control" id="idCat" type="text"/>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button class="btn btn-ambar" onclick="eliminar()">Confirmar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
       <!-- Bootstrap core JavaScript-->
         <script src="/ProyectoBases2/resources/vendor/jquery/jquery.min.js"></script>
@@ -291,6 +368,9 @@
         <script src="/ProyectoBases2/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
         <!--Mis scripts-->
         <script src="/ProyectoBases2/resources/js/controlBarra.js"></script>
-        <script src="/ProyectoBases2/Logica/Javascript/Departamento.js"></script>
+        <script src="/ProyectoBases2/Logica/Javascript/Producto.js"></script>
     </body>
 </html>
+<?php
+mysql_free_result($departamento);
+?>

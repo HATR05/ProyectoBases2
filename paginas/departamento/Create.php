@@ -1,3 +1,49 @@
+<?php require_once('../../Connections/connDB.php'); ?>
+<?php
+if (!function_exists("GetSQLValueString")) {
+function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
+{
+  if (PHP_VERSION < 6) {
+    $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
+  }
+
+  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+
+  switch ($theType) {
+    case "text":
+      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+      break;    
+    case "long":
+    case "int":
+      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
+      break;
+    case "double":
+      $theValue = ($theValue != "") ? doubleval($theValue) : "NULL";
+      break;
+    case "date":
+      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+      break;
+    case "defined":
+      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
+      break;
+  }
+  return $theValue;
+}
+}
+
+$editFormAction = $_SERVER['PHP_SELF'];
+if (isset($_SERVER['QUERY_STRING'])) {
+  $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
+}
+
+if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
+  $insertSQL = sprintf("INSERT INTO departamento (nombre_departamento) VALUES (%s)",
+                       GetSQLValueString($_POST['nombre_departamento'], "text"));
+
+  mysql_select_db($database_connDB, $connDB);
+  $Result1 = mysql_query($insertSQL, $connDB) or die(mysql_error());
+}
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -104,16 +150,20 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label" for="nombre">Nombre de departamento: </label>
                             <div class="col-md-10">
-                                <input id="nombreDepartamento" class="form-control" required>
+                              <input id="nombreDepartamento" type="text" name="nombre_departamento" value="" class="form-control" required>
                             </div>
                         </div>
                         <!-- Botón de guardar -->
-                        <button id="save" class="btn btn-ambar" onclick="crear()">Guardar</button>
+                        <input type="submit" value="Guardar" class="btn btn-ambar">
+                      
                         <!-- Botón de mostrar todas las categorías -->
-                        <a id="mostrar" class="btn btn-ambar" href="">Mostrar departamentos</a>
+                        <a id="mostrar" class="btn btn-ambar" href="/ProyectoBases2/Departamento/List.php">Mostrar departamentos</a>
                         <!-- Botón de inicio -->
                         <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a>
                     </form>
+                    <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
+                    </form>
+                    <p>&nbsp;</p>
                 </div>
 
                 <!--espacio agregar-->
@@ -270,6 +320,8 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
+
+
                         <div class="modal-body">
                             <p>¿Seguro que quieres cerrar sesión?</p>
                         </div>
@@ -288,6 +340,6 @@
         <script src="/ProyectoBases2/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
         <!--Mis scripts-->
         <script src="/ProyectoBases2/resources/js/controlBarra.js"></script>
-        <script src="/ProyectoBases2/Logica/Javascript/Categoria.js"></script>
+        <script src="/ProyectoBases2/Logica/Javascript/Departamento.js"></script>
     </body>
 </html>
