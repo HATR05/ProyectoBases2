@@ -112,10 +112,11 @@
                             <label class="col-md-2 col-form-label" for="nombreCargo">Cargo a editar: </label>
                             <div class="col-md-10">
                               <select id="nombreCargo" class="browser-default custom-select">
+                                <option selected="true"></option>
                                 <?php
                                       $cargos=mysqli_query($link,"SELECT cargo_id, nombre from cargo;");
                                       while($row= mysqli_fetch_array($cargos)){
-                                          echo "<option>".$row['cargo_id']."-".$row['nombre']."</option>";
+                                          echo "<option value='".$row['cargo_id']."' onclick='getInf()'>".$row['nombre']."</option>";
                                       }
                                   ?>
                               </select>

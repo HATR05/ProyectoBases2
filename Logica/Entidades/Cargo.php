@@ -9,8 +9,8 @@
 		case 'editar':
 			$mensaje= editar();
 			break;
-		case 'listar':
-			$mensaje= lista();
+		case 'info':
+			$mensaje= info();
 			break;
 		case 'eliminar':
 			$mensaje= eliminar();
@@ -61,9 +61,13 @@
 		return $respuesta;
 	}
 
-	function lista(){
+	function info(){
+		require("connect_DB.php");
+		$nombreCargo=$_POST["nombreCargo"];
 		$respuesta="";
-
+		$query=mysqli_query($link,"SELECT * from cargo where cargo_id=".$nombreCargo.";");
+		$check=mysqli_fetch_array($query);
+		$respuesta=$check['nombre']."-".$check['salario'];
 		return $respuesta;
 	}
 
@@ -73,7 +77,7 @@
 		$respuesta="";
 		$query=mysqli_query($link,"select * from empleado where cargo_id =".$cargo.";");
 		$check = mysqli_fetch_array($query);
-		if(mysql_num_rows($check) == 0){
+		if($check['cargo_id'] != $cargo){
 			mysqli_query($link,"delete from cargo where cargo_id=".$cargo.";");
 			$respuesta="El cargo se ha eliminado correctamente";
 		} else {

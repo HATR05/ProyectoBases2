@@ -109,17 +109,6 @@
                     <h1 class="titleCreate">Agregar nuevo cliente.</h1>
                     <form>
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label" for="ubicacion">Ubicación: </label>
-                            <div class="col-md-10">
-                              <select id="ubicacion" class="browser-default custom-select">
-                                <?php
-                                      $consulta_ubicacion=mysqli_query($link,"SELECT ubicacion_id, direccion from ubicacion;");
-                                      while($row= mysqli_fetch_array($consulta_ubicacion)){
-                                          echo "<option>".$row['ubicacion_id']."-".$row['direccion']."</option>";
-                                      }
-                                  ?>
-                              </select>
-                            </div>
                             <label class="col-md-2 col-form-label" for="nombre">Nombre del cliente: </label>
                             <div class="col-md-10">
                                 <input id="nombre" class="form-control" required="true">
@@ -131,6 +120,42 @@
                             <label class="col-md-2 col-form-label" for="telefono">Telefono del cliente: </label>
                             <div class="col-md-10">
                                 <input id="telefono" class="form-control" required="true">
+                            </div>
+                        </div>
+                        <!--Sección de la ubicación-->
+                        <h1 class="titleCreate">Ubicación</h1>
+                        <div class="form-group row">
+
+                            <label class="col-md-2 col-form-label" for="departamento">Departamento: </label>
+                            <div class="col-md-4">
+                              <select id="departamento" class="browser-default custom-select">
+                                <option selected="true"></option>
+                                <?php
+                                      $consulta_ubicacion=mysqli_query($link,"SELECT departamento_id, nombre_departamento from departamento;");
+                                      while($row= mysqli_fetch_array($consulta_ubicacion)){
+                                          echo "<option value='".$row['departamento_id']."' onclick='getCities()'>".$row['nombre_departamento']."</option>";
+                                      }
+                                  ?>
+                              </select>
+                            </div>
+                            <label class="col-md-1 col-form-label" for="ciudad">Ciudad: </label>
+                            <div class="col-md-4">
+                              <select id="ciudad" class="browser-default custom-select">
+                              </select>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label" for="barrio">Barrio: </label>
+                            <div class="col-md-4">
+                              <select id="barrio" class="browser-default custom-select">
+                              </select>
+                            </div>
+                            <label class="col-md-1 col-form-label" for="ubicacion">Dirección: </label>
+                            <div class="col-md-4">
+                              <select id="ubicacion" class="browser-default custom-select">
+                              </select>
                             </div>
                         </div>
                         <!-- Botón de guardar -->

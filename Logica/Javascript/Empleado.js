@@ -58,7 +58,7 @@ function eliminar(){
 
 function getInfo(){
 	var url="/ProyectoBases2/Logica/Entidades/Empleado.php"
-	var idEmpleado = document.getElementById("empleado");
+	var idEmpleado = document.getElementById("empleado").value;
 	var info="opcion=info&idEmpleado="+idEmpleado;
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST",url,true);
@@ -66,11 +66,10 @@ function getInfo(){
 	xhr.onreadystatechange = function(){
 		if(xhr.readyState == 4 && xhr.status == 200){
 			var information = xhr.responseText;
-			alert(information);
 			var splitInf = information.split("-");
 			document.getElementById("nombre").value = splitInf[0];
-			document.getElementById("nombre").value = splitInf[1];
-			document.getElementById("nombre").value = splitInf[2];
+			document.getElementById("apellido").value = splitInf[1];
+			document.getElementById("telefono").value = splitInf[2];
 		}
 	};
 	xhr.send(info);
