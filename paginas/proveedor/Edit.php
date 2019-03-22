@@ -104,31 +104,80 @@
                 </div>    
 
 
-                <!--Contenido de listar categoria-->
+                <!--Contenido de editar Producto-->
                 <div class="contenido">
-                    <table class="table table-light text-font">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">Id categoria</th>
-                                <th scope="col">Categoría</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $consultaCategoria=mysqli_query($link,"SELECT * from categoria;");
-                            while($row= mysqli_fetch_array($consultaCategoria)){
-                                echo "<tr>";
-                                    echo "<td>".$row['tipo_id']."</td>";
-                                    echo "<td>".$row['nombre']."</td>";
-                                echo "</tr>";
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                    <a class='btn btn-ambar' href='Edit.html'>Editar</a>
-                    <a class='btn btn-ambar' data-toggle='modal' data-target='#confirmarCampo' >Eliminar</a>
-                    <a class="btn btn-ambar" href="Create.html">Crear nueva categoria</a>
-                    <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a>
+                    <h1 class="titleCreate">Editar proveedor.</h1>
+                    <form>
+                       <div class="form-group row">
+                            <label class="col-md-2 col-form-label" for="nameProducto">Proveedor: </label>
+                            <div class="col-md-5">
+                                <select id="nameProveedor" class="form-control">
+                                    <option>----------</option>
+                                    <?php
+                                        $consultaProducto=mysqli_query($link,"SELECT nit, nombre from proveedor;");
+                                        while($row= mysqli_fetch_array($consultaProducto)){
+                                            echo "<option value=".$row['nit'].">".$row['nombre']."</option>";
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label" for="nameProducto">Nuevo nombre: </label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" name="nameProducto" id="newName" required="true" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label" for="descProducto">Nueva descripción: </label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" name="descProducto" id="newDesc" required="true" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label" for="valProducto">Nuevo teléfono: </label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" name="valProducto" id="newTel" required="true"/>
+                            </div>
+                        </div>
+                        <legend><label class="col-form-label" for="stock">Ubicación</label></legend>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label" for="stock">Departamento:</label>
+                            <div class="col-md-4">
+                                <select id="optionDep" class="form-control" onchange="buscarCi()">
+                                    <option>---------------</option>
+                                    <?php
+                                        $consultaDepa=mysqli_query($link,"SELECT departamento_id, nombre_departamento from departamento;");
+                                        while($row= mysqli_fetch_array($consultaDepa)){
+                                            echo "<option value=".$row['departamento_id'].">".$row['nombre_departamento']."</option>";
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                            <label class="col-md-2 col-form-label" for="optionCi">Ciudad: </label>
+                            <div class="col-md-4">
+                                <select id="optionCi" class="form-control">
+                                    <option>---------------</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label" for="stock">Barrio:</label>
+                            <div class="col-md-4">
+                                <select id="optionBa" class="form-control">
+                                    <option>---------------</option>
+                                </select>
+                            </div>
+                            <label class="col-md-2 col-form-label" for="direct">Dirección: </label>
+                            <div class="col-md-4">
+                                <input type="text" id="direct" name="direc" class="form-control" />
+                            </div>
+                        </div>
+
+                        <button class="btn btn-ambar" onclick="editar()">Guardar</button>
+                        <a class="btn btn-ambar" href="List.php">Mostrar productos</a>
+                        <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a>
+                    </form>
                 </div>
 
                 <!--espacio agregar-->
@@ -295,29 +344,6 @@
                     </div>
                 </div>
             </div>
-
-            <!--Letrero de confirmación para eliminar una categoria-->
-            <div class="modal fade" id="confirmarCampo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="confirmacion">Confirmación</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>¿Seguro que quieres eliminar una categoría?</p>
-                            <p>Por favor ingresa el id de la categoría que quieres eliminar</p>
-                            <input class="form-control" id="idCat" type="text"/>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button class="btn btn-ambar" onclick="eliminar()">Confirmar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
       <!-- Bootstrap core JavaScript-->
         <script src="/ProyectoBases2/resources/vendor/jquery/jquery.min.js"></script>
@@ -326,6 +352,6 @@
         <script src="/ProyectoBases2/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
         <!--Mis scripts-->
         <script src="/ProyectoBases2/resources/js/controlBarra.js"></script>
-        <script src="/ProyectoBases2/Logica/Javascript/Categoria.js"></script>
+        <script src="/ProyectoBases2/Logica/Javascript/Proveedor.js"></script>
     </body>
 </html>

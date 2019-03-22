@@ -16,7 +16,7 @@
 			$mensaje= ver();
 			break;
 	}
-	
+	echo $mensaje;
 
 	function crear(){
 		require("connect_DB.php");
@@ -63,13 +63,3 @@
 		}
 		return $respuesta;
 	}
-
-	function ver(){
-		$respuesta="";
-
-		return $respuesta;
-	}
-
-
-
-	echo $mensaje;

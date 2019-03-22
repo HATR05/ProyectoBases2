@@ -104,30 +104,36 @@
                 </div>    
 
 
-                <!--Contenido de listar categoria-->
-                <div class="contenido">
+                <!--Contenido de listar producto-->
+                <div class="contenido-lista">
                     <table class="table table-light text-font">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col">Id categoria</th>
-                                <th scope="col">Categoría</th>
+                                <th scope="col">Nit</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Teléfono</th>
+                                <th scope="col">Ubicación</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $consultaCategoria=mysqli_query($link,"SELECT * from categoria;");
-                            while($row= mysqli_fetch_array($consultaCategoria)){
+                            $consultaProducto=mysqli_query($link,"select sc.nombre_ciudad,nit, nombre,descripcion,telefono, direccion from proveedor natural join ubicacion, (select c.nombre_ciudad, b.barrio_id from ciudad c, barrio b where c.ciudad_id=b.ciudad_id) sc where ubicacion.barrio_id=sc.barrio_id;");
+                            while($row= mysqli_fetch_array($consultaProducto)){
                                 echo "<tr>";
-                                    echo "<td>".$row['tipo_id']."</td>";
+                                    echo "<td>".$row['nit']."</td>";
                                     echo "<td>".$row['nombre']."</td>";
+                                    echo "<td>".$row['descripcion']."</td>";
+                                    echo "<td>".$row['telefono']."</td>";
+                                    echo "<td>".$row['nombre_ciudad'].", ".$row['direccion']."</td>";
                                 echo "</tr>";
                             }
                             ?>
                         </tbody>
                     </table>
-                    <a class='btn btn-ambar' href='Edit.html'>Editar</a>
+                    <a class='btn btn-ambar' href='Edit.php'>Editar</a>
                     <a class='btn btn-ambar' data-toggle='modal' data-target='#confirmarCampo' >Eliminar</a>
-                    <a class="btn btn-ambar" href="Create.html">Crear nueva categoria</a>
+                    <a class="btn btn-ambar" href="Create.php">Agregar nuevo producto</a>
                     <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a>
                 </div>
 
@@ -307,9 +313,9 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p>¿Seguro que quieres eliminar una categoría?</p>
-                            <p>Por favor ingresa el id de la categoría que quieres eliminar</p>
-                            <input class="form-control" id="idCat" type="text"/>
+                            <p>¿Seguro que quieres eliminar un proveedor?</p>
+                            <p>Por favor ingresa el nit del proveedor que quieres eliminar.</p>
+                            <input class="form-control" id="idPro" type="text"/>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -326,6 +332,6 @@
         <script src="/ProyectoBases2/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
         <!--Mis scripts-->
         <script src="/ProyectoBases2/resources/js/controlBarra.js"></script>
-        <script src="/ProyectoBases2/Logica/Javascript/Categoria.js"></script>
+        <script src="/ProyectoBases2/Logica/Javascript/Proveedor.js"></script>
     </body>
 </html>

@@ -115,12 +115,11 @@
                                 <th scope="col">Categoría</th>
                                 <th scope="col">Valor unitario</th>
                                 <th scope="col">Cantidad Disponible</th>
-                                <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $consultaProducto=mysqli_query($link,"select *, (select c.nombre from categoria c, producto p where p.categoria_id=c.tipo_id) as 'categoria' from producto p;");
+                            $consultaProducto=mysqli_query($link,"select *, a.categoria from (select nombre as 'categoria', tipo_id from categoria) a, producto p where a.tipo_id=p.categoria_id;");
                             while($row= mysqli_fetch_array($consultaProducto)){
                                 echo "<tr>";
                                     echo "<td>".$row['producto_id']."</td>";
@@ -129,12 +128,13 @@
                                     echo "<td>".$row['categoria']."</td>";
                                     echo "<td>".$row['valor_unidad']."</td>";
                                     echo "<td>".$row['cantidad']."</td>";
-                                    echo "<td><a class='btn btn-link' href='Edit.php'>Editar</a><a class='btn btn-link' data-toggle='modal' data-target='#confirmarCampo' >Eliminar</a></td>";
                                 echo "</tr>";
                             }
                             ?>
                         </tbody>
                     </table>
+                    <a class='btn btn-ambar' href='Edit.php'>Editar</a>
+                    <a class='btn btn-ambar' data-toggle='modal' data-target='#confirmarCampo' >Eliminar</a>
                     <a class="btn btn-ambar" href="Create.php">Agregar nuevo producto</a>
                     <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a>
                 </div>
@@ -151,7 +151,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Proveedor</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="/ProyectoBases2/paginas/proveedor/Create.html" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/proveedor/Create.php" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -315,8 +315,8 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p>¿Seguro que quieres eliminar este producto?</p>
-                            <p>Por favor confirma el id del producto que quieres eliminar</p>
+                            <p>¿Seguro que quieres eliminar un producto?</p>
+                            <p>Por favor agrega el id del producto que quieres eliminar</p>
                             <input class="form-control" id="idPro" type="text"/>
                         </div>
                         <div class="modal-footer">
