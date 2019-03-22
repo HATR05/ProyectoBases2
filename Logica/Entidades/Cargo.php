@@ -70,12 +70,11 @@
 	function eliminar(){
 		require("connect_DB.php");
 		$cargo= $POST['cargo'];
-		$id= explode("-", $cargo);
 		$respuesta="";
-		$queryValidation=mysqli_query($link,"select cargo_id from empleado where cargo_id =".$id[0].";");
+		$queryValidation=mysqli_query($link,"select cargo_id from empleado where cargo_id =".$cargo.";");
 		$check_validacion = mysqli_fetch_array($queryValidation);
-		if($check_validacion['cargo_id'] == null){
-			mysqli_query($link,"delete from cargo where cargo_id=".$id[0].";");
+		if(mysql_num_rows($check_validacion) == 0){
+			mysqli_query($link,"delete from cargo where cargo_id=".$cargo.";");
 			$respuesta="El cargo se ha eliminado correctamente";
 		} else {
 			$respuesta="El cargo es utilizado por un empleado y no se puede eliminar";
