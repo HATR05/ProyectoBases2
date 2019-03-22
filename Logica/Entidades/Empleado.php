@@ -9,18 +9,18 @@
 		case 'editar':
 			$mensaje= editar();
 			break;
-		case 'listar':
-			$mensaje= lista();
+		case 'info':
+			$mensaje= info();
 			break;
-		case 'ver':
-			$mensaje= ver();
+		case 'eliminar':
+			$mensaje= eliminar();
 			break;
 	}
 	
 
 	function crear(){
 		require("connect_DB.php");
-		$nombreCargo=$_POST["nombreCargo"];
+		$cargo=$_POST["cargo"];
 		$nombre=$_POST["nombre"];
 		$apellido=$_POST["apellido"];
 		$telefono=$_POST["telefono"];
@@ -32,11 +32,9 @@
 		$querySurname=mysqli_query($link,"SELECT apellido from empleado where apellido='".$apellido."';");
 		$check_surname=mysqli_fetch_array($querySurname);
 		//Valida que no exista el empleado
-		if($check_name['nombre']!= $nombre && $check_surname['apellido']!= $apellido){
+		if($check_name['nombre']!= $nombre || $check_surname['apellido']!= $apellido){
 			//Trae el Id del cargo
-			$queryCargo=mysqli_query($link,"SELECT cargo_id from cargo where nombre='".$nombreCargo."';");
-			$check_cargo=mysqli_fetch_array($queryCargo);
-			mysqli_query($link,"insert into empleado(cargo_id, nombre, apellido, telefono) values(".$check_cargo['cargo_id'].", '".$nombre."', '" .$apellido. "', " .$telefono. ");");
+			mysqli_query($link,"insert into empleado(cargo_id, nombre, apellido, telefono) values(".$cargo.", '".$nombre."', '" .$apellido. "', " .$telefono. ");");
 			$respuesta="Empleado creado con éxito";
 		}else{	
 			$respuesta="El Empleado ya exite";
@@ -52,19 +50,18 @@
 		$apellido=$_POST["apellido"];
 		$telefono=$_POST["telefono"];
 		$respuesta="";
-		$id= explode("-", $oldEmpleado);
-		$query=mysqli_query($link,"SELECT empleado_id from empleado where empleado_id=".$id[0].";");
+		$query=mysqli_query($link,"SELECT empleado_id from empleado where empleado_id=".$oldEmpleado.";");
 		$check_empleado=mysqli_fetch_array($query);
-		if( $check_empleado['empleado_id'] == $id[0] ){
-			mysqli_query($link,"update empleado set cargo_id='".$nombreCargo."' where empleado_id=".$id[0].";");
+		if( $check_empleado['empleado_id'] == $oldEmpleado ){
+			mysqli_query($link,"update empleado set cargo_id='".$nombreCargo."' where empleado_id=".$oldEmpleado.";");
 			if(strlen($nombre) > 0){
-				mysqli_query($link,"update empleado set nombre='".$nombre."' where empleado_id=".$id[0].";");
+				mysqli_query($link,"update empleado set nombre='".$nombre."' where empleado_id=".$oldEmpleado.";");
 			}
 			if(strlen($apellido) > 0){
-				mysqli_query($link,"update empleado set apellido='".$apellido."' where empleado_id=".$id[0].";");
+				mysqli_query($link,"update empleado set apellido='".$apellido."' where empleado_id=".$oldEmpleado.";");
 			}
 			if(strlen($telefono) > 0){
-				mysqli_query($link,"update empleado set telefono='".$telefono."' where empleado_id=".$id[0].";");
+				mysqli_query($link,"update empleado set telefono='".$telefono."' where empleado_id=".$oldEmpleado.";");
 			}
 			$respuesta="Empleado modificado con éxito";
 		}else{	
@@ -73,15 +70,28 @@
 		return $respuesta;
 	}
 
-	function lista(){
+	function info(){
+		require("connect_DB.php");
+		$idEmpleado=$_POST["idEmpleado"];
 		$respuesta="";
-
+		$query=mysqli_query($link,"SELECT * from empleado where empleado_id=".$idEmpleado.";");
+		$check=mysqli_fetch_array($query);
+		$respuesta=$check['nombre']."-".$check['apellido']."-".$check['telefono'];
 		return $respuesta;
 	}
 
-	function ver(){
+	function eliminar(){
+		require("connect_DB.php");
+		$idEmpleado=$_POST["idEmpleado"];
 		$respuesta="";
-
+		$query=mysqli_query($link,"SELECT * from empleado where empleado_id=".$idEmpleado.";");
+		$check=mysqli_fetch_array($query);
+		if($check['empleado_id']== $idEmpleado){
+			mysqli_query($link,"delete from empleado where empleado_id=".$idEmpleado.";");
+			$respuesta="Empleado eliminado con éxito";
+		}else{	
+			$respuesta="El empleado no existe";
+		}
 		return $respuesta;
 	}
 

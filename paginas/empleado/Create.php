@@ -113,9 +113,9 @@
                             <div class="col-md-10">
                               <select id="nombreCargo" class="browser-default custom-select">
                                 <?php
-                                      $consultaCargo=mysqli_query($link,"SELECT nombre from cargo;");
+                                      $consultaCargo=mysqli_query($link,"SELECT cargo_id, nombre from cargo;");
                                       while($row= mysqli_fetch_array($consultaCargo)){
-                                          echo "<option>".$row['nombre']."</option>";
+                                          echo "<option value='" .$row['cargo_id']. "'>".$row['nombre']."</option>";
                                       }
                                   ?>
                               </select>

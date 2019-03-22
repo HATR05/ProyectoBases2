@@ -112,10 +112,11 @@
                             <label class="col-md-2 col-form-label" for="empleado">Empleado: </label>
                             <div class="col-md-10">
                               <select id="empleado" class="browser-default custom-select">
+                                <option selected="true"></option>
                                 <?php
                                       $empleado=mysqli_query($link,"SELECT empleado_id, nombre, apellido from empleado;");
                                       while($row= mysqli_fetch_array($empleado)){
-                                          echo "<option>".$row['empleado_id']."-".$row['nombre']." ".$row['apellido']."</option>";
+                                          echo "<option value='".$row['empleado_id']."' onclick='getInfo()'>".$row['nombre']." ".$row['apellido']."</option>";
                                       }
                                   ?>
                               </select>
@@ -123,10 +124,11 @@
                             <label class="col-md-2 col-form-label" for="nombreCargo">Nombre del cargo: </label>
                             <div class="col-md-10">
                               <select id="nombreCargo" class="browser-default custom-select">
+                                <option selected="true"></option>
                                 <?php
-                                      $consultaCargo=mysqli_query($link,"SELECT nombre from cargo;");
+                                      $consultaCargo=mysqli_query($link,"SELECT cargo_id, nombre from cargo;");
                                       while($row= mysqli_fetch_array($consultaCargo)){
-                                          echo "<option>".$row['nombre']."</option>";
+                                          echo "<option value='".$row['cargo_id']."'>".$row['nombre']."</option>";
                                       }
                                   ?>
                               </select>
@@ -147,7 +149,7 @@
                         <!-- Botón de guardar -->
                         <button id="save" class="btn btn-ambar" onclick="editarEmpleado()">Guardar</button>
                         <!-- Botón de mostrar todas las categorías -->
-                        <a id="mostrar" class="btn btn-ambar" href="">Mostrar empleados</a>
+                        <a id="mostrar" class="btn btn-ambar" href="/ProyectoBases2/paginas/empleado/List.php">Mostrar empleados</a>
                         <!-- Botón de inicio -->
                         <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a>
                     </form>

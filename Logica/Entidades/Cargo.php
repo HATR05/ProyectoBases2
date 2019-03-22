@@ -69,11 +69,11 @@
 
 	function eliminar(){
 		require("connect_DB.php");
-		$cargo= $POST['cargo'];
+		$cargo=$_POST['cargo'];
 		$respuesta="";
-		$queryValidation=mysqli_query($link,"select cargo_id from empleado where cargo_id =".$cargo.";");
-		$check_validacion = mysqli_fetch_array($queryValidation);
-		if(mysql_num_rows($check_validacion) == 0){
+		$query=mysqli_query($link,"select * from empleado where cargo_id =".$cargo.";");
+		$check = mysqli_fetch_array($query);
+		if(mysql_num_rows($check) == 0){
 			mysqli_query($link,"delete from cargo where cargo_id=".$cargo.";");
 			$respuesta="El cargo se ha eliminado correctamente";
 		} else {

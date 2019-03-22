@@ -134,7 +134,7 @@
                             ?>
                         </tbody>
                     </table>
-                    <a class='btn btn-ambar' href='Edit.html'>Editar</a>
+                    <a class='btn btn-ambar' href='Edit.php'>Editar</a>
                     <a class='btn btn-ambar' data-toggle='modal' data-target='#confirmarCampo' >Eliminar</a>
                     <a class="btn btn-ambar" href="/ProyectoBases2/paginas/empleado/Create.php">Crear nuevo empleado</a>
                     <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a>
@@ -316,9 +316,9 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p>¿Seguro que quieres eliminar esta categoría?</p>
-                            <p>Por favor confirma el id de la categoría que quieres eliminar</p>
-                            <input class="form-control" id="idCat" type="text"/>
+                            <p>¿Seguro que quieres eliminar un empleado?</p>
+                            <p>Por favor confirma el id del empleado que quieres eliminar</p>
+                            <input class="form-control" id="idEmpleado" type="text"/>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
