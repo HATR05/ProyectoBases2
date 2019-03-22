@@ -12,8 +12,8 @@
 		case 'listar':
 			$mensaje= lista();
 			break;
-		case 'ver':
-			$mensaje= ver();
+		case 'eliminar':
+			$mensaje= eliminar();
 			break;
 	}
 	
@@ -40,14 +40,23 @@
 		$newName=$_POST["newNombre"];
 		$salario=$_POST["salario"];
 		$respuesta="";
-		$query=mysqli_query($link,"SELECT nombre from cargo where nombre='".$name."';");
-		$check_categoria=mysqli_fetch_array($query);
-		if($check_categoria['nombre']== $name){
-			mysqli_query($link,"update cargo set nombre='".$newName."' where nombre='".$name."';");
-			mysqli_query($link,"update cargo set salario='".$salario."' where nombre='".$newName."';");
-			$respuesta="Categoría modificada con éxito";
+		$id = explode("-", $name);
+		//Se obtiene el Id del cargo
+		$query=mysqli_query($link,"SELECT cargo_id from cargo where cargo_id=".$id[0].";");
+		$check_cargo=mysqli_fetch_array($query);
+		//Se obtiene un nombre si ya existe
+		$queryNombre=mysqli_query($link,"SELECT nombre from cargo where nombre='".$newName."';");
+		$check_nombre=mysqli_fetch_array($queryNombre);
+		if( ($check_cargo['cargo_id'] == $id[0]) && ($check_nombre['nombre'] != $id[1]) ){
+			if(strlen($newName) > 0){
+				mysqli_query($link,"update cargo set nombre='".$newName."' where cargo_id=".$id[0].";");
+			}
+			if(strlen($salario) > 0){
+				mysqli_query($link,"update cargo set salario=".$salario." where cargo_id=".$id[0].";");
+			}
+			$respuesta="Cargo modificado con éxito";
 		}else{	
-			$respuesta="La categoria ".$name." no existe";
+			$respuesta="El cargo ".$name." no existe";
 		}
 		return $respuesta;
 	}
@@ -58,9 +67,19 @@
 		return $respuesta;
 	}
 
-	function ver(){
+	function eliminar(){
+		require("connect_DB.php");
+		$cargo= $POST['cargo'];
+		$id= explode("-", $cargo);
 		$respuesta="";
-
+		$queryValidation=mysqli_query($link,"select cargo_id from empleado where cargo_id =".$id[0].";");
+		$check_validacion = mysqli_fetch_array($queryValidation);
+		if($check_validacion['cargo_id'] == null){
+			mysqli_query($link,"delete from cargo where cargo_id=".$id[0].";");
+			$respuesta="El cargo se ha eliminado correctamente";
+		} else {
+			$respuesta="El cargo es utilizado por un empleado y no se puede eliminar";
+		}
 		return $respuesta;
 	}
 

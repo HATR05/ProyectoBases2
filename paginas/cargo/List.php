@@ -106,12 +106,12 @@
 
                 <!--Contenido de listar categoria-->
                 <div class="contenido">
+                    <h1>Cargos</h1>
                     <table class="table table-light text-font">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">Id cargo</th>
                                 <th scope="col">Cargo</th>
-                                <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -121,14 +121,13 @@
                                 echo "<tr>";
                                     echo "<td>".$row['cargo_id']."</td>";
                                     echo "<td>".$row['nombre']."</td>";
-                                    echo "<td> 
-                                    <a class='btn btn-link' href='Edit.html'>Editar</a>
-                                    <a class='btn btn-link' data-toggle='modal' data-target='#confirmarCampo' >Eliminar</a></td>";
                                 echo "</tr>";
                             }
                             ?>
                         </tbody>
                     </table>
+                    <a class="btn btn-ambar" href="/ProyectoBases2/paginas/cargo/Edit.php">Editar</a>
+                    <a class="btn btn-ambar" href="/ProyectoBases2/paginas/cargo/Delete.php" data-target='#confirmarCampo'>Eliminar</a>
                     <a class="btn btn-ambar" href="/ProyectoBases2/paginas/cargo/Create.html">Crear nuevo cargo</a>
                     <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a>
                 </div>

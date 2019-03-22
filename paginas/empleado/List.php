@@ -115,7 +115,6 @@
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Apellido</th>
                                 <th scope="col">Telefono</th>
-                                <th scope="col">Funciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -130,15 +129,14 @@
                                     echo "<td>".$row['nombre']."</td>";
                                     echo "<td>".$row['apellido']."</td>";
                                     echo "<td>".$row['telefono']."</td>";
-                                    echo "<td> 
-                                    <a class='btn btn-link' href='Edit.html'>Editar</a>
-                                    <a class='btn btn-link' data-toggle='modal' data-target='#confirmarCampo' >Eliminar</a></td>";
                                 echo "</tr>";
                             }
                             ?>
                         </tbody>
                     </table>
-                    <a class="btn btn-ambar" href="/ProyectoBases2/paginas/cargo/Create.html">Crear nuevo empleado</a>
+                    <a class='btn btn-ambar' href='Edit.html'>Editar</a>
+                    <a class='btn btn-ambar' data-toggle='modal' data-target='#confirmarCampo' >Eliminar</a>
+                    <a class="btn btn-ambar" href="/ProyectoBases2/paginas/empleado/Create.php">Crear nuevo empleado</a>
                     <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a>
                 </div>
 

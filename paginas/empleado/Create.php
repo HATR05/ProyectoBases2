@@ -136,7 +136,7 @@
                         <!-- Botón de guardar -->
                         <button id="save" class="btn btn-ambar" onclick="crear()">Guardar</button>
                         <!-- Botón de mostrar todas las categorías -->
-                        <a id="mostrar" class="btn btn-ambar" href="">Mostrar empleados</a>
+                        <a id="mostrar" class="btn btn-ambar" href="/ProyectoBases2/paginas/empleado/List.php">Mostrar empleados</a>
                         <!-- Botón de inicio -->
                         <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a>
                     </form>

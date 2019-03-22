@@ -1,3 +1,10 @@
+<?php
+    $link =mysqli_connect("localhost","root","");
+    if($link){
+        mysqli_select_db($link,"ferreteriacolmex");
+    }
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -99,20 +106,32 @@
 
                 <!--Contenido de agregar categoria-->
                 <div class="contenido">
-                    <h1 class="titleCreate">Agregar nuevo cargo.</h1>
+                    <h1 class="titleCreate">Editar un cargo.</h1>
                     <form>
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label" for="nombre">Nombre del cargo: </label>
+                            <label class="col-md-2 col-form-label" for="nombreCargo">Cargo a editar: </label>
                             <div class="col-md-10">
-                                <input id="nombreCargo" class="form-control" required="true">
+                              <select id="nombreCargo" class="browser-default custom-select">
+                                <?php
+                                      $cargos=mysqli_query($link,"SELECT cargo_id, nombre from cargo;");
+                                      while($row= mysqli_fetch_array($cargos)){
+                                          echo "<option>".$row['cargo_id']."-".$row['nombre']."</option>";
+                                      }
+                                  ?>
+                              </select>
                             </div>
-                            <label class="col-md-2 col-form-label" for="nombre">Salario: </label>
+                            <label class="col-md-2 col-form-label" for="nuevoCargo">Nuevo nombre del cargo: </label>
                             <div class="col-md-10">
-                                <input id="salario" class="form-control" required="true">
+                                <input id="nuevoCargo" class="form-control" required="false">
+                            </div>
+
+                            <label class="col-md-2 col-form-label" for="salario">Nuevo salario: </label>
+                            <div class="col-md-10">
+                                <input id="salario" class="form-control" required="false">
                             </div>
                         </div>
                         <!-- Botón de guardar -->
-                        <button id="save" class="btn btn-ambar" onclick="crear()">Guardar</button>
+                        <button id="save" class="btn btn-ambar" onclick="editar()">Guardar</button>
                         <!-- Botón de mostrar todas las categorías -->
                         <a id="mostrar" class="btn btn-ambar" href="/ProyectoBases2/paginas/cargo/List.php">Mostrar cargos</a>
                         <!-- Botón de inicio -->

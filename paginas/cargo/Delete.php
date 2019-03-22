@@ -1,3 +1,10 @@
+<?php
+    $link =mysqli_connect("localhost","root","");
+    if($link){
+        mysqli_select_db($link,"ferreteriacolmex");
+    }
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -99,27 +106,25 @@
 
                 <!--Contenido de agregar categoria-->
                 <div class="contenido">
-                    <h1 class="titleCreate">Editar un cargo.</h1>
+                    <h1 class="titleCreate">Eliminar un cargo.</h1>
                     <form>
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label" for="nombreCargo">Nombre del cargo: </label>
+                            <label class="col-md-2 col-form-label" for="cargoDelete">Cargo a eliminar: </label>
                             <div class="col-md-10">
-                                <input id="nombreCargo" class="form-control" required="true">
-                            </div>
-                            <label class="col-md-2 col-form-label" for="nuevoCargo">Nuevo nombre del cargo: </label>
-                            <div class="col-md-10">
-                                <input id="nuevoCargo" class="form-control" required="true">
-                            </div>
-
-                            <label class="col-md-2 col-form-label" for="salario">Nuevo salario: </label>
-                            <div class="col-md-10">
-                                <input id="salario" class="form-control" required="true">
+                              <select id="cargoDelete" class="browser-default custom-select">
+                                <?php
+                                      $cargos=mysqli_query($link,"SELECT cargo_id, nombre from cargo;");
+                                      while($row= mysqli_fetch_array($cargos)){
+                                          echo "<option>".$row['cargo_id']."-".$row['nombre']."</option>";
+                                      }
+                                  ?>
+                              </select>
                             </div>
                         </div>
                         <!-- Botón de guardar -->
-                        <button id="save" class="btn btn-ambar" onclick="editar()">Guardar</button>
+                        <button id="del" class="btn btn-ambar" onclick="eliminar()">Eliminar</button>
                         <!-- Botón de mostrar todas las categorías -->
-                        <a id="mostrar" class="btn btn-ambar" href="">Mostrar cargos</a>
+                        <a id="mostrar" class="btn btn-ambar" href="/ProyectoBases2/paginas/cargo/List.php">Mostrar cargos</a>
                         <!-- Botón de inicio -->
                         <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a>
                     </form>
