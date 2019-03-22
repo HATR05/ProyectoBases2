@@ -111,7 +111,6 @@
                             <tr>
                                 <th scope="col">Id categoria</th>
                                 <th scope="col">Categoría</th>
-                                <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -121,12 +120,13 @@
                                 echo "<tr>";
                                     echo "<td>".$row['tipo_id']."</td>";
                                     echo "<td>".$row['nombre']."</td>";
-                                    echo "<td> <a class='btn btn-link' href='Edit.html'>Editar</a><a class='btn btn-link' data-toggle='modal' data-target='#confirmarCampo' >Eliminar</a></td>";
                                 echo "</tr>";
                             }
                             ?>
                         </tbody>
                     </table>
+                    <a class='btn btn-ambar' href='Edit.html'>Editar</a>
+                    <a class='btn btn-ambar' data-toggle='modal' data-target='#confirmarCampo' >Eliminar</a>
                     <a class="btn btn-ambar" href="Create.html">Crear nueva categoria</a>
                     <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a>
                 </div>
@@ -143,7 +143,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Proveedor</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="/ProyectoBases2/paginas/proveedor/Create.html" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/proveedor/Create.php" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -161,7 +161,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Producto</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="/ProyectoBases2/paginas/producto/Create.html" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/producto/Create.php" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -307,8 +307,8 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p>¿Seguro que quieres eliminar esta categoría?</p>
-                            <p>Por favor confirma el id de la categoría que quieres eliminar</p>
+                            <p>¿Seguro que quieres eliminar una categoría?</p>
+                            <p>Por favor ingresa el id de la categoría que quieres eliminar</p>
                             <input class="form-control" id="idCat" type="text"/>
                         </div>
                         <div class="modal-footer">
