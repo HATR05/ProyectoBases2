@@ -93,9 +93,33 @@
 		require("connect_DB.php");
 		$departamento=$_POST["departamento"];
 		$respuesta="";
-		$query=mysqli_query($link,"SELECT * from ciudad where departamento_id=".$departamento.";");
-		$check=mysqli_fetch_array($query);
-		return $check;
+		$query=mysqli_query($link,"SELECT ciudad_id, nombre_ciudad from ciudad where departamento_id=".$departamento.";");
+		while($row= mysqli_fetch_array($query)){
+			$respuesta=$respuesta.",".$row['ciudad_id'].",".$row['nombre_ciudad'];
+		}
+		return ltrim($respuesta,",");
+	}
+
+	function getBarrio(){
+		require("connect_DB.php");
+		$ciudad=$_POST["ciudad"];
+		$respuesta="";
+		$query=mysqli_query($link,"SELECT barrio_id, nombre_barrio from barrio where ciudad_id=".$ciudad.";");
+		while($row= mysqli_fetch_array($query)){
+			$respuesta=$respuesta.",".$row['barrio_id'].",".$row['nombre_barrio'];
+		}
+		return ltrim($respuesta,",");
+	}
+
+	function getAddress(){
+		require("connect_DB.php");
+		$barrio=$_POST["barrio"];
+		$respuesta="";
+		$query=mysqli_query($link,"SELECT ubicacion_id, direccion from ubicacion where barrio_id=".$barrio.";");
+		while($row= mysqli_fetch_array($query)){
+			$respuesta=$respuesta.",".$row['ubicacion_id'].",".$row['direccion'];
+		}
+		return ltrim($respuesta,",");
 	}
 
 	function eliminar(){

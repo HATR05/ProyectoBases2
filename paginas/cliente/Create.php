@@ -128,19 +128,20 @@
 
                             <label class="col-md-2 col-form-label" for="departamento">Departamento: </label>
                             <div class="col-md-4">
-                              <select id="departamento" class="browser-default custom-select">
-                                <option selected="true"></option>
+                              <select id="departamento" class="browser-default custom-select" onchange="getCities()">
+                                <option>---------------</option>
                                 <?php
                                       $consulta_ubicacion=mysqli_query($link,"SELECT departamento_id, nombre_departamento from departamento;");
                                       while($row= mysqli_fetch_array($consulta_ubicacion)){
-                                          echo "<option value='".$row['departamento_id']."' onclick='getCities()'>".$row['nombre_departamento']."</option>";
+                                          echo "<option value='".$row['departamento_id']."'>".$row['nombre_departamento']."</option>";
                                       }
                                   ?>
                               </select>
                             </div>
                             <label class="col-md-1 col-form-label" for="ciudad">Ciudad: </label>
                             <div class="col-md-4">
-                              <select id="ciudad" class="browser-default custom-select">
+                              <select id="ciudad" class="browser-default custom-select" onchange="getBarrio()">
+                                <option>---------------</option>
                               </select>
                             </div>
 
@@ -150,11 +151,13 @@
                             <label class="col-md-2 col-form-label" for="barrio">Barrio: </label>
                             <div class="col-md-4">
                               <select id="barrio" class="browser-default custom-select">
+                                <option>---------------</option>
                               </select>
                             </div>
                             <label class="col-md-1 col-form-label" for="ubicacion">Dirección: </label>
                             <div class="col-md-4">
                               <select id="ubicacion" class="browser-default custom-select">
+                                <option>---------------</option>
                               </select>
                             </div>
                         </div>
