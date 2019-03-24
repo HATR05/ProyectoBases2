@@ -104,22 +104,38 @@
                 </div>    
 
 
-                <!--Contenido de agregar categoria-->
+                <!--Contenido de listar cliente-->
                 <div class="contenido">
-                    <h1 class="titleCreate">Agregar nuevo cliente.</h1>
+                    <h1 class="titleCreate">Editar cliente.</h1>
                     <form>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label" for="oldCliente">Cliente: </label>
+                            <div class="col-md-5">
+                                <!-- onchange="getInf()" -->
+                                <select id="oldCliente" class="browser-default custom-select">
+                                <option>---------------</option>
+                                <?php
+                                      $query_cliente=mysqli_query($link,"SELECT cliente_id, nombre, apellido from cliente;");
+                                      while($row= mysqli_fetch_array($query_cliente)){
+                                        //onclick='getInf()
+                                          echo "<option value='".$row['cliente_id']."'>".$row['nombre']." ".$row['apellido']."</option>";
+                                      }
+                                  ?>
+                              </select>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label" for="nombre">Nombre del cliente: </label>
                             <div class="col-md-10">
-                                <input id="nombre" class="form-control" required="true">
+                                <input id="nombre" class="form-control" required="false">
                             </div>
                             <label class="col-md-2 col-form-label" for="apellido">Apellido del cliente: </label>
                             <div class="col-md-10">
-                                <input id="apellido" class="form-control" required="true">
+                                <input id="apellido" class="form-control" required="false">
                             </div>
                             <label class="col-md-2 col-form-label" for="telefono">Telefono del cliente: </label>
                             <div class="col-md-10">
-                                <input id="telefono" class="form-control" required="true">
+                                <input id="telefono" class="form-control" required="false">
                             </div>
                         </div>
                         <!--Sección de la ubicación-->
@@ -162,7 +178,7 @@
                             </div>
                         </div>
                         <!-- Botón de guardar -->
-                        <button id="save" class="btn btn-ambar" onclick="crear()">Guardar</button>
+                        <button id="save" class="btn btn-ambar" onclick="editar()">Guardar</button>
                         <!-- Botón de mostrar todas las categorías -->
                         <a id="mostrar" class="btn btn-ambar" href="/ProyectoBases2/paginas/cliente/List.php">Mostrar clientes</a>
                         <!-- Botón de inicio -->
