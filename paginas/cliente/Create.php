@@ -182,7 +182,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Proveedor</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/proveedor/Create.xhtml" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/proveedor/Create.php" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -191,7 +191,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Cliente</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/cliente/Create.xhtml" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/cliente/Create.php" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -200,7 +200,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Producto</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/producto/Create.xhtml" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/producto/Create.php" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -211,7 +211,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Empleado</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/empleado/Create.xhtml" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/empleado/Create.php" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -220,7 +220,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Categoria de producto</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/categoria/Create.xhtml" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/categoria/Create.html" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -306,9 +306,6 @@
                             </li>
                             <li class="list-group-item">
                                 <a href="paginas/cargo/List.xhtml">Lista de Cargos</a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="paginas/ubicacion/List.xhtml">Lista de Ubicaciones</a>
                             </li>
                         </ul>
                     </div>
