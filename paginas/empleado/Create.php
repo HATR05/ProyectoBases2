@@ -154,7 +154,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Proveedor</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/proveedor/Create.xhtml" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/proveedor/Create.php" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -163,7 +163,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Cliente</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/cliente/Create.xhtml" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/cliente/Create.php" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -172,7 +172,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Producto</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/producto/Create.xhtml" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/producto/Create.php" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -183,7 +183,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Empleado</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/empleado/Create.xhtml" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/empleado/Create.php" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -192,7 +192,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Categoria de producto</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/categoria/Create.xhtml" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/categoria/Create.html" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -211,7 +211,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Proveedor</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/proveedor/List.xhtml" class="btn btn-danger">Mostrar</a>
+                                        <a href="/ProyectoBases2/paginas/proveedor/List.php" class="btn btn-danger">Mostrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -220,7 +220,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Cliente</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/cliente/List.xhtml" class="btn btn-danger">Mostrar</a>
+                                        <a href="/ProyectoBases2/paginas/cliente/List.php" class="btn btn-danger">Mostrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -229,7 +229,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Producto</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/producto/List.xhtml" class="btn btn-danger">Mostrar</a>
+                                        <a href="/ProyectoBases2/paginas/producto/List.php" class="btn btn-danger">Mostrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -240,7 +240,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Empleado</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/empleado/List.xhtml" class="btn btn-danger">Mostrar</a>
+                                        <a href="/ProyectoBases2/paginas/empleado/List.php" class="btn btn-danger">Mostrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -249,7 +249,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Categoria de producto</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/categoria/List.xhtml" class="btn btn-danger">Mostrar</a>
+                                        <a href="/ProyectoBases2/paginas/categoria/List.php" class="btn btn-danger">Mostrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -265,22 +265,19 @@
                         que sea con ayuda de un experto.</p>
                         <ul class="list-group">
                             <li class="list-group-item" aria-disabled="true">
-                                <a href="paginas/departamento/List.xhtml">Lista de Departamentos</a>
+                                <a href="/ProyectoBases2/paginas/departamento/List.php">Lista de Departamentos</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="paginas/ciudad/List.xhtml">Lista de Ciudades</a>
+                                <a href="/ProyectoBases2/paginas/ciudad/List.php">Lista de Ciudades</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="paginas/barrio/List.xhtml">Lista de Barrios</a>
+                                <a href="/ProyectoBases2/paginas/barrio/List.php">Lista de Barrios</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="paginas/ubicacion/List.xhtml">Lista de Direcciones</a>
+                                <a href="/ProyectoBases2/paginas/ubicacion/List.php">Lista de Direcciones</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="paginas/cargo/List.xhtml">Lista de Cargos</a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="paginas/ubicacion/List.xhtml">Lista de Ubicaciones</a>
+                                <a href="/ProyectoBases2/paginas/cargo/List.php">Lista de Cargos</a>
                             </li>
                         </ul>
                     </div>
@@ -301,7 +298,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <a class="btn btn-ambar" href="index.xhtml">Cerrar sesión</a>
+                            <a class="btn btn-ambar" href="index.html">Cerrar sesión</a>
                         </div>
                     </div>
                 </div>
