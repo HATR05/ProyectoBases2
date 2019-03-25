@@ -1,4 +1,4 @@
-<?php require_once('../../Connections/connDB.php'); ?>
+<?php require_once('../../Connections/connect_DB.php'); ?>
 <?php
 if (!function_exists("GetSQLValueString")) {
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
@@ -37,12 +37,19 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO departamento (nombre_departamento) VALUES (%s)",
-                       GetSQLValueString($_POST['nombre_departamento'], "text"));
+  $insertSQL = sprintf("INSERT INTO ciudad (nombre_ciudad, departamento_id) VALUES (%s, %s)",
+                       GetSQLValueString($_POST['nombre_ciudad'], "text"),
+                       GetSQLValueString($_POST['departamento_id'], "int"));
 
-  mysql_select_db($database_connDB, $connDB);
-  $Result1 = mysql_query($insertSQL, $connDB) or die(mysql_error());
+  mysql_select_db($database_connect_DB, $connect_DB);
+  $Result1 = mysql_query($insertSQL, $connect_DB) or die(mysql_error());
 }
+
+mysql_select_db($database_connect_DB, $connect_DB);
+$query_ciu1 = "SELECT departamento_id FROM ciudad";
+$ciu1 = mysql_query($query_ciu1, $connect_DB) or die(mysql_error());
+$row_ciu1 = mysql_fetch_assoc($ciu1);
+$totalRows_ciu1 = mysql_num_rows($ciu1);
 ?>
 <!DOCTYPE html>
 <html>
@@ -86,7 +93,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                         <a data-toggle="collapse" href="#list" role="button" aria-expanded="false" aria-controls="list" class="nav-link"><i class="fa fa-list-alt"></i> Listar </a>
                     </li>
                     <li>
-                        <a href="paginas/factura/List.xhtml" class="nav-link"><i class="fa fa-book"></i> Facturas </a>
+                        <a href="/ProyectoBases2/paginas/factura/List.php" class="nav-link"><i class="fa fa-book"></i> Facturas </a>
                     </li>
                      <li>
                         <a data-toggle="collapse" href="#settings" role="button" aria-expanded="false" aria-controls="settings" class="nav-link"><i class="fa fa-support"></i> Funciones Base </a>
@@ -118,7 +125,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                             <a data-toggle="collapse" href="#list" role="button" aria-expanded="false" aria-controls="list" class="nav-link"><i class="fa fa-list"></i> Listar </a>
                         </li>
                         <li class="nav-item">
-                            <a href="paginas/factura/List.xhtml" class="nav-link"><i class="fa fa-book"></i> Facturas </a>
+                            <a href="/ProyectoBases2/paginas/factura/List.php" class="nav-link"><i class="fa fa-book"></i> Facturas </a>
                         </li>
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#settings" role="button" aria-expanded="false" aria-controls="settings" class="nav-link"><i class="fa fa-support"></i> Funciones Base </a>
@@ -145,24 +152,41 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 
                 <!--Contenido de agregar categoria-->
                 <div class="contenido">
-                    <h1 class="titleCreate">Agregar nuevo Departamento.</h1>
-                    <form>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label" for="nombre">Nombre de departamento: </label>
-                            <div class="col-md-10">
-                              <input id="nombreDepartamento" type="text" name="nombre_departamento" value="" class="form-control" required>
-                            </div>
-                        </div>
-                        <!-- Botón de guardar -->
-                        <input type="submit" value="Guardar" class="btn btn-ambar">
-                      
-                        <!-- Botón de mostrar todas las categorías -->
-                        <a id="mostrar" class="btn btn-ambar" href="/ProyectoBases2/Departamento/List.php">Mostrar departamentos</a>
-                        <!-- Botón de inicio -->
-                        <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a>
-                    </form>
+                    <h1 class="titleCreate">Agregar nueva Ciudad.</h1>
                     <form method="post" name="form1" action="<?php echo $editFormAction; ?>">
-                    </form>
+                      <table align="center">
+                        <tr valign="baseline">
+                          <td nowrap align="right"><div align="left">Nombre ciudad:</div></td>
+                          <td><input type="text" name="nombre_ciudad" value="" size="90"class="form-control"></td>
+                        </tr>
+                        <tr valign="baseline">
+                          <td nowrap align="right"><div align="left">Departamento id:</div></td>
+                          <td><select name="departamento_id" class="form-control">
+                            <?php
+do {  
+?>
+                            <option value="<?php echo $row_ciu1['departamento_id']?>"><?php echo $row_ciu1['departamento_id']?></option>
+                            <?php
+} while ($row_ciu1 = mysql_fetch_assoc($ciu1));
+  $rows = mysql_num_rows($ciu1);
+  if($rows > 0) {
+      mysql_data_seek($ciu1, 0);
+	  $row_ciu1 = mysql_fetch_assoc($ciu1);
+  }
+?>
+                          </select></td>
+                        </tr>
+                        <tr valign="baseline">
+                          <td nowrap align="right">&nbsp;</td>
+                          <td><div align="center">
+                            <input type="submit" value="Guardar" class="btn btn-ambar">
+                            <a id="mostrar2" class="btn btn-ambar" href="List.php">Mostrar categorias</a>
+                            <!-- Botón de inicio -->
+                          <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a></div></td>
+                        </tr>
+                      </table>
+                      <input type="hidden" name="MM_insert" value="form1">
+                  </form>
                     <p>&nbsp;</p>
                 </div>
 
@@ -178,7 +202,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                                     <div class="card-body">
                                         <h5 class="card-title">Proveedor</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/proveedor/Create.xhtml" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/proveedor/Create.html" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -187,7 +211,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                                     <div class="card-body">
                                         <h5 class="card-title">Cliente</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/cliente/Create.xhtml" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/cliente/Create.html" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -196,7 +220,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                                     <div class="card-body">
                                         <h5 class="card-title">Producto</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/producto/Create.xhtml" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/producto/Create.html" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -207,7 +231,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                                     <div class="card-body">
                                         <h5 class="card-title">Empleado</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/empleado/Create.xhtml" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/empleado/Create.html" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -216,7 +240,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                                     <div class="card-body">
                                         <h5 class="card-title">Categoria de producto</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/categoria/Create.xhtml" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/categoria/Create.html" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -235,7 +259,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                                     <div class="card-body">
                                         <h5 class="card-title">Proveedor</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/proveedor/List.xhtml" class="btn btn-danger">Mostrar</a>
+                                        <a href="/ProyectoBases2/paginas/proveedor/List.php" class="btn btn-danger">Mostrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -244,7 +268,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                                     <div class="card-body">
                                         <h5 class="card-title">Cliente</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/cliente/List.xhtml" class="btn btn-danger">Mostrar</a>
+                                        <a href="/ProyectoBases2/paginas/cliente/List.php" class="btn btn-danger">Mostrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -253,7 +277,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                                     <div class="card-body">
                                         <h5 class="card-title">Producto</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/producto/List.xhtml" class="btn btn-danger">Mostrar</a>
+                                        <a href="/ProyectoBases2/paginas/producto/List.php" class="btn btn-danger">Mostrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -264,7 +288,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                                     <div class="card-body">
                                         <h5 class="card-title">Empleado</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/empleado/List.xhtml" class="btn btn-danger">Mostrar</a>
+                                        <a href="/ProyectoBases2/paginas/empleado/List.php" class="btn btn-danger">Mostrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -273,7 +297,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                                     <div class="card-body">
                                         <h5 class="card-title">Categoria de producto</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="paginas/categoria/List.xhtml" class="btn btn-danger">Mostrar</a>
+                                        <a href="/ProyectoBases2/paginas/categoria/List.php" class="btn btn-danger">Mostrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -289,22 +313,22 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                         que sea con ayuda de un experto.</p>
                         <ul class="list-group">
                             <li class="list-group-item" aria-disabled="true">
-                                <a href="paginas/departamento/List.xhtml">Lista de Departamentos</a>
+                                <a href="/ProyectoBases2/paginas/departamento/List.php">Lista de Departamentos</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="paginas/ciudad/List.xhtml">Lista de Ciudades</a>
+                                <a href="/ProyectoBases2/paginas/ciudad/List.php">Lista de Ciudades</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="paginas/barrio/List.xhtml">Lista de Barrios</a>
+                                <a href="/ProyectoBases2/paginas/barrio/List.php">Lista de Barrios</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="paginas/ubicacion/List.xhtml">Lista de Direcciones</a>
+                                <a href="/ProyectoBases2/paginas/ubicacion/List.php">Lista de Direcciones</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="paginas/cargo/List.xhtml">Lista de Cargos</a>
+                                <a href="/ProyectoBases2/paginas/cargo/List.php">Lista de Cargos</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="paginas/ubicacion/List.xhtml">Lista de Ubicaciones</a>
+                                <a href="/ProyectoBases2/paginas/ubicacion/List.php">Lista de Ubicaciones</a>
                             </li>
                         </ul>
                     </div>
@@ -320,14 +344,12 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-
-
                         <div class="modal-body">
                             <p>¿Seguro que quieres cerrar sesión?</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <a class="btn btn-ambar" href="index.xhtml">Cerrar sesión</a>
+                            <a class="btn btn-ambar" href="/ProyectoBases2/index.html">Cerrar sesión</a>
                         </div>
                     </div>
                 </div>
@@ -340,6 +362,9 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
         <script src="/ProyectoBases2/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
         <!--Mis scripts-->
         <script src="/ProyectoBases2/resources/js/controlBarra.js"></script>
-        <script src="/ProyectoBases2/Logica/Javascript/Departamento.js"></script>
+        <script src="/ProyectoBases2/Logica/Javascript/Categoria.js"></script>
     </body>
 </html>
+<?php
+mysql_free_result($ciu1);
+?>
