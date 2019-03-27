@@ -58,7 +58,7 @@
 			mysqli_query($link,"insert into cliente(ubicacion_id, nombre, apellido, telefono) values(".$ubicacion.", '".$nombre."', '" .$apellido. "', " .$telefono. ");");
 			$respuesta="Cliente creado con éxito";
 		}else{	
-			$respuesta="El cliente ya exite";
+			$respuesta="El cliente ya exites";
 		}
 		return $respuesta;
 	}

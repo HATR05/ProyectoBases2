@@ -37,7 +37,7 @@
 			$check_categoria=mysqli_fetch_array($query);
 			$respuesta=mysqli_query($link,"insert into producto (categoria_id,nombre,descripcion,valor_unidad,cantidad) values(".$check_categoria['tipo_id'].",'".$name."','".$desc."',".$valor.",".$cant.");");
 		}else{	
-			$respuesta="El produto ya exite";
+			$respuesta="El produto ya existe";
 		}
 		return $respuesta;
 	}

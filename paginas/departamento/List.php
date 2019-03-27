@@ -1,10 +1,57 @@
+<?php require_once('../../Connections/connect_DB.php'); ?>
 <?php
+if (!function_exists("GetSQLValueString")) {
+function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
+{
+  if (PHP_VERSION < 6) {
+    $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
+  }
+
+  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+
+  switch ($theType) {
+    case "text":
+      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+      break;    
+    case "long":
+    case "int":
+      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
+      break;
+    case "double":
+      $theValue = ($theValue != "") ? doubleval($theValue) : "NULL";
+      break;
+    case "date":
+      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+      break;
+    case "defined":
+      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
+      break;
+  }
+  return $theValue;
+}
+}
+
+$colname_departamento = "-1";
+if (isset($_GET['departamento_id'])) {
+  $colname_departamento = $_GET['departamento_id'];
+}
+mysql_select_db($database_connDB, $connDB);
+$query_departamento = sprintf("SELECT * FROM departamento WHERE departamento_id = %s", GetSQLValueString($colname_departamento, "int"));
+$departamento = mysql_query($query_departamento, $connDB) or die(mysql_error());
+$row_departamento = mysql_fetch_assoc($departamento);
+$totalRows_departamento = mysql_num_rows($departamento);
+
+mysql_select_db($database_connect_DB, $connect_DB);
+$query_dep = "SELECT * FROM departamento";
+$dep = mysql_query($query_dep, $connect_DB) or die(mysql_error());
+$row_dep = mysql_fetch_assoc($dep);
+$totalRows_dep = mysql_num_rows($dep);
+
     $link =mysqli_connect("localhost","root","");
     if($link){
         mysqli_select_db($link,"ferreteriacolmex");
     }
 ?>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -104,67 +151,44 @@
                 </div>    
 
 
-                <!--Contenido de editar Producto-->
-                <div class="contenido">
-                    <h1 class="titleCreate">Editar producto .</h1>
-                    <form>
-                       <div class="form-group row">
-                            <label class="col-md-2 col-form-label" for="nameProducto">Producto: </label>
-                            <div class="col-md-5">
-                                <select id="nameProducto" onchange="buscar()" class="form-control">
-                                    <option>----------</option>
-                                    <?php
-                                        $consultaProducto=mysqli_query($link,"SELECT producto_id, nombre from producto;");
-                                        while($row= mysqli_fetch_array($consultaProducto)){
-                                            echo "<option value=".$row['producto_id'].">".$row['nombre']."</option>";
-                                        }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label" for="nameProducto">Nuevo nombre: </label>
-                            <div class="col-md-10">
-                                <input type="text" class="form-control" name="nameProducto" id="newName" required="true" />
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label" for="descProducto">Nueva descripción: </label>
-                            <div class="col-md-10">
-                                <input type="text" class="form-control" name="descProducto" id="newDesc" required="true" />
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label" for="valProducto">Nuevo valor unitario: </label>
-                            <div class="col-md-10">
-                                <input type="text" class="form-control" name="valProducto" id="newValor" required="true"/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label" for="cantProducto">Productos adicionados: </label>
-                            <div class="col-md-10">
-                                <input type="text" class="form-control" name="cantProducto" id="newStock" required="true"/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label" for="stock">Categoría: </label>
-                            <div class="col-md-5">
-                                <select id="optionCat" class="form-control">
-                                    <?php
-                                        $consultaCategoria=mysqli_query($link,"SELECT nombre, tipo_id from categoria;");
-                                        while($row= mysqli_fetch_array($consultaCategoria)){
-                                            echo "<option value=".$row['tipo_id'].">".$row['nombre']."</option>";
-
-                                        }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-
-                        <button class="btn btn-ambar" onclick="editar()">Guardar</button>
-                        <a class="btn btn-ambar" href="List.php">Mostrar productos</a>
-                        <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a>
-                    </form>
+                <!--Contenido de listar categoria-->
+              <div class="contenido">
+                <table class="table table-light text-font">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Id Departamento</th>
+                                <th scope="col">Departamento</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $consultaCategoria=mysqli_query($link,"SELECT * from departamento;");
+                            while($row= mysqli_fetch_array($consultaCategoria)){
+                                echo "<tr>";
+                                    echo "<td>".$row['departamento_id']."</td>";
+                                    echo "<td>".$row['nombre_departamento']."</td>";
+                                    echo "<td> <a class='btn btn-link' href='Edit.html'>Editar</a><a class='btn btn-link' data-toggle='modal' data-target='#confirmarCampo' >Eliminar</a></td>";
+                                echo "</tr>";
+                            }
+                            ?>
+                        </tbody>
+                  </table>
+                  <table table class="table table-light text-font">
+                    <tr>
+                        <td>Id departamento</td>
+                        <td>nombre de el Departamento</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                      <?php do { ?>
+                        <tr>
+                          <td><strong><?php echo $row_dep['departamento_id']; ?></strong></td>
+                          <td><strong><?php echo $row_dep['nombre_departamento']; ?></strong></td>
+                          <td><strong><a class="btn btn-ambar" href="Edit.php? departamento_id=<?php echo $row_dep['departamento_id']; ?>">Modificar</a></strong></td>
+                        </tr>
+                        <?php } while ($row_dep = mysql_fetch_assoc($dep)); ?>
+                    </table>
+                  <p><a class="btn btn-ambar" href="Create.html">Crear nuevo Departamento</a> <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a></p>
                 </div>
 
                 <!--espacio agregar-->
@@ -179,7 +203,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Proveedor</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="/ProyectoBases2/paginas/proveedor/Create.php" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/proveedor/Create.html" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -188,7 +212,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Cliente</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="/ProyectoBases2/paginas/cliente/Create.php" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/cliente/Create.html" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -197,7 +221,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Producto</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="/ProyectoBases2/paginas/producto/Create.php" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/producto/Create.html" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -208,7 +232,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Empleado</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="/ProyectoBases2/paginas/empleado/Create.php" class="btn btn-danger">Agregar</a>
+                                        <a href="/ProyectoBases2/paginas/empleado/Create.html" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -304,6 +328,9 @@
                             <li class="list-group-item">
                                 <a href="/ProyectoBases2/paginas/cargo/List.php">Lista de Cargos</a>
                             </li>
+                            <li class="list-group-item">
+                                <a href="/ProyectoBases2/paginas/ubicacion/List.php">Lista de Ubicaciones</a>
+                            </li>
                         </ul>
                     </div>
             </div>
@@ -328,6 +355,29 @@
                     </div>
                 </div>
             </div>
+
+            <!--Letrero de confirmación para eliminar una categoria-->
+            <div class="modal fade" id="confirmarCampo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmacion">Confirmación</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Seguro que quieres eliminar esta categoría?</p>
+                            <p>Por favor confirma el id de la categoría que quieres eliminar</p>
+                            <input class="form-control" id="idCat" type="text"/>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button class="btn btn-ambar" onclick="eliminar()">Confirmar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
       <!-- Bootstrap core JavaScript-->
         <script src="/ProyectoBases2/resources/vendor/jquery/jquery.min.js"></script>
@@ -339,3 +389,8 @@
         <script src="/ProyectoBases2/Logica/Javascript/Producto.js"></script>
     </body>
 </html>
+<?php
+mysql_free_result($departamento);
+
+mysql_free_result($dep);
+?>
