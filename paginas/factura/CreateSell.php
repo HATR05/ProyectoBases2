@@ -382,7 +382,7 @@
         <script src="/ProyectoBases2/resources/js/controlBarra.js"></script>
         <script src="/ProyectoBases2/resources/js/effects.js"></script>
 
-        <script src="/ProyectoBases2/Logica/Javascript/Factura.js"></script>
+        <script src="/ProyectoBases2/Logica/Javascript/Factura1java.js"></script>
 
 
         <script type="text/javascript" src="/ProyectoBases2/resources/js/controlTablaFactura.js"></script>

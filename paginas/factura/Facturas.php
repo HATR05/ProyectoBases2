@@ -110,14 +110,27 @@
 
                     <h1 class="titleCreate">Facturas.</h1>
                     <br>
+                    <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Facturas de Venta</h5>
+                                        <p class="card-text">Aquí puedes ingresar nuevas facturas de Venta.</p>
+                                        <a onclick ="location.href='/ProyectoBases2/paginas/factura/CreateSell.php'" class="btn btn-danger">Agregar</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Facturas de Compra</h5>
+                                        <p class="card-text">Aquí puedes ingresar nuevas facturas de compra.</p>
+                                        <a class="btn btn-danger" onclick ="location.href='/ProyectoBases2/paginas/factura/CreateBuy.php' ">Agregar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-
-                    </br>
-                        <!-- Botón de mostrar todas las categorías -->
-                        <button id="mostrar" class="btn btn-ambar" onclick ="location.href='/ProyectoBases2/paginas/factura/CreateBuy.php' ">Crear  nueva factura de compra.</button>
-                         <button id="mostrar" class="btn btn-ambar" onclick ="location.href='/ProyectoBases2/paginas/factura/CreateSell.php' ">Crear nueva factura de venta.</button>
-                        <!-- Botón de inicio -->
-                        <button class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</button>
                     </form>
                 </div>
 

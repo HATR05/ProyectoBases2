@@ -103,8 +103,8 @@
 	}
 	function editarDetalle(){
 		require("connect_DB.php");
-		$factura_id=$_POST["factura_id"];
-		$producto_id=$_POST["producto"];
+		$factura_id=$_POST["factura"];
+		$producto_id=$_POST["producto_id"];
 		$cantidad=$_POST["cantidad"];
 		$costo=$_POST["costo"];
 
@@ -112,11 +112,9 @@
 
 		mysqli_query($link,"DELETE from detalle_factura where factura_id='".$factura_id."';");
 		
-		mysqli_query($link,"INSERT INTO detalle_factura (factura_id,producto_id,cantidad,costo) VALUES('".$factura_id['factura_id']."','".$producto_id."','".$cantidad."','".$costo."');");
+		mysqli_query($link,"INSERT INTO detalle_factura (factura_id,producto_id,cantidad,costo) VALUES('".$factura_id."','".$producto_id."','".$cantidad."','".$costo."');");
 
 		$respuesta="Detalle_factura modificada con éxito";
-
-		
 
 		
 		return $respuesta;

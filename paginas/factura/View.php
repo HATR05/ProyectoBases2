@@ -124,14 +124,14 @@
                                 <label class="col-md-2 col-form-label" for="nameEmpleado" id="empleadoLabel"> Empleado: </label>
                                 <div class="col-md-5">
                                     <select id="nameEmpleado"  class="form-control" disabled>
-                                        <option   value="">----------</option>
-                                        <script >
+                                        <option id ="oldEmployee" value="">----------</option>
+                                        <script>
                                             <?php
-                                                $consultaEmpleado=mysqli_query($link,"SELECT CONCAT(nombre,' ',apellido) AS nombre,empleado_id from empleado;");
-                                                while($row= mysqli_fetch_array($consultaEmpleado)){
-                                                    echo "<option value=".$row['empleado_id'].">".$row['nombre']."</option>";
-                                                }
-                                            ?>
+                                                  $consultaEmpleado=mysqli_query($link,"SELECT CONCAT(nombre,' ',apellido) AS nombre, empleado_id FROM empleado WHERE cargo_id =(SELECT cargo_id FROM cargo WHERE nombre = 'Vendedor');");
+                                                  while($row= mysqli_fetch_array($consultaEmpleado)){
+                                                      echo "<option value=".$row['empleado_id'].">".$row['nombre']."</option>";
+                                                  }
+                                              ?>
                                         </script>
                                     </select>
                                 </div>
@@ -396,6 +396,6 @@
         <script src="/ProyectoBases2/resources/js/controllerView.js"></script>
         <script src="/ProyectoBases2/resources/js/effects.js"></script>
 
-        <script src="/ProyectoBases2/Logica/Javascript/Factura.js"></script>
+        <script src="/ProyectoBases2/Logica/Javascript/Factura1java.js"></script>
     </body>
 </html>
