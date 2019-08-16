@@ -1,4 +1,4 @@
-<?php
+﻿<?php
     $link =mysqli_connect("localhost","root","");
     if($link){
         mysqli_select_db($link,"ferreteriacolmex");
@@ -23,6 +23,7 @@
         <link href="/ProyectoBases2/resources/css/display-lg.css" rel="stylesheet"/>
         <link href="/ProyectoBases2/resources/css/display-md.css" rel="stylesheet"/>    
         <link href="/ProyectoBases2/resources/css/display-sm.css" rel="stylesheet"/>
+        <link href="/ProyectoBases2/resources/css/warningTable.css" rel="stylesheet"/>
 
     </head>
     <body>
@@ -118,8 +119,8 @@
                         <div class="form-group row justify-content-center">
                             <label class="col-md-2 " for="nombre_empleado">Vendedor: </label>
                             <div class="col-md-7">
-                              <select id="empleado_id" class="browser-default custom-select" required="true">>
-                                <option value="null">-------------------</option>;
+                              <select id="empleado_id"  class="browser-default custom-select" required="true">>
+                                <option value="">-------------------</option>;
                                 <?php
                                       $consultaEmpleado=mysqli_query($link,"SELECT CONCAT(nombre,' ',apellido) AS nombre, empleado_id FROM empleado WHERE cargo_id =(SELECT cargo_id FROM cargo WHERE nombre = 'Vendedor');");
                                       while($row= mysqli_fetch_array($consultaEmpleado)){
@@ -138,8 +139,8 @@
                             </p>
                             <label class="col-md-2" for="nombre_cliente">Cliente: </label>
                             <div class="col-md-7 " col-form-label>
-                              <select id="cliente" class="browser-default custom-select" >
-                                <option value="null">-------------------</option>;
+                              <select id="cliente" class="browser-default custom-select" required="true">
+                                <option value="">-------------------</option>;
                                 <?php
                                       $consultaCliente=mysqli_query($link,"SELECT CONCAT(nombre,' ',apellido) AS nombre, cliente_id from cliente;");
                                       while($row= mysqli_fetch_array($consultaCliente)){
@@ -148,17 +149,17 @@
                                   ?>
                               </select>
                             </div>
-                            <a class="col-md-2 " href="/ProyectoBases2/paginas/cliente/Create.php" target="_blank" style="color: #ffc107"onmousemove="underline(this)" onmouseout="blankunderline(this)">Crear un nuevo cliente.</a>
+                            <a class="col-md-2 " href="/ProyectoBases2/paginas/cliente/Create.php" target="_blank" style="color: #ffc107" onmousemove="underline(this)" onmouseout="blankunderline(this)">Crear un nuevo cliente.</a>
                              <p>
 
                             </p>
                              <!-- Selección de productos -->
                             <label class="col-md-2" for="nombre_producto">Seleccione los productos que desea añadir: </label>
                             <div class="col-md-7 col-form-label">
-                              <select id="producto" class="browser-default custom-select" onchange="insertProduct()">
+                              <select id="producto" class="browser-default custom-select" onchange="insertProduct()" >
+                                <option value="default" >-------------------</option>;
                                 <?php
                                       $consultaProducto=mysqli_query($link,"SELECT producto_id, nombre, valor_unidad FROM producto;");
-                                      echo "<option value=\"null\">-------------------</option>";
                                       while($row= mysqli_fetch_array($consultaProducto)){
                                           echo "<option value=\"".utf8_encode($row['producto_id'])."--".utf8_encode($row['valor_unidad'])."\">".utf8_encode($row['nombre'])."</option>";
                                       }
@@ -192,15 +193,18 @@
                         </div>
                         <div class="card-body d-flex justify-content-between align-items-center">
                             <label class="col-md-1" id="Saldolabel">Saldo</label>
-                            <input class="col-md-2 " type="number" min="1" id="saldo" value="0"><br>
+                            <input class="col-md-2 " type="number" min="0" id="saldo" value="0"><br>
                             <label class="col-md-1" id="Subtotallabel">Subtotal </label>
                             <input class="col-md-2 " type="number" min="1" id="subtotal" value="0" readonly><br>
                             <label class="col-md-1" id="Totallabel">Total </label>
                             <input class="col-md-2" type="number" min="1" id="total" value="0" readonly><br>
                         </div>
-                        <label class="align-items-center" id="mensaje" style="color: green">   </label><br>
+                         <!-- Div para advertencias de existencias-->
+                        <div id="advertencias" class="warningDiv">
+                        </div>
+                        <br>
                         <!-- Botón de guardar -->
-                        <button id="save" class="btn btn-ambar" onclick="crearVenta()">Guardar Factura</button>
+                        <button id="save" class="btn btn-ambar" onclick="createSell()" >Guardar Factura</button>
                         <!-- Botón de mostrar todas las categorías -->
                         <button id="mostrar" class="btn btn-ambar" onclick ="location.href='/ProyectoBases2/paginas/factura/ListSell.php' ">Lista de facturas de venta.</button>
                         <!-- Botón de inicio -->
@@ -208,7 +212,7 @@
                     </form>
                 </div>
 
-                <!--espacio agregar-->
+                <!--Espacio agregar-->
                 <div class="collapse" id="add">
                     <div class="contenido">
                         <h3>Agregar</h3>
@@ -382,10 +386,10 @@
         <script src="/ProyectoBases2/resources/js/controlBarra.js"></script>
         <script src="/ProyectoBases2/resources/js/effects.js"></script>
 
-        <script src="/ProyectoBases2/Logica/Javascript/Factura1java.js"></script>
+        <script src="/ProyectoBases2/Logica/Javascript/Factura1.js"></script>
 
 
-        <script type="text/javascript" src="/ProyectoBases2/resources/js/controlTablaFactura.js"></script>
+        <script type="text/javascript" src="/ProyectoBases2/resources/js/controlTablaF.js"></script>
 
         <!--<script type="text/javascript" src="/ProyectoBases2/resources/js/controlFacturaSell.js"></script>-->
     </body>

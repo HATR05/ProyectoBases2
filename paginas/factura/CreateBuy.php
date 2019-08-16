@@ -196,7 +196,7 @@
                         </div>
                         <label class="align-items-center" id="mensaje" style="color: green">   </label><br>
                         <!-- Botón de guardar -->
-                        <a id="save" class="btn btn-ambar" onclick="crearCompra()">Guardar Factura</a>
+                        <button id="save" class="btn btn-ambar" onclick="crearCompra()">Guardar Factura</button>
                         <!-- Botón de mostrar todas las categorías -->
                         <button id="mostrar" class="btn btn-ambar" onclick ="location.href='/ProyectoBases2/paginas/factura/ListBuy.php' ">Lista de Facturas de compra.</button>
                         <!-- Botón de inicio -->
@@ -378,7 +378,7 @@
         <script src="/ProyectoBases2/resources/js/controlBarra.js"></script>
         <script src="/ProyectoBases2/resources/js/effects.js"></script>
 
-        <script src="/ProyectoBases2/Logica/Javascript/FacturaCompra.js"></script>
+        <script src="/ProyectoBases2/Logica/Javascript/Factura.js"></script>
 
 
         <script type="text/javascript" src="/ProyectoBases2/resources/js/controlTablaFactura.js"></script>

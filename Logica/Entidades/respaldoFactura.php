@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	$opcion=$_POST["opcion"];
 	$mensaje="";
 
@@ -20,9 +20,6 @@
 			break;
 		case 'eliminar':
 			$mensaje= eliminar();
-			break;
-		case 'eliminarUltima':
-			$mensaje= eliminarUltima();
 			break;
 		case 'ver':
 			$mensaje= ver();
@@ -48,11 +45,13 @@
 		$subtotal=$_POST["subt"];
 		$total=$_POST["t"];
 
-		$respuesta = false;
-		
+		$respuesta="";
+		if($nit != null){
 		mysqli_query($link,"INSERT into factura (cliente_id, empleado_id, fecha_factura, fecha_vencimiento, saldo, subtotal, total) values ('".$cliente_id."','".$empleado_id."','".$fecha_factura."','".$fecha_vencimiento."','".$saldo."','".$subtotal."','".$total."');");
-		
-		$respuesta = true;
+		}else{
+			mysqli_query($link,"INSERT into factura (cliente_id, nit, fecha_factura, fecha_vencimiento, saldo, subtotal, total) values ('".$cliente_id."','".$nit."','".$fecha_factura."','".$fecha_vencimiento."','".$saldo."','".$subtotal."','".$total."');");
+		}
+		$respuesta="Factura creada con éxito";
 		return $respuesta;
 	}
 
@@ -64,7 +63,7 @@
 		$cantidad=$_POST["cantidad"];
 		$costo=$_POST["costo"];
 
-		$respuesta = false;
+		$respuesta = "";
 		
 		mysqli_query($link,"INSERT INTO detalle_factura (factura_id,producto_id,cantidad,costo) VALUES('".$factura_id['factura_id']."','".$producto_id."','".$cantidad."','".$costo."');");
 
@@ -74,7 +73,7 @@
 
 		mysqli_query($link,"UPDATE producto SET cantidad = '".$nuevaCant."' WHERE producto_id='".$producto_id."';");
 
-		$respuesta = true;
+		$respuesta = "Productos agregados";
 
 		
 		return $respuesta;
@@ -84,6 +83,8 @@
 		require ("connect_DB.php");
 
 		$producto_id=$_POST["producto_id"];
+		$cantidad=$_POST["cantidadP"];
+
 		$respuesta = " ";
 
 		$queryOldCant = mysqli_query($link, "SELECT cantidad FROM producto WHERE producto_id='".$producto_id."';");
@@ -157,19 +158,6 @@
 		mysqli_query($link,"DELETE FROM  detalle_factura WHERE factura_id='".$factura_id."';");
 		mysqli_query($link,"DELETE FROM  factura WHERE factura_id='".$factura_id."';");
 		$respuesta="Factura eliminada correctamente";
-
-		return $respuesta;
-	}
-	
-	function eliminarUltima(){
-		
-		require("connect_DB.php");
-		$respuesta = "";
-		$factura_id = mysqli_query($link,"SELECT max(factura_id) FROM  factura");
-		mysqli_query($link,"DELETE FROM  detalle_factura WHERE factura_id='".$factura_id."';");
-		mysqli_query($link,"DELETE FROM  factura WHERE factura_id='".$factura_id."';");
-
-		$respuesta="Factura dañada eliminada correctamente.";
 
 		return $respuesta;
 	}

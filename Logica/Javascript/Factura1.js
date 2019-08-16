@@ -1,5 +1,6 @@
-var url="/ProyectoBases2/Logica/Entidades/Factura.php"
-function crearVenta(){
+﻿var url="/ProyectoBases2/Logica/Entidades/Factura.php"
+
+function createSell(){
 	var date= new Date();
 	var dateVenc= new Date();
 	dateVenc.setDate(dateVenc.getDate()+30)
@@ -12,26 +13,34 @@ function crearVenta(){
 	var saldo = document.getElementById("saldo").value;
 	var subtotal = document.getElementById("subtotal").value;
 	var total = document.getElementById("total").value;
-	alert(empleado_id);
 	var info="opcion=crear&empleado="+empleado_id+"&cliente="+cliente_id+
 	"&nitE="+nit+"&fecha="+fecha_factura+"&fechavenc="+fecha_vencimiento+
 	"&sal="+saldo+"&subt="+subtotal+"&t="+total;
+	var createsell = false;
 	var xhr = new XMLHttpRequest()
 	xhr.open("POST",url,false);
-	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded", false);
 	xhr.onreadystatechange = function(){
 		if(xhr.readyState == 4 && xhr.status == 200){
-			alert(xhr.responseText);
+			var createsell = xhr.responseText;
 		}
 	};
 	xhr.send(info)
 
-	guardarProductos();
+	var guardarproducto = guardarProductos();
+	var mensaje;
 	
+	if (createsell == true && guardarproducto == true){
+		mensaje = "Factura guardada exitosamente";
+	}else{
+		mensaje = createsell== false ? "Error al guardar factura.": "Error al guardar detalle de factura.";
+		eliminarUltimaFactura();
+	}
+	alert(mensaje);
 }
-
+//Método para crear facturas de compra (Verificar)
 function crearCompra(){ 
-	alert("Buenas");
+	alert("Factura de compra");
 	var date= new Date();
 	var dateVenc= new Date();
 	dateVenc.setDate(dateVenc.getDate()+30)
@@ -62,12 +71,29 @@ function crearCompra(){
 	
 }
 
+function verificarPro(producto){
+ 	var info ="opcion=verificarExistencias&producto_id="+producto;
+ 	var response = 0;
+
+ 	var xhr = new XMLHttpRequest()
+	xhr.open("POST",url,false);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4 && xhr.status == 200){
+			response = xhr.responseText;
+		}
+	};
+	xhr.send(info)
+	return response;
+}
+
 var guardarProductos = function(){
 	var contador=0;
 	var producto = null;
 	var nombre_Prod;
 	var cantidad;
 	var costo;
+	var response = false;
 	$('#tabla_productos ').find('tr').each(function () {
     	$(this).find('td').each(function () {
 
@@ -78,6 +104,7 @@ var guardarProductos = function(){
     			break;
     		
     			case 1:
+    			nombre_Prod = $(this).text();
     				contador++;
     			break;
 
@@ -100,25 +127,32 @@ var guardarProductos = function(){
 
     		}    
         })
-    	 if(producto != null){
-	        var info="opcion=crearDetalle&producto="+producto+
-	        "&cantidad="+cantidad+"&costo="+costo;
-		
-			var xhr = new XMLHttpRequest()
-			xhr.open("POST",url,false);
-			xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    	if (producto != null){
+	alert('El producto no es nulo');
+    		if ($('#warningDiv').html()){
+    			alert("Existen algunas advertencias pendientes, solucionelas antes de seguir, por favor." );
+    		}
+    		else{
+		        var info="opcion=crearDetalle&producto="+producto+
+		        "&cantidad="+cantidad+"&costo="+costo;
 			
-			xhr.onreadystatechange = function(){
-				if(xhr.readyState == 4 && xhr.status == 200){
-					//alert(xhr.responseText);
-				}
-			};
-			xhr.send(info)
+				var xhr = new XMLHttpRequest()
+				xhr.open("POST",url,false);
+				xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				
+				xhr.onreadystatechange = function(){
+					if(xhr.readyState == 4 && xhr.status == 200){
+						response = xhr.responseText;
+					}
+				};
+				xhr.send(info)
+			}
+			
 		}
-       
+
     })
 
-    
+    return response;
 }
 
 function actualizarFactu(){
@@ -149,7 +183,6 @@ function actualizarFactu(){
 }
 
 function actuDetalle(factura_id){
-	alert("holis");
 	var contador=0;
 	var producto = null;
 	var nombre_Prod;
@@ -198,11 +231,10 @@ function actuDetalle(factura_id){
 			
 			xhr.onreadystatechange = function(){
 				if(xhr.readyState == 4 && xhr.status == 200){
-					alert(xhr.responseText);
+					alert("hola");
 				}
 			};
 			xhr.send(info)
-			alert(info);
 		}
        
     })
@@ -224,6 +256,19 @@ function eliminarFactura(factura){
 	xhr.send(info);
 }
 
+function eliminarUltimaFactura(){
+	var info="opcion=eliminar&factura="+factura_id;
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST",url,false);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4 && xhr.status == 200){
+			console.log(xhr.responseText);
+		}
+	};
+	xhr.send(info);
+
+}
 
 function addZero(i) {
     if (i < 10) {
