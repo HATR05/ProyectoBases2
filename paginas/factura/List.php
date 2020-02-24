@@ -1,8 +1,8 @@
 <?php
-$link = mysqli_connect("localhost", "root", "");
-if ($link) {
-    mysqli_select_db($link, "ferreteriacolmex");
-}
+    $link =mysqli_connect("localhost","root","");
+    if($link){
+        mysqli_select_db($link,"ferreteriacolmex");
+    }
 ?>
 
 <!DOCTYPE html>
@@ -21,8 +21,9 @@ if ($link) {
         <!-- My styles-->
         <link href="/ProyectoBases2/resources/css/base.css" rel="stylesheet"/>
         <link href="/ProyectoBases2/resources/css/display-lg.css" rel="stylesheet"/>
-        <link href="/ProyectoBases2/resources/css/display-md.css" rel="stylesheet"/>
+        <link href="/ProyectoBases2/resources/css/display-md.css" rel="stylesheet"/>    
         <link href="/ProyectoBases2/resources/css/display-sm.css" rel="stylesheet"/>
+
     </head>
     <body>
         <div class="wrapper">
@@ -32,7 +33,7 @@ if ($link) {
                     <h4>
                         <img id="sidebarCollapse" src="/ProyectoBases2/resources/images/LogoCirculo1.png"/>
                         <a data-toggle="collapse" href="#bienvenida" role="button">StockManage</a>
-                    </h4>
+                    </h4> 
                     <strong id="sm">
                         <a data-toggle="collapse" id="linkSm" >
                             <img src="/ProyectoBases2/resources/images/LogoCirculo1.png"/>
@@ -47,7 +48,7 @@ if ($link) {
                         <a data-toggle="collapse" href="#list" role="button" aria-expanded="false" aria-controls="list" class="nav-link"><i class="fa fa-list-alt"></i> Listar </a>
                     </li>
                     <li>
-                        <a href="/ProyectoBases2/paginas/factura/List.php" class="nav-link"><i class="fa fa-book"></i> Facturas </a>
+                        <a href="paginas/factura/List.php" class="nav-link"><i class="fa fa-book"></i> Facturas </a>
                     </li>
                      <li>
                         <a data-toggle="collapse" href="#settings" role="button" aria-expanded="false" aria-controls="settings" class="nav-link"><i class="fa fa-support"></i> Funciones Base </a>
@@ -62,8 +63,8 @@ if ($link) {
                     <h6>Ferretería COLMEX S.A.S &copy;</h6>
                 </div>
             </nav>
-
-
+        
+        
             <!--Navbar para telefonos -->
             <nav class="ocultar navbarSh navbar navbar-expand-lg navbar-light bg-light">
                 <a data-toggle="collapse" class="navbar-brand" href="#bienvenida">StockManage</a>
@@ -79,7 +80,7 @@ if ($link) {
                             <a data-toggle="collapse" href="#list" role="button" aria-expanded="false" aria-controls="list" class="nav-link"><i class="fa fa-list"></i> Listar </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/ProyectoBases2/paginas/factura/List.php" class="nav-link"><i class="fa fa-book"></i> Facturas </a>
+                            <a href="paginas/factura/List.php" class="nav-link"><i class="fa fa-book"></i> Facturas </a>
                         </li>
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#settings" role="button" aria-expanded="false" aria-controls="settings" class="nav-link"><i class="fa fa-support"></i> Funciones Base </a>
@@ -99,85 +100,120 @@ if ($link) {
                 <div class="collapse" id="bienvenida">
                     <div class="contenido">
                         <h2>¡Bienvenido!</h2>
-                        <p>Aquí deberíamos poner información chévere, quiza algunas de las funciones anañiticas o una vista</p>
+                        <p>Aquí deberíamos poner información chévere, quiza algunas de las funciones analíticas o una vista</p>
                     </div>
-                </div>
+                </div>    
 
 
-                <!--Contenido de editar Producto-->
+                <!--Contenido de agregar nueva factura-->
                 <div class="contenido">
-                    <h1 class="titleCreate">Editar producto .</h1>
-                    <br>
 
-
-
-                    </br>
-
-                    <form>
-                       <div class="form-group row">
-                            <label class="col-md-2 col-form-label" for="nameProducto">Producto: </label>
-                            <div class="col-md-5">
-                                <select id="nameProducto" onchange="buscar()" class="form-control">
-                                    <option>----------</option>
-                                    <?php
-$consultaProducto = mysqli_query($link, "SELECT producto_id, nombre from producto;");
-while ($row = mysqli_fetch_array($consultaProducto)) {
-    echo "<option value=" . $row['producto_id'] . ">" . $row['nombre'] . "</option>";
-}
-?>
-                                </select>
+                    <h1 class="titleCreate">Facturas</h1>
+                    
+                 <label class="col-md-6" >Nota: Si desea ver información adicional de una factura, haga click en el número de su id.</label>
+                  <!-- Componentes para determinar si es factura de compra o venta-->
+                     <div class="form-group row">
+                            <label class="col-md-3 text-center" for="tipo_factura">Tipo de factura a listar: </label>
+                            <div class="col-md  justify-content-rigth" id="checkBill">
+                                <div class="custom-control custom-checkbox  custom-control-inline">
+                                   <input type="checkbox" class="custom-control-input" id="facturaventa" onchange = "check(this)">
+                                   <label class="custom-control-label" for="facturaventa" >Factura de Venta.</label>
+                                </div>
+                                 
+                                <div class="custom-control custom-checkbox  custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input" id="facturacompra" onchange = "check(this)">
+                                    <label class="custom-control-label" for="facturacompra">Factura de Compra.</label>
+                                </div>
+                                
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label" for="nameProducto">Nuevo nombre: </label>
-                            <div class="col-md-10">
-                                <input type="text" class="form-control" name="nameProducto" id="newName" required="true" />
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label" for="descProducto">Nueva descripción: </label>
-                            <div class="col-md-10">
-                                <input type="text" class="form-control" name="descProducto" id="newDesc" required="true" />
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label" for="valProducto">Nuevo valor unitario: </label>
-                            <div class="col-md-10">
-                                <input type="text" class="form-control" name="valProducto" id="newValor" required="true"/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label" for="cantProducto">Productos adicionados: </label>
-                            <div class="col-md-10">
-                                <input type="text" class="form-control" name="cantProducto" id="newStock" required="true"/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label" for="stock">Categoría: </label>
-                            <div class="col-md-5">
-                                <select id="optionCat" class="form-control">
-                                    <?php
-$consultaCategoria = mysqli_query($link, "SELECT nombre, tipo_id from categoria;");
-while ($row = mysqli_fetch_array($consultaCategoria)) {
-    echo "<option value=" . $row['tipo_id'] . ">" . $row['nombre'] . "</option>";
-
-}
-?>
-                                </select>
-                            </div>
-                        </div>
-
-                        <button class="btn btn-ambar" onclick="editar()">Guardar</button>
-                        <a class="btn btn-ambar" href="List.php">Mostrar productos</a>
-                        <a class="btn btn-ambar" href="/ProyectoBases2/administrador.html">Inicio</a>
+                    <!--Fin Componente para venta o compra--> 
+                <!--Contenido de listar facturas de venta-->
+                    <div id ="tablaVenta" class="table table-responsive">
+                        <table class="table table-light text-font table-sm"id="tabla_productos">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">id_Factura</th>
+                                    <th scope="col">Vendedor</th>
+                                    <th scope="col">Cliente</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Saldo</th>
+                                    <th scope="col">Subtotal</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $consultaProducto=mysqli_query($link,"SELECT factura_id, CONCAT(c.nombre,' ',c.apellido) as cliente, empleado, fecha_factura, saldo, subtotal,total  from cliente c natural join (select factura_id,cliente_id, CONCAT(e.nombre,' ',e.apellido) AS empleado, fecha_factura, saldo,subtotal,total from factura natural join empleado e)df;");
+                                while($row= mysqli_fetch_array($consultaProducto)){
+                                    echo "<tr>";
+                                        echo "<td class=\"factura\" style=\"color: #ffc107\" onmousemove=\"underline(this)\" onmouseout=\"blankunderline(this)\" value=\"".$row['factura_id']."\">".$row['factura_id']."</td>";
+                                        echo "<td>".$row['empleado']."</td>";
+                                        echo "<td>".$row['cliente']."</td>";
+                                        echo "<td>".$row['fecha_factura']."</td>";
+                                        echo "<td>".$row['saldo']."</td>";
+                                        echo "<td>".$row['subtotal']."</td>";
+                                        echo "<td>".$row['total']."</td>";
+                                        echo "<td> <a class=\"delete\" style=\"color: #ffc107\"onmousemove=\"underline(this)\" onmouseout=\"blankunderline(this)\"> Eliminar</a></td>";
+                                    echo "</tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>
+                    
+                    </p>
+                    <!--FinContenido de listar facturas de venta--> 
+                    <!--Contenido de listar facturas de compra-->
+                    <div id ="tablaCompra" class="table table-responsive" >
+                        <table class="table table-light text-font table-sm"id="tabla_productos">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">id_Factura</th>
+                                    <th scope="col">Empleado</th>
+                                    <th scope="col">Proveedor</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Saldo</th>
+                                    <th scope="col">Subtotal</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $consultaProducto=mysqli_query($link," SELECT factura_id, nombre AS proveedor, empleado, fecha_factura, saldo, subtotal,total  from proveedor p natural join (select factura_id,nit, CONCAT(e.nombre,' ',e.apellido) AS empleado, fecha_factura, saldo,subtotal,total from factura natural join empleado e)df;");
+                                while($row= mysqli_fetch_array($consultaProducto)){
+                                    echo "<tr>";
+                                        echo "<td class=\"factura\" style=\"color: #ffc107\" onmousemove=\"underline(this)\" onmouseout=\"blankunderline(this)\" value=\"".$row['factura_id']."\">".$row['factura_id']."</td>";
+                                        echo "<td>".$row['empleado']."</td>";
+                                        echo "<td>".$row['proveedor']."</td>";
+                                        echo "<td>".$row['fecha_factura']."</td>";
+                                        echo "<td>".$row['saldo']."</td>";
+                                        echo "<td>".$row['subtotal']."</td>";
+                                        echo "<td>".$row['total']."</td>";
+                                        echo "<td> <a class=\"delete\" style=\"color: #ffc107\"onmousemove=\"underline(this)\" onmouseout=\"blankunderline(this)\"> Eliminar</a></td>";
+                                    echo "</tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--Fin Contenido de listar facturas de compra-->
+                     <form>
+                        <!-- Botón de mostrar todas las categorías -->
+                        <button type="button" class="btn btn-ambar" onclick=" location.href='/ProyectoBases2/paginas/factura/Create.php' " value="Vamos" name="boton" /> Crear factura de venta</button>
+                        <!-- Botón de inicio -->
+                        <button type="button" class="btn btn-ambar" onclick=" location.href='/ProyectoBases2/administrador.html' " value="Vamos" name="boton" /> Atrás</button>
                     </form>
-                </div>
 
+                </div>    
                 <!--espacio agregar-->
                 <div class="collapse" id="add">
                     <div class="contenido">
                         <h3>Agregar</h3>
-                        <p>¿Te hace falta algo? No te preocupes, aquí puedes agregar lo que haga falta. Solo recuerda que tienes que
+                        <p>¿Te hace falta algo? No te preocupes, aquí puedes agregar lo que haga falta. Solo recuerda que tienes que 
                         ser un poco ordenado.</p>
                         <div class="row">
                             <div class="col-sm-12 col-md-4">
@@ -185,7 +221,7 @@ while ($row = mysqli_fetch_array($consultaCategoria)) {
                                     <div class="card-body">
                                         <h5 class="card-title">Proveedor</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="/ProyectoBases2/paginas/proveedor/Create.php" class="btn btn-danger">Agregar</a>
+                                        <a href="paginas/proveedor/Create.php" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -194,7 +230,7 @@ while ($row = mysqli_fetch_array($consultaCategoria)) {
                                     <div class="card-body">
                                         <h5 class="card-title">Cliente</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="/ProyectoBases2/paginas/cliente/Create.php" class="btn btn-danger">Agregar</a>
+                                        <a href="paginas/cliente/Create.php" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -203,7 +239,7 @@ while ($row = mysqli_fetch_array($consultaCategoria)) {
                                     <div class="card-body">
                                         <h5 class="card-title">Producto</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="/ProyectoBases2/paginas/producto/Create.php" class="btn btn-danger">Agregar</a>
+                                        <a href="paginas/producto/Create.php" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -214,7 +250,7 @@ while ($row = mysqli_fetch_array($consultaCategoria)) {
                                     <div class="card-body">
                                         <h5 class="card-title">Empleado</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="/ProyectoBases2/paginas/empleado/Create.php" class="btn btn-danger">Agregar</a>
+                                        <a href="paginas/empleado/Create.php" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
@@ -223,14 +259,14 @@ while ($row = mysqli_fetch_array($consultaCategoria)) {
                                     <div class="card-body">
                                         <h5 class="card-title">Categoria de producto</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="/ProyectoBases2/paginas/categoria/Create.html" class="btn btn-danger">Agregar</a>
+                                        <a href="paginas/categoria/Create.php" class="btn btn-danger">Agregar</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                
                 <!--Espacio Listar-->
                 <div class="collapse" id="list">
                     <div class="contenido">
@@ -242,7 +278,7 @@ while ($row = mysqli_fetch_array($consultaCategoria)) {
                                     <div class="card-body">
                                         <h5 class="card-title">Proveedor</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="/ProyectoBases2/paginas/proveedor/List.php" class="btn btn-danger">Mostrar</a>
+                                        <a href="paginas/proveedor/List.php" class="btn btn-danger">Mostrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -251,7 +287,7 @@ while ($row = mysqli_fetch_array($consultaCategoria)) {
                                     <div class="card-body">
                                         <h5 class="card-title">Cliente</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="/ProyectoBases2/paginas/cliente/List.php" class="btn btn-danger">Mostrar</a>
+                                        <a href="paginas/cliente/List.php" class="btn btn-danger">Mostrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -260,7 +296,7 @@ while ($row = mysqli_fetch_array($consultaCategoria)) {
                                     <div class="card-body">
                                         <h5 class="card-title">Producto</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="/ProyectoBases2/paginas/producto/List.php" class="btn btn-danger">Mostrar</a>
+                                        <a href="paginas/producto/List.php" class="btn btn-danger">Mostrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -271,7 +307,7 @@ while ($row = mysqli_fetch_array($consultaCategoria)) {
                                     <div class="card-body">
                                         <h5 class="card-title">Empleado</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="/ProyectoBases2/paginas/empleado/List.php" class="btn btn-danger">Mostrar</a>
+                                        <a href="paginas/empleado/List.php" class="btn btn-danger">Mostrar</a>
                                     </div>
                                 </div>
                             </div>
@@ -280,14 +316,14 @@ while ($row = mysqli_fetch_array($consultaCategoria)) {
                                     <div class="card-body">
                                         <h5 class="card-title">Categoria de producto</h5>
                                         <p class="card-text">Aquí va información acerca de algo.</p>
-                                        <a href="/ProyectoBases2/paginas/categoria/List.php" class="btn btn-danger">Mostrar</a>
+                                        <a href="paginas/categoria/List.php" class="btn btn-danger">Mostrar</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                
             <!--Espacio funciones basicas-->
             <div class="collapse" id="settings">
                     <div class="contenido">
@@ -296,19 +332,22 @@ while ($row = mysqli_fetch_array($consultaCategoria)) {
                         que sea con ayuda de un experto.</p>
                         <ul class="list-group">
                             <li class="list-group-item" aria-disabled="true">
-                                <a href="/ProyectoBases2/paginas/departamento/List.php">Lista de Departamentos</a>
+                                <a href="paginas/departamento/List.php">Lista de Departamentos</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="/ProyectoBases2/paginas/ciudad/List.php">Lista de Ciudades</a>
+                                <a href="paginas/ciudad/List.php">Lista de Ciudades</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="/ProyectoBases2/paginas/barrio/List.php">Lista de Barrios</a>
+                                <a href="paginas/barrio/List.php">Lista de Barrios</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="/ProyectoBases2/paginas/ubicacion/List.php">Lista de Direcciones</a>
+                                <a href="paginas/ubicacion/List.php">Lista de Direcciones</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="/ProyectoBases2/paginas/cargo/List.php">Lista de Cargos</a>
+                                <a href="paginas/cargo/List.php">Lista de Cargos</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="paginas/ubicacion/List.php">Lista de Ubicaciones</a>
                             </li>
                         </ul>
                     </div>
@@ -329,7 +368,7 @@ while ($row = mysqli_fetch_array($consultaCategoria)) {
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <a class="btn btn-ambar" href="/ProyectoBases2/index.html">Cerrar sesión</a>
+                            <a class="btn btn-ambar" href="index.php">Cerrar sesión</a>
                         </div>
                     </div>
                 </div>
@@ -342,6 +381,10 @@ while ($row = mysqli_fetch_array($consultaCategoria)) {
         <script src="/ProyectoBases2/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
         <!--Mis scripts-->
         <script src="/ProyectoBases2/resources/js/controlBarra.js"></script>
-        <script src="/ProyectoBases2/Logica/Javascript/Producto.js"></script>
+
+        <script type="text/javascript" src="/ProyectoBases2/resources/js/controlList.js"></script>
+        <script src="/ProyectoBases2/resources/js/effects.js"></script>
+        <script src="/ProyectoBases2/Logica/Javascript/Factura.js"></script>
+
     </body>
 </html>
