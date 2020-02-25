@@ -54,14 +54,9 @@
                             Listar
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a data-toggle="collapse" href="#bill" role="button" aria-expanded="false" aria-controls="bill" class="nav-link">
-                            <i class="fa fa-book">
-                            </i>
-                            Facturas
-                        </a>
+                   <li>
+                        <a data-toggle="collapse" href="#list" role="button" aria-expanded="false" aria-controls="list" class="nav-link"><i class="fa fa-list-alt"></i> Listar </a>
                     </li>
-                    <li>
                         <a data-toggle="collapse" href="#settings" role="button" aria-expanded="false" aria-controls="settings" class="nav-link">
                             <i class="fa fa-support">
                             </i>
@@ -109,12 +104,8 @@
                                 Listar
                             </a>
                         </li>
-                        <li>
-                            <a data-tooggle="collapse" href="#bill" role="button" aria-expanded="false" aria-controls="bill"class="nav-link">
-                                <i class="fa fa-book">
-                                </i>
-                                Facturas
-                            </a>
+                       <li class="nav-item">
+                            <a href="/ProyectoBases2/paginas/factura/List.php" class="nav-link"><i class="fa fa-book"></i> Facturas </a>
                         </li>
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#settings" role="button" aria-expanded="false" aria-controls="settings" class="nav-link">
@@ -163,20 +154,20 @@
                             <input type="text" class="form-control"  value="" id="factura_id" required="true" readonly/>
                         </div>
                     </div>
-                     <div class="form-group row" id="fechas">
-                                    <label class="col-md-2 col-form-label" for="fecha" readonly>
-                                        Fecha:
-                                    </label>
-                                    <div class="col-md-3">
-                                        <input type="text" class="form-control"  value="" id="fecha" required="true" readonly/>
-                                    </div>
-                                    <label class="col-md-2 col-form-label" for="fechaV" readonly>
-                                        Fecha de Vencimiento:
-                                    </label>
-                                    <div class="col-md-3">
-                                        <input type="text" class="form-control"  value="" id="fechaV" required="true" readonly/>
-                                    </div>
-                                </div>
+                    <div class="form-group row" id="fechas">
+                        <label class="col-md-2 col-form-label" for="fecha" readonly>
+                            Fecha:
+                        </label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control"  value="" id="fecha" required="true" readonly/>
+                        </div>
+                        <label class="col-md-2 col-form-label" for="fechaV" readonly>
+                            Fecha de Vencimiento:
+                        </label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control"  value="" id="fechaV" required="true" readonly/>
+                        </div>
+                    </div>
                     <!--Fin Componente para venta o compra-->
                     <form>
                         <!--Componentes necesarios para factura de venta-->
@@ -192,7 +183,7 @@
                                             -------------------
                                         </option>
                                         ;
-                                        <?php $consultaEmpleado = mysqli_query($link, "SELECT CONCAT(nombre,' ',apellido) AS nombre, empleado_id FROM empleado WHERE cargo_id =(SELECT cargo_id FROM cargo WHERE nombre = 'Vendedor');"); while ($row = mysqli_fetch_array($consultaEmpleado)) { echo "  <option value=" . $row['empleado_id'] . "> " . $row['nombre'] . "  </option> "; } ?>
+                                        <?php $consultaEmpleado = mysqli_query($link, "SELECT CONCAT(nombre,' ',apellido) AS nombre, empleado_id FROM empleado WHERE cargo_id =(SELECT cargo_id FROM cargo WHERE nombre = 'Vendedor');"); while ($row = mysqli_fetch_array($consultaEmpleado)) { echo "   <option value=" . $row['empleado_id'] . "> " . $row['nombre'] . "   </option> "; } ?>
                                     </select>
                                     <br/>
                                 </div>
@@ -212,7 +203,7 @@
                                         -------------------
                                     </option>
                                     ;
-                                    <?php $consultaCliente = mysqli_query($link, "SELECT CONCAT(nombre,' ',apellido) AS nombre, cliente_id from cliente;"); while ($row = mysqli_fetch_array($consultaCliente)) { echo "  <option value=" . utf8_encode($row['cliente_id']) . "> " . utf8_encode($row['nombre']) . "  </option> "; } ?>
+                                    <?php $consultaCliente = mysqli_query($link, "SELECT CONCAT(nombre,' ',apellido) AS nombre, cliente_id from cliente;"); while ($row = mysqli_fetch_array($consultaCliente)) { echo "   <option value=" . utf8_encode($row['cliente_id']) . "> " . utf8_encode($row['nombre']) . "   </option> "; } ?>
                                 </select>
                             </div>
                             <a class="col-md-2 " href="/ProyectoBases2/paginas/cliente/Create.php" target="_blank" style="color: #ffc107" onmousemove="underline(this)" onmouseout="blankunderline(this)">
@@ -230,7 +221,7 @@
                                         -------------------
                                     </option>
                                     ;
-                                    <?php $consultaProducto = mysqli_query($link, "SELECT producto_id, nombre, valor_unidad FROM producto;"); while ($row = mysqli_fetch_array($consultaProducto)) { echo "  <option value=" . utf8_encode($row['producto_id']) . "--" . utf8_encode($row['valor_unidad']) . "> " . utf8_encode($row['nombre']) . "  </option> "; } ?>
+                                    <?php $consultaProducto = mysqli_query($link, "SELECT producto_id, nombre, valor_unidad FROM producto;"); while ($row = mysqli_fetch_array($consultaProducto)) { echo "   <option value=" . utf8_encode($row['producto_id']) . "--" . utf8_encode($row['valor_unidad']) . "> " . utf8_encode($row['nombre']) . "   </option> "; } ?>
                                 </select>
                             </div>
                             <a class="col-md-2 " href="/ProyectoBases2/paginas/producto/Create.php" target="_blank" style="color: #ffc107" onmousemove="underline(this)" onmouseout="blankunderline(this)">
@@ -282,7 +273,7 @@
                                         -------------------
                                     </option>
                                     ;
-                                    <?php $consultaEmpleado = mysqli_query($link, "SELECT CONCAT(nombre,' ',apellido) AS nombre, empleado_id FROM empleado ;"); while ($row = mysqli_fetch_array($consultaEmpleado)) { echo "  <option value=" . $row['empleado_id'] . "> " . $row['nombre'] . "  </option> "; } ?>
+                                    <?php $consultaEmpleado = mysqli_query($link, "SELECT CONCAT(nombre,' ',apellido) AS nombre, empleado_id FROM empleado ;"); while ($row = mysqli_fetch_array($consultaEmpleado)) { echo "   <option value=" . $row['empleado_id'] . "> " . $row['nombre'] . "   </option> "; } ?>
                                 </select>
                                 <br/>
                             </div>
@@ -304,7 +295,7 @@
                                         -------------------
                                     </option>
                                     ;
-                                    <?php $consultaProveedor = mysqli_query($link, "SELECT nombre, nit from proveedor;"); while ($row = mysqli_fetch_array($consultaProveedor)) { echo "  <option value=" . utf8_encode($row['nit']) . "> " . utf8_encode($row['nombre']) . "  </option> "; } ?>
+                                    <?php $consultaProveedor = mysqli_query($link, "SELECT nombre, nit from proveedor;"); while ($row = mysqli_fetch_array($consultaProveedor)) { echo "   <option value=" . utf8_encode($row['nit']) . "> " . utf8_encode($row['nombre']) . "   </option> "; } ?>
                                 </select>
                             </div>
                             <a class="col-md-2 " href="/ProyectoBases2/paginas/proveedor/Create.php" target="_blank" style="color: #ffc107"onmousemove="underline(this)" onmouseout="blankunderline(this)">
@@ -381,7 +372,7 @@
                             </label>
                             <div class="col-md-7">
                                 <select id="optionCat" class="form-control">
-                                    <?php $consultaCategoria = mysqli_query($link, "SELECT tipo_id,nombre from categoria;"); while ($row = mysqli_fetch_array($consultaCategoria)) { echo "  <option value=" . $row['nombre'] . "> " . $row['nombre'] . "  </option> "; } ?>
+                                    <?php $consultaCategoria = mysqli_query($link, "SELECT tipo_id,nombre from categoria;"); while ($row = mysqli_fetch_array($consultaCategoria)) { echo "   <option value=" . $row['nombre'] . "> " . $row['nombre'] . "   </option> "; } ?>
                                 </select>
                             </div>
                             <a class="col-md-2 " href="/ProyectoBases2/paginas/categoria/Create.html" target="_blank" style="color: #ffc107"onmousemove="underline(this)" onmouseout="blankunderline(this)">
@@ -466,7 +457,7 @@
                 -->
                 <!-- Fin componentes generales-->
             </div>
-            <!--Espacio agregar-->
+            <!--espacio agregar-->
             <div class="collapse" id="add">
                 <div class="contenido">
                     <h3>
@@ -486,7 +477,7 @@
                                     <p class="card-text">
                                         Aquí va información acerca de algo.
                                     </p>
-                                    <a href="paginas/proveedor/Create.php" class="btn btn-danger">
+                                    <a href="/ProyectoBases2/paginas/proveedor/Create.php" class="btn btn-danger">
                                         Agregar
                                     </a>
                                 </div>
@@ -501,7 +492,7 @@
                                     <p class="card-text">
                                         Aquí va información acerca de algo.
                                     </p>
-                                    <a href="paginas/cliente/Create.php" class="btn btn-danger">
+                                    <a href="/ProyectoBases2/paginas/cliente/Create.php" class="btn btn-danger">
                                         Agregar
                                     </a>
                                 </div>
@@ -516,7 +507,7 @@
                                     <p class="card-text">
                                         Aquí va información acerca de algo.
                                     </p>
-                                    <a href="paginas/producto/Create.php" class="btn btn-danger">
+                                    <a href="/ProyectoBases2/paginas/producto/Create.php" class="btn btn-danger">
                                         Agregar
                                     </a>
                                 </div>
@@ -533,7 +524,7 @@
                                     <p class="card-text">
                                         Aquí va información acerca de algo.
                                     </p>
-                                    <a href="paginas/empleado/Create.php" class="btn btn-danger">
+                                    <a href="/ProyectoBases2/paginas/empleado/Create.php" class="btn btn-danger">
                                         Agregar
                                     </a>
                                 </div>
@@ -548,7 +539,7 @@
                                     <p class="card-text">
                                         Aquí va información acerca de algo.
                                     </p>
-                                    <a href="paginas/categoria/Create.php" class="btn btn-danger">
+                                    <a href="/ProyectoBases2/paginas/categoria/Create.html" class="btn btn-danger">
                                         Agregar
                                     </a>
                                 </div>
@@ -576,7 +567,7 @@
                                     <p class="card-text">
                                         Aquí va información acerca de algo.
                                     </p>
-                                    <a href="paginas/proveedor/List.php" class="btn btn-danger">
+                                    <a href="/ProyectoBases2/paginas/proveedor/List.php" class="btn btn-danger">
                                         Mostrar
                                     </a>
                                 </div>
@@ -591,7 +582,7 @@
                                     <p class="card-text">
                                         Aquí va información acerca de algo.
                                     </p>
-                                    <a href="paginas/cliente/List.php" class="btn btn-danger">
+                                    <a href="/ProyectoBases2/paginas/cliente/List.php" class="btn btn-danger">
                                         Mostrar
                                     </a>
                                 </div>
@@ -606,7 +597,7 @@
                                     <p class="card-text">
                                         Aquí va información acerca de algo.
                                     </p>
-                                    <a href="paginas/producto/List.php" class="btn btn-danger">
+                                    <a href="/ProyectoBases2/paginas/producto/List.php" class="btn btn-danger">
                                         Mostrar
                                     </a>
                                 </div>
@@ -623,7 +614,7 @@
                                     <p class="card-text">
                                         Aquí va información acerca de algo.
                                     </p>
-                                    <a href="paginas/empleado/List.php" class="btn btn-danger">
+                                    <a href="/ProyectoBases2/paginas/empleado/List.php" class="btn btn-danger">
                                         Mostrar
                                     </a>
                                 </div>
@@ -638,50 +629,7 @@
                                     <p class="card-text">
                                         Aquí va información acerca de algo.
                                     </p>
-                                    <a href="paginas/categoria/List.php" class="btn btn-danger">
-                                        Mostrar
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--Espacio Factura-->
-            <div class="collapse  " id="bill">
-                <div class="contenido">
-                    <h3>
-                        Facturas
-                    </h3>
-                    <p>
-                        Estas son algunas acciones que puedes hacer con las facturas.
-                    </p>
-                    <div class="row my-4">
-                        <div class="offset-md-2 col-sm-12 col-md-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        Crear factura
-                                    </h5>
-                                    <p class="card-text">
-                                        Aquí puedes crear facturas tanto de venta como de compra para tu negocio.
-                                    </p>
-                                    <a href="paginas/factura/Create.php" class="btn btn-danger">
-                                        Crear
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        Lista de Facturas
-                                    </h5>
-                                    <p class="card-text">
-                                        Aquí puedes ver un listado de las facturas, tanto de venta como de compra.
-                                    </p>
-                                    <a href="paginas/factura/List.php" class="btn btn-danger">
+                                    <a href="/ProyectoBases2/paginas/categoria/List.php" class="btn btn-danger">
                                         Mostrar
                                     </a>
                                 </div>
@@ -702,33 +650,28 @@
                     </p>
                     <ul class="list-group">
                         <li class="list-group-item" aria-disabled="true">
-                            <a href="paginas/departamento/List.php">
+                            <a href="/ProyectoBases2/paginas/departamento/List.php">
                                 Lista de Departamentos
                             </a>
                         </li>
                         <li class="list-group-item">
-                            <a href="paginas/ciudad/List.php">
+                            <a href="/ProyectoBases2/paginas/ciudad/List.php">
                                 Lista de Ciudades
                             </a>
                         </li>
                         <li class="list-group-item">
-                            <a href="paginas/barrio/List.php">
+                            <a href="/ProyectoBases2/paginas/barrio/List.php">
                                 Lista de Barrios
                             </a>
                         </li>
                         <li class="list-group-item">
-                            <a href="paginas/ubicacion/List.php">
+                            <a href="/ProyectoBases2/paginas/ubicacion/List.php">
                                 Lista de Direcciones
                             </a>
                         </li>
                         <li class="list-group-item">
-                            <a href="paginas/cargo/List.php">
+                            <a href="/ProyectoBases2/paginas/cargo/List.php">
                                 Lista de Cargos
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="paginas/ubicacion/List.php">
-                                Lista de Ubicaciones
                             </a>
                         </li>
                     </ul>
@@ -758,7 +701,7 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
                             Cancelar
                         </button>
-                        <a class="btn btn-ambar" href="index.php">
+                        <a class="btn btn-ambar" href="/ProyectoBases2/index.html">
                             Cerrar sesión
                         </a>
                     </div>
@@ -766,19 +709,20 @@
             </div>
         </div>
     </div>
-    <!-- Bootstrap core JavaScript-->
-    <script src="/ProyectoBases2/resources/vendor/jquery/jquery.min.js"></script>
-    <script src="/ProyectoBases2/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- Core plugin JavaScript-->
-    <script src="/ProyectoBases2/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-    <!--Mis scripts-->
-    <script type="text/javascript" src="/ProyectoBases2/resources/js/controlBarra.js"></script>
-    <script type="text/javascript" src="/ProyectoBases2/resources/js/effects.js"></script>
-    <!--script type="text/javascript" src="/ProyectoBases2/resources/js/controlTablaBuy.js"></script-->
-    <script type="text/javascript" src="/ProyectoBases2/resources/js/controlFactura.js"></script>
-    <script type="text/javascript" src="/ProyectoBases2/resources/js/controlEdit.js"></script>
-    <script type="text/javascript" src="/ProyectoBases2/Logica/Javascript/Factura.js"></script>
-    <script type="text/javascript" src="/ProyectoBases2/Logica/Javascript/Producto.js"></script>
-    <!--<script type="text/javascript" src="/ProyectoBases2/resources/js/controlFacturaSell.js"></script>-->
+</div>
+<!-- Bootstrap core JavaScript-->
+<script src="/ProyectoBases2/resources/vendor/jquery/jquery.min.js"></script>
+<script src="/ProyectoBases2/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Core plugin JavaScript-->
+<script src="/ProyectoBases2/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+<!--Mis scripts-->
+<script type="text/javascript" src="/ProyectoBases2/resources/js/controlBarra.js"></script>
+<script type="text/javascript" src="/ProyectoBases2/resources/js/effects.js"></script>
+<!--script type="text/javascript" src="/ProyectoBases2/resources/js/controlTablaBuy.js"></script-->
+<script type="text/javascript" src="/ProyectoBases2/resources/js/controlFactura.js"></script>
+<script type="text/javascript" src="/ProyectoBases2/resources/js/controlEdit.js"></script>
+<script type="text/javascript" src="/ProyectoBases2/Logica/Javascript/Factura.js"></script>
+<script type="text/javascript" src="/ProyectoBases2/Logica/Javascript/Producto.js"></script>
+<!--<script type="text/javascript" src="/ProyectoBases2/resources/js/controlFacturaSell.js"></script>-->
 </body>
 </html>
