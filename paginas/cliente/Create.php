@@ -79,7 +79,7 @@
                             <a data-toggle="collapse" href="#list" role="button" aria-expanded="false" aria-controls="list" class="nav-link"><i class="fa fa-list"></i> Listar </a>
                         </li>
                         <li class="nav-item">
-                            <a href="paginas/factura/List.xhtml" class="nav-link"><i class="fa fa-book"></i> Facturas </a>
+                            <a href="/ProyectoBases2/paginas/factura/List.php" class="nav-link"><i class="fa fa-book"></i> Facturas </a>
                         </li>
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#settings" role="button" aria-expanded="false" aria-controls="settings" class="nav-link"><i class="fa fa-support"></i> Funciones Base </a>
