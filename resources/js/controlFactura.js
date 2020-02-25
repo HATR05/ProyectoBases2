@@ -1,7 +1,9 @@
 var subtotal;
 var total;
 var valor_Unitario;
+var id_count = 0;
 var iva = 0.19;
+var trigger = false;
 /**Método para crear scroll en la tabla**/
 $(document).ready(function() {
     $("table").DataTable({
@@ -156,7 +158,12 @@ function autorellenar_Prueba(nomProd) {
         categoria.value = result_Busq[4];
     } else {
         var id_producto = document.getElementById("idProducto");
-        id_producto.value = Number.parseInt(ultimo_Producto()) + 1;
+        if (id_count == 0) {
+            id_count = Number.parseInt(ultimo_Producto()) + 1;
+        } else {
+            id_count += 1;
+        }
+        id_producto.value = id_count;
     }
 }
 
@@ -214,9 +221,11 @@ $(document).on('focusout', '.row_dataQuatity', function(event) {
     var idProd = row.find('.row_dataIdproducto').html();
     var nomProd = row.find('.row_dataName').html();
     valor_Unitario = row.find('.row_dataValUn').html();
-    var existencias = verificarPro(idProd);
-    warning(idProd, col_val, existencias, nomProd);
-    row.find('.row_dataCost').html(col_val * valor_Unitario);
+    if (trigger == false) {
+        var existencias = verificarPro(idProd);
+        warning(idProd, col_val, existencias, nomProd);
+        row.find('.row_dataCost').html(col_val * valor_Unitario);
+    }
     subtotal = 0;
     generateSubtotal();
 })

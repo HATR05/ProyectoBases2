@@ -203,7 +203,7 @@
                     <!--Fin Contenido de listar facturas de compra-->
                      <form>
                         <!-- Botón de mostrar todas las categorías -->
-                        <button type="button" class="btn btn-ambar" onclick=" location.href='/ProyectoBases2/paginas/factura/Create.php' " value="Vamos" name="boton" /> Crear factura de venta</button>
+                        <button type="button" class="btn btn-ambar" onclick=" location.href='/ProyectoBases2/paginas/factura/Create.php' " value="Vamos" name="boton" /> Crear factura.</button>
                         <!-- Botón de inicio -->
                         <button type="button" class="btn btn-ambar" onclick=" location.href='/ProyectoBases2/administrador.html' " value="Vamos" name="boton" /> Atrás</button>
                     </form>
@@ -323,7 +323,49 @@
                         </div>
                     </div>
                 </div>
-                
+            <!--Espacio Factura-->
+            <div class="collapse  " id="bill">
+                <div class="contenido">
+                    <h3>
+                        Facturas
+                    </h3>
+                    <p>
+                        Estas son algunas acciones que puedes hacer con las facturas.
+                    </p>
+                    <div class="row my-4">
+                        <div class="offset-md-2 col-sm-12 col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        Crear factura
+                                    </h5>
+                                    <p class="card-text">
+                                        Aquí puedes crear facturas tanto de venta como de compra para tu negocio.
+                                    </p>
+                                    <a href="paginas/factura/Create.php" class="btn btn-danger">
+                                        Crear
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        Lista de Facturas
+                                    </h5>
+                                    <p class="card-text">
+                                        Aquí puedes ver un listado de las facturas, tanto de venta como de compra.
+                                    </p>
+                                    <a href="paginas/factura/List.php" class="btn btn-danger">
+                                        Mostrar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!--Espacio funciones basicas-->
             <div class="collapse" id="settings">
                     <div class="contenido">

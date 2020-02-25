@@ -12,6 +12,10 @@ switch ($opcion) {
     case 'crearDetalle':
         $mensaje = crearDetalle();
         break;
+        case 'crearDetalleM':
+        $mensaje = crearDetalleM();
+        break;
+
     case 'editar':
         $mensaje = editar();
         break;
@@ -20,6 +24,9 @@ switch ($opcion) {
         break;
     case 'eliminar':
         $mensaje = eliminar();
+        break;
+    case 'eliminar_Detalle':
+        $mensaje = eliminar_Detalle();
         break;
     case 'eliminar_Ultimafactura':
         $mensaje = eliminar_Ultimafactura();
@@ -35,9 +42,27 @@ switch ($opcion) {
     case 'traerProductos':
         $mensaje = traerProductos();
         break;
+    //Método para extraer productos de factura en la bd
+    case 'traerProductosCompra':
+        $mensaje = traerProductosCompra();
+        break;
 }
 echo $mensaje;
 
+function verificarExistencias()
+{
+    require "connect_DB.php";
+
+    $producto_id = $_POST["producto_id"];
+    $respuesta   = " ";
+
+    $queryOldCant = mysqli_query($link, "SELECT cantidad FROM producto WHERE producto_id='" . $producto_id . "';");
+    $oldCant      = mysqli_fetch_array($queryOldCant);
+
+    $respuesta = $oldCant['cantidad'];
+
+    return $respuesta;
+}
 function crear()
 {
     require "connect_DB.php";
@@ -81,17 +106,19 @@ function crearDetalle()
     return $respuesta;
 }
 
-function verificarExistencias()
+function crearDetalleM()
 {
     require "connect_DB.php";
+    $factura_id     = $_POST["factura_id"];
+    $producto_id = $_POST["producto"];
+    $cantidad    = $_POST["cantidad"];
+    $costo       = $_POST["costo"];
 
-    $producto_id = $_POST["producto_id"];
-    $respuesta   = " ";
+    $respuesta = 'Error al guardar detalle de factura.--' . false;
 
-    $queryOldCant = mysqli_query($link, "SELECT cantidad FROM producto WHERE producto_id='" . $producto_id . "';");
-    $oldCant      = mysqli_fetch_array($queryOldCant);
+    mysqli_query($link, "INSERT INTO detalle_factura (factura_id,producto_id,cantidad,costo) VALUES('" . $factura_id['factura_id'] . "','" . $producto_id . "','" . $cantidad . "','" . $costo . "');");
 
-    $respuesta = $oldCant['cantidad'];
+    $respuesta = 'Detalle de factura guardado satisfactoriamente.--' . true;
 
     return $respuesta;
 }
@@ -107,24 +134,24 @@ function editar()
     $newSubtotal    = $_POST['newSubtotal'];
     $newTotal       = $_POST['newTotal'];
 
-    $respuesta = "";
+    $respuesta = false;
 
     $query           = mysqli_query($link, "SELECT factura_id from factura where factura_id='" . $factura_id . "';");
     $check_categoria = mysqli_fetch_array($query);
     if ($check_categoria['factura_id'] == $factura_id) {
-        if ($newNit != null) {
+        if ($newCliente != null) {
 
             mysqli_query($link, "UPDATE factura set cliente_id='" . $newCliente . "' where factura_id='" . $factura_id . "';");
-        } else {
+        }if ($newNit != null) {
             mysqli_query($link, "UPDATE factura set nit='" . $newNit . "' where factura_id='" . $factura_id . "';");
         }
         mysqli_query($link, "UPDATE factura set empleado_id='" . $newEmpleado_id . "' where factura_id='" . $factura_id . "';");
         mysqli_query($link, "UPDATE factura set saldo='" . $newSaldo . "' where factura_id='" . $factura_id . "';");
         mysqli_query($link, "UPDATE factura set subtotal='" . $newSubtotal . "' where factura_id='" . $factura_id . "';");
         mysqli_query($link, "UPDATE factura set total='" . $newTotal . "' where factura_id='" . $factura_id . "';");
-        $respuesta = "Factura modificada con éxito";
+        $respuesta = true;
     } else {
-        $respuesta = "La Factura " . $factura_id . " no existe";
+        $respuesta = false;
     }
 
     return $respuesta;
@@ -137,16 +164,12 @@ function editarDetalle()
     $cantidad    = $_POST["cantidad"];
     $costo       = $_POST["costo"];
 
-    $respuesta = "";
-
-    mysqli_query($link, "DELETE from detalle_factura where factura_id='" . $factura_id . "';");
+    $respuesta = false;
 
     mysqli_query($link, "INSERT INTO detalle_factura (factura_id,producto_id,cantidad,costo) VALUES('" . $factura_id . "','" . $producto_id . "','" . $cantidad . "','" . $costo . "');");
-    $oldCant   = mysqli_query($link, "SELECT cantidad FROM producto WHERE producto_id='" . $producto_id . "';");
-    $nuevaCant = $oldCant - $cantidad;
-    mysqli_query($link, "UPDATE producto SET cantidad = '" . $nuevaCant . "';");
+    $oldCant = mysqli_query($link, "SELECT cantidad FROM producto WHERE producto_id='" . $producto_id . "';");
 
-    $respuesta = "Detalle_factura modificada con éxito";
+    $respuesta = true;
 
     return $respuesta;
 
@@ -162,6 +185,16 @@ function eliminar()
     mysqli_query($link, "DELETE FROM  factura WHERE factura_id='" . $factura_id . "';");
     $respuesta = "Factura eliminada correctamente";
 
+    return $respuesta;
+}
+function eliminar_Detalle()
+{
+    require "connect_DB.php";
+    $factura_id = $_POST["factura"];
+    mysqli_query($link, "SET FOREIGN_KEY_CHECKS=0;");
+    mysqli_query($link, "DELETE from detalle_factura where factura_id='" . $factura_id . "';");
+    mysqli_query($link, "SET FOREIGN_KEY_CHECKS=1;");
+    $respuesta = "true";
     return $respuesta;
 }
 
@@ -240,6 +273,35 @@ function traerProductos()
         $valorUnitario = mysqli_fetch_array($queryValU);
 
         $respuesta = $respuesta . $fila['producto_id'] . "-" . $check_producto['nombre'] . "-" . $fila['cantidad'] . "-" . $valorUnitario['valor_unidad'] . "-" . $fila['costo'] . "--";
+
+        $i++;
+
+    }
+
+    return $respuesta;
+
+}
+function traerProductosCompra()
+{
+
+    require "connect_DB.php";
+    $factura_id = $_POST["factura_id"];
+    $respuesta  = "";
+
+    $query   = mysqli_query($link, "SELECT producto_id, cantidad, costo FROM detalle_factura where factura_id='" . $factura_id . "';");
+    $row_cnt = mysqli_num_rows($query);
+
+    $i = 0;
+    while ($i < $row_cnt) {
+
+        $fila           = mysqli_fetch_array($query);
+        $nameProducto   = mysqli_query($link, "SELECT nombre,categoria_id, descripcion, valor_unidad FROM producto where producto_id='" . $fila['producto_id'] . "';");
+        $check_producto = mysqli_fetch_array($nameProducto);
+
+        $nameCategoria = mysqli_query($link, "SELECT nombre FROM categoria where tipo_id='" . $check_producto['categoria_id'] . "';");
+        $check_Cat     = mysqli_fetch_array($nameCategoria);
+
+        $respuesta = $respuesta . $fila['producto_id'] . "-" . $check_producto['nombre'] . "-" . $fila['cantidad'] . "-" . $check_producto['valor_unidad'] . "-" . $fila['costo'] . "-" . $check_producto['descripcion'] . "-" . $check_Cat['nombre'] . "--";
 
         $i++;
 
