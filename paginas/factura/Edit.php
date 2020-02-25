@@ -7,6 +7,7 @@
         </title>
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <META http-equiv="Content-Script-Type" content="text/javascript"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <meta name="description" content=""/>
         <meta name="author" content=""/>
@@ -19,6 +20,7 @@
         <link href="/ProyectoBases2/resources/css/display-lg.css" rel="stylesheet"/>
         <link href="/ProyectoBases2/resources/css/display-md.css" rel="stylesheet"/>
         <link href="/ProyectoBases2/resources/css/display-sm.css" rel="stylesheet"/>
+        <link href="/ProyectoBases2/resources/css/warningTable.css" rel="stylesheet"/>
     </head>
     <body>
         <div class="wrapper">
@@ -142,29 +144,26 @@
                             ¡Bienvenido!
                         </h2>
                         <p>
-                            Aquí deberíamos poner información chévere, quiza algunas de las funciones anañiticas o una vista
+                            Aquí deberíamos poner información chévere, quiza algunas de las funciones analíticas o una vista
                         </p>
                     </div>
                 </div>
-                <!--Contenido de editar Producto-->
+                <!--Contenido de agregar nueva factura-->
                 <div class="contenido">
                     <h1 class="titleCreate">
-                        Visualizar Factura
+                        Editar factura.
                     </h1>
                     <br/>
-                    <br/>
-                    <div id="formulario">
-                        <div id = "imprimir">
-                            <form>
-                                <div class="form-group row" id="id_factura">
-                                    <label class="col-md-2 " for="factura_id" readonly>
-                                        No. Factura:
-                                    </label>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control"  value="" id="factura_id" required="true" readonly/>
-                                    </div>
-                                </div>
-                                <div class="form-group row" id="fechas">
+                    <!-- id de factura-->
+                    <div class="form-group row">
+                        <label class="col-md-2 " for="factura_id" readonly>
+                            No. Factura:
+                        </label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control"  value="" id="factura_id" required="true" readonly/>
+                        </div>
+                    </div>
+                     <div class="form-group row" id="fechas">
                                     <label class="col-md-2 col-form-label" for="fecha" readonly>
                                         Fecha:
                                     </label>
@@ -178,140 +177,296 @@
                                         <input type="text" class="form-control"  value="" id="fechaV" required="true" readonly/>
                                     </div>
                                 </div>
-                                <div class="form-group row" id="empleado">
-                                    <label class="col-md-2 col-form-label" for="nameEmpleado" id="empleadoLabel">
-                                        Empleado:
-                                    </label>
-                                    <div class="col-md-7">
-                                        <select id="nameEmpleado" class="browser-default custom-select" disabled>
-                                            <option value="">
-                                                -------------------
-                                            </option>
-                                            ;
-                                            <?php $consultaEmpleado = mysqli_query($link, "SELECT CONCAT(nombre,' ',apellido) AS nombre, empleado_id FROM empleado ;"); while ($row = mysqli_fetch_array($consultaEmpleado)) { echo "    <option value=" . $row['empleado_id'] . "> " . $row['nombre'] . "    </option> "; } ?>
-                                        </select>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row" id="cliente">
-                                <label class="col-md-2 col-form-label" for="nameProducto">
-                                    Cliente:
+                    <!--Fin Componente para venta o compra-->
+                    <form>
+                        <!--Componentes necesarios para factura de venta-->
+                        <div id="facturaSell">
+                            <!--Componentes para escoger un vendedor-->
+                            <div class="form-group row justify-content-center" id ="vendedordiv">
+                                <label class="col-md-2 " for="vendedor_id">
+                                    Vendedor:
                                 </label>
                                 <div class="col-md-7">
-                                    <select id="nameCliente"  class="form-control" disabled>
-                                        <option  id="oldCliente" value="">
-                                            ----------
+                                    <select id="vendedor_id"  class="browser-default custom-select">
+                                        <option value="">
+                                            -------------------
                                         </option>
-                                        <?php $consultaCliente = mysqli_query($link, "SELECT CONCAT(nombre,' ',apellido) AS nombre,cliente_id from cliente;"); while ($row = mysqli_fetch_array($consultaCliente)) { echo "    <option value=" . $row['cliente_id'] . "> " . $row['nombre'] . "    </option> "; } ?>
+                                        ;
+                                        <?php $consultaEmpleado = mysqli_query($link, "SELECT CONCAT(nombre,' ',apellido) AS nombre, empleado_id FROM empleado WHERE cargo_id =(SELECT cargo_id FROM cargo WHERE nombre = 'Vendedor');"); while ($row = mysqli_fetch_array($consultaEmpleado)) { echo "  <option value=" . $row['empleado_id'] . "> " . $row['nombre'] . "  </option> "; } ?>
                                     </select>
+                                    <br/>
                                 </div>
+                                <a class="col-md-2 " href="/ProyectoBases2/paginas/empleado/Create.php" target="_blank" style="color: #ffc107"onmousemove="underline(this)" onmouseout="blankunderline(this)">
+                                    Crear un nuevo vendedor.
+                                </a>
                             </div>
-                            <div class="form-group row" id="proveedor" style="display: flex;">
-                                <label class="col-md-2 col-form-label" for="idProveedor">
-                                    Nit:
-                                </label>
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control"  value="" id="nit" required="true" readonly/>
-                                </div>
-                                <label class="col-md-2 col-form-label" for="nameProveedor">
-                                    Proveedor:
-                                </label>
-                                <div class="col-md-5">
-                                    <select id="nameProveedor"  class="form-control" disabled>
-                                        <option  id="oldProveedor" value="">
-                                            ----------
-                                        </option>
-                                        <?php $consultaProveedor = mysqli_query($link, "SELECT nombre,nit from proveedor;"); while ($row = mysqli_fetch_array($consultaProveedor)) { echo "    <option value=" . $row['nit'] . "> " . $row['nombre'] . "    </option> "; } ?>
-                                    </select>
-                                </div>
+                        </p>
+                        <!--Componentes para escoger un cliente-->
+                        <div class="form-group row justify-content-center" id ="clientediv">
+                            <label class="col-md-2" for="nombre_cliente">
+                                Cliente:
+                            </label>
+                            <div class="col-md-7 ">
+                                <select id="cliente" class="browser-default custom-select">
+                                    <option value="">
+                                        -------------------
+                                    </option>
+                                    ;
+                                    <?php $consultaCliente = mysqli_query($link, "SELECT CONCAT(nombre,' ',apellido) AS nombre, cliente_id from cliente;"); while ($row = mysqli_fetch_array($consultaCliente)) { echo "  <option value=" . utf8_encode($row['cliente_id']) . "> " . utf8_encode($row['nombre']) . "  </option> "; } ?>
+                                </select>
                             </div>
-                             <hr/>
-                            <div id="editar_ProductoVenta" style="display: none">
-                                <div class="form-group row justify-content-center" id="productSell">
-                                    <label class="col-md-3" for="nombre_producto">
-                                        Seleccione los productos que desea añadir:
-                                    </label>
-                                    <div class="col-md-8 col-form-label">
-                                        <select id="producto" class="browser-default custom-select" onchange="insertProductS()">
-                                            <option value="default">
-                                                -------------------
-                                            </option>
-                                            ;
-                                            <?php $consultaProducto = mysqli_query($link, "SELECT producto_id, nombre, valor_unidad FROM producto;"); while ($row = mysqli_fetch_array($consultaProducto)) { echo "  <option value=" . utf8_encode($row['producto_id']) . "--" . utf8_encode($row['valor_unidad']) . "> " . utf8_encode($row['nombre']) . "  </option> "; } ?>
-                                        </select>
-                                    </div>
-                                    <a class="col-md-1 " href="/ProyectoBases2/paginas/producto/Create.php" target="_blank" style="color: #ffc107" onmousemove="underline(this)" onmouseout="blankunderline(this)">
-                                        Agregar nuevo producto.
-                                    </a>
-                                </div>
-
+                            <a class="col-md-2 " href="/ProyectoBases2/paginas/cliente/Create.php" target="_blank" style="color: #ffc107" onmousemove="underline(this)" onmouseout="blankunderline(this)">
+                                Crear un nuevo cliente.
+                            </a>
+                        </div>
+                        <!-- Selección de productos a vender -->
+                        <div class="form-group row justify-content-center" id="productSell">
+                            <label class="col-md-2" for="nombre_producto">
+                                Seleccione los productos que desea añadir:
+                            </label>
+                            <div class="col-md-7 col-form-label">
+                                <select id="producto" class="browser-default custom-select" onchange="insertProductS()">
+                                    <option value="default">
+                                        -------------------
+                                    </option>
+                                    ;
+                                    <?php $consultaProducto = mysqli_query($link, "SELECT producto_id, nombre, valor_unidad FROM producto;"); while ($row = mysqli_fetch_array($consultaProducto)) { echo "  <option value=" . utf8_encode($row['producto_id']) . "--" . utf8_encode($row['valor_unidad']) . "> " . utf8_encode($row['nombre']) . "  </option> "; } ?>
+                                </select>
                             </div>
-                            <br/>
-                            <!--
-                                Tabla para ir mostrando los productos que se quieran añadir -->
-                            <div class="table-responsive">
-                                <table id="tabla_productos" class="table table-light text-font">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th scope="col">
-                                                Id_Producto
-                                            </th>
-                                            <th scope="col">
-                                                Producto
-                                            </th>
-                                            <th scope="col">
-                                                Cantidad
-                                            </th>
-                                            <th scope="col">
-                                                Valor Unidad
-                                            </th>
-                                            <th scope="col">
-                                                Costo
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                                <label class="col-md-1" id="Saldolabel">
-                                    Saldo
-                                </label>
-                                <input class="col-md-2 " type="number" min="1" id="saldo" value="0" readonly/>
+                            <a class="col-md-2 " href="/ProyectoBases2/paginas/producto/Create.php" target="_blank" style="color: #ffc107" onmousemove="underline(this)" onmouseout="blankunderline(this)">
+                                Agregar nuevo producto.
+                            </a>
+                        </div>
+                        <!--
+                           Tabla para ir mostrando los productos que se quieran añadira factura de venta -->
+                        <div class="table-responsive">
+                            <table id="tabla_productosS" class="table table-light text-font">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">
+                                            Id_Producto
+                                        </th>
+                                        <th scope="col">
+                                            Producto
+                                        </th>
+                                        <th scope="col">
+                                            Cantidad
+                                        </th>
+                                        <th scope="col">
+                                            Valor Unidad
+                                        </th>
+                                        <th scope="col">
+                                            Costo
+                                        </th>
+                                        <th scope="col">
+                                            Acciones
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!--Fin componentes de factura de venta-->
+                    <!-- Componentes de factura de compra-->
+                    <div   id="facturaBuy" hidden>
+                        <!--Componentes para seleccionar un empleado -->
+                        <div class="form-group row justify-content-center" id="empleadodiv">
+                            <label class="col-md-2 " for="nombre_empleado">
+                                Empleado:
+                            </label>
+                            <div class="col-md-7">
+                                <select id="empleado_id" class="browser-default custom-select">
+                                    <option value="">
+                                        -------------------
+                                    </option>
+                                    ;
+                                    <?php $consultaEmpleado = mysqli_query($link, "SELECT CONCAT(nombre,' ',apellido) AS nombre, empleado_id FROM empleado ;"); while ($row = mysqli_fetch_array($consultaEmpleado)) { echo "  <option value=" . $row['empleado_id'] . "> " . $row['nombre'] . "  </option> "; } ?>
+                                </select>
                                 <br/>
-                                <label class="col-md-1" id="Subtotallabel">
-                                    Subtotal
-                                </label>
-                                <input class="col-md-2 " type="number" min="1" id="subtotal" value="0" readonly/>
-                                <br/>
-                                <label class="col-md-1" id="Totallabel">
-                                    Total
-                                </label>
-                                <input class="col-md-2" type="number" min="1" id="total" value="0" readonly/>
-                                <br/>
+                            </div>
+                            <a class="col-md-2 " href="/ProyectoBases2/paginas/empleado/Create.php" target="_blank" style="color: #ffc107"onmousemove="underline(this)" onmouseout="blankunderline(this)">
+                                Crear un nuevo empleado.
+                            </a>
+                        </div>
+                        <!--Fin componentes para seleccionar un empleado -->
+                        <p>
+                        </p>
+                        <!--Componentes para escoger un proveedor-->
+                        <div class="form-group row justify-content-center" id="proveedordiv">
+                            <label class="col-md-2" for="nombre_proveedor">
+                                Proveedor:
+                            </label>
+                            <div class="col-md-7 " col-form-label>
+                                <select  id="proveedor" class="browser-default custom-select">
+                                    <option value="">
+                                        -------------------
+                                    </option>
+                                    ;
+                                    <?php $consultaProveedor = mysqli_query($link, "SELECT nombre, nit from proveedor;"); while ($row = mysqli_fetch_array($consultaProveedor)) { echo "  <option value=" . utf8_encode($row['nit']) . "> " . utf8_encode($row['nombre']) . "  </option> "; } ?>
+                                </select>
+                            </div>
+                            <a class="col-md-2 " href="/ProyectoBases2/paginas/proveedor/Create.php" target="_blank" style="color: #ffc107"onmousemove="underline(this)" onmouseout="blankunderline(this)">
+                                Crear un nuevo proveedor.
+                            </a>
+                        </div>
+                        <!--Fin componentes para escoger un proveedor-->
+                        <hr/>
+                        <!--Componentes para agregar un producto-->
+                        <div class="form-group row justify-content-center">
+                            <label class="col-md-3 " for="idProducto">
+                                Id del producto:
+                            </label>
+                            <div class="col-md-7">
+                                <input id="idProducto" readonly class="form-control"/>
+                            </div>
+                            <div class="col-md-2 ">
                             </div>
                         </div>
-                        <!-- Div para advertencias de existencias-->
+                        <div class="form-group row justify-content-center">
+                            <label class="col-md-3" for="nameProducto">
+                                Nombre del producto:
+                            </label>
+                            <div class="col-md-7">
+                                <input id="nameProducto" class="form-control" onblur="autorellenar_Prueba(this.value)"/>
+                            </div>
+                            <div class="col-md-2 ">
+                            </div>
+                        </div>
+                        <div class="form-group row justify-content-center">
+                            <label class="col-md-3" for="desc">
+                                Descripción:
+                            </label>
+                            <div class="col-md-7">
+                                <input id="desc" class="form-control"/>
+                            </div>
+                            <div class="col-md-2 ">
+                            </div>
+                        </div>
+                        <div class="form-group row justify-content-center" min="1" pattern="^[0-9]+">
+                            <label class="col-md-3" for="costo">
+                                Costo:
+                            </label>
+                            <div class="col-md-7">
+                                <input type="number" id="costo" class="form-control"/>
+                            </div>
+                            <div class="col-md-2 ">
+                            </div>
+                        </div>
+                        <div class="form-group row justify-content-center">
+                            <label class="col-md-3" for="valor" min="1" pattern="^[0-9]+">
+                                Valor unitario de venta:
+                            </label>
+                            <div class="col-md-7">
+                                <input type="number" id="valor" class="form-control"/>
+                            </div>
+                            <div class="col-md-2 ">
+                            </div>
+                        </div>
+                        <div class="form-group row justify-content-center">
+                            <label class="col-md-3" for="stock" min="1" pattern="^[0-9]+">
+                                Cantidad de ingreso:
+                            </label>
+                            <div class="col-md-7">
+                                <input type="number" id="stock" class="form-control"/>
+                            </div>
+                            <div class="col-md-2 ">
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="form-group row justify-content-center">
+                            <label class="col-md-2" for="stock">
+                                Categoría:
+                            </label>
+                            <div class="col-md-7">
+                                <select id="optionCat" class="form-control">
+                                    <?php $consultaCategoria = mysqli_query($link, "SELECT tipo_id,nombre from categoria;"); while ($row = mysqli_fetch_array($consultaCategoria)) { echo "  <option value=" . $row['nombre'] . "> " . $row['nombre'] . "  </option> "; } ?>
+                                </select>
+                            </div>
+                            <a class="col-md-2 " href="/ProyectoBases2/paginas/categoria/Create.html" target="_blank" style="color: #ffc107"onmousemove="underline(this)" onmouseout="blankunderline(this)">
+                                Crear nueva categoría.
+                            </a>
+                            <!-- Botón de guardar -->
+                            <button id="saveB" class="justify-content-left col-md-2 btn btn-ambar">
+                                Agregar
+                            </button>
+                        </div>
+                        <!--Componentes para agregar un producto-->
+                        <!-- Tabla para ir mostrando los productos que se quieran añadira factura de compra  -->
+                        <div class="table-responsive">
+                            <table id="tabla_productosB" class="table table-light text-font">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">
+                                            Id_Producto
+                                        </th>
+                                        <th scope="col">
+                                            Producto
+                                        </th>
+                                        <th scope="col">
+                                            Descripción
+                                        </th>
+                                        <th scope="col">
+                                            Costo
+                                        </th>
+                                        <th scope="col">
+                                            Valor Unidad
+                                        </th>
+                                        <th scope="col">
+                                            Cantidad
+                                        </th>
+                                        <th scope="col">
+                                            Categoría
+                                        </th>
+                                        <th scope="col">
+                                            Acciones
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Fin tabla para ir mostrando los productos que se quieran añadira factura de compra  -->
+                    </div>
+                    <!-- Componentes generales-->
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <label class="col-md-1" id="saldolabel">
+                            Saldo
+                        </label>
+                        <input class="col-md-2 " type="number" min="0" id="saldo" value="0"/>
+                        <br/>
+                        <label class="col-md-1" id="Subtotallabel">
+                            Subtotal
+                        </label>
+                        <input class="col-md-2 " type="number" min="1" id="subtotal" value="0" readonly/>
+                        <br/>
+                        <label class="col-md-1" id="Totallabel">
+                            Total
+                        </label>
+                        <input class="col-md-2" type="number" min="1" id="total" value="0" readonly/>
+                        <br/>
+                    </div>
+                    <!-- Div para advertencias de existencias-->
                     <div id="advertencias" class="warningDiv">
                     </div>
                     <br/>
-                    </form>
-                </div>
-                <a class="btn btn-ambar" id="edit" >
-                    Editar
-                </a>
-                <a class="btn btn-ambar" id="keep" onclick="actualizarFactu()" style="display: none;">
-                    Guardar
-                </a>
-                <button class="btn btn-ambar" id ="print" onclick="imprimir_Factura()"disabled>
-                    Imprimir
+                </form>
+                <!-- Botón de guardar -->
+                <button id="save" type="submit" class="btn btn-ambar" onclick="createSell()" disabled>
+                    Guardar Factura
                 </button>
-                <a class="btn btn-ambar" href="/ProyectoBases2/paginas/factura/List.php">
-                    Volver
-                </a>
+                <!-- Botón de mostrar todas las categorías -->
+                <button id="mostrar" class="btn btn-ambar" onclick ="location.href='./List.php' ">
+                    Lista de facturas
+                </button>
+                <!-- Botón de inicio
+                <button class="btn btn-ambar" onclick ="location.href='/ProyectoBases2/administrador.html">Inicio</button>
+                -->
+                <!-- Fin componentes generales-->
             </div>
-            <!--espacio agregar-->
+            <!--Espacio agregar-->
             <div class="collapse" id="add">
                 <div class="contenido">
                     <h3>
@@ -331,7 +486,7 @@
                                     <p class="card-text">
                                         Aquí va información acerca de algo.
                                     </p>
-                                    <a href="/ProyectoBases2/paginas/proveedor/Create.php" class="btn btn-danger">
+                                    <a href="paginas/proveedor/Create.php" class="btn btn-danger">
                                         Agregar
                                     </a>
                                 </div>
@@ -346,7 +501,7 @@
                                     <p class="card-text">
                                         Aquí va información acerca de algo.
                                     </p>
-                                    <a href="/ProyectoBases2/paginas/cliente/Create.php" class="btn btn-danger">
+                                    <a href="paginas/cliente/Create.php" class="btn btn-danger">
                                         Agregar
                                     </a>
                                 </div>
@@ -361,7 +516,7 @@
                                     <p class="card-text">
                                         Aquí va información acerca de algo.
                                     </p>
-                                    <a href="/ProyectoBases2/paginas/producto/Create.php" class="btn btn-danger">
+                                    <a href="paginas/producto/Create.php" class="btn btn-danger">
                                         Agregar
                                     </a>
                                 </div>
@@ -378,7 +533,7 @@
                                     <p class="card-text">
                                         Aquí va información acerca de algo.
                                     </p>
-                                    <a href="/ProyectoBases2/paginas/empleado/Create.php" class="btn btn-danger">
+                                    <a href="paginas/empleado/Create.php" class="btn btn-danger">
                                         Agregar
                                     </a>
                                 </div>
@@ -393,7 +548,7 @@
                                     <p class="card-text">
                                         Aquí va información acerca de algo.
                                     </p>
-                                    <a href="/ProyectoBases2/paginas/categoria/Create.html" class="btn btn-danger">
+                                    <a href="paginas/categoria/Create.php" class="btn btn-danger">
                                         Agregar
                                     </a>
                                 </div>
@@ -421,7 +576,7 @@
                                     <p class="card-text">
                                         Aquí va información acerca de algo.
                                     </p>
-                                    <a href="/ProyectoBases2/paginas/proveedor/List.php" class="btn btn-danger">
+                                    <a href="paginas/proveedor/List.php" class="btn btn-danger">
                                         Mostrar
                                     </a>
                                 </div>
@@ -436,7 +591,7 @@
                                     <p class="card-text">
                                         Aquí va información acerca de algo.
                                     </p>
-                                    <a href="/ProyectoBases2/paginas/cliente/List.php" class="btn btn-danger">
+                                    <a href="paginas/cliente/List.php" class="btn btn-danger">
                                         Mostrar
                                     </a>
                                 </div>
@@ -451,7 +606,7 @@
                                     <p class="card-text">
                                         Aquí va información acerca de algo.
                                     </p>
-                                    <a href="/ProyectoBases2/paginas/producto/List.php" class="btn btn-danger">
+                                    <a href="paginas/producto/List.php" class="btn btn-danger">
                                         Mostrar
                                     </a>
                                 </div>
@@ -468,7 +623,7 @@
                                     <p class="card-text">
                                         Aquí va información acerca de algo.
                                     </p>
-                                    <a href="/ProyectoBases2/paginas/empleado/List.php" class="btn btn-danger">
+                                    <a href="paginas/empleado/List.php" class="btn btn-danger">
                                         Mostrar
                                     </a>
                                 </div>
@@ -483,7 +638,7 @@
                                     <p class="card-text">
                                         Aquí va información acerca de algo.
                                     </p>
-                                    <a href="/ProyectoBases2/paginas/categoria/List.php" class="btn btn-danger">
+                                    <a href="paginas/categoria/List.php" class="btn btn-danger">
                                         Mostrar
                                     </a>
                                 </div>
@@ -547,28 +702,33 @@
                     </p>
                     <ul class="list-group">
                         <li class="list-group-item" aria-disabled="true">
-                            <a href="/ProyectoBases2/paginas/departamento/List.php">
+                            <a href="paginas/departamento/List.php">
                                 Lista de Departamentos
                             </a>
                         </li>
                         <li class="list-group-item">
-                            <a href="/ProyectoBases2/paginas/ciudad/List.php">
+                            <a href="paginas/ciudad/List.php">
                                 Lista de Ciudades
                             </a>
                         </li>
                         <li class="list-group-item">
-                            <a href="/ProyectoBases2/paginas/barrio/List.php">
+                            <a href="paginas/barrio/List.php">
                                 Lista de Barrios
                             </a>
                         </li>
                         <li class="list-group-item">
-                            <a href="/ProyectoBases2/paginas/ubicacion/List.php">
+                            <a href="paginas/ubicacion/List.php">
                                 Lista de Direcciones
                             </a>
                         </li>
                         <li class="list-group-item">
-                            <a href="/ProyectoBases2/paginas/cargo/List.php">
+                            <a href="paginas/cargo/List.php">
                                 Lista de Cargos
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="paginas/ubicacion/List.php">
+                                Lista de Ubicaciones
                             </a>
                         </li>
                     </ul>
@@ -598,7 +758,7 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
                             Cancelar
                         </button>
-                        <a class="btn btn-ambar" href="/ProyectoBases2/index.html">
+                        <a class="btn btn-ambar" href="index.php">
                             Cerrar sesión
                         </a>
                     </div>
@@ -613,9 +773,12 @@
     <script src="/ProyectoBases2/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
     <!--Mis scripts-->
     <script type="text/javascript" src="/ProyectoBases2/resources/js/controlBarra.js"></script>
-     <script type="text/javascript" src="/ProyectoBases2/resources/js/controlFactura.js"></script>
-    <script type="text/javascript" src="/ProyectoBases2/resources/js/controllerView.js"></script>
     <script type="text/javascript" src="/ProyectoBases2/resources/js/effects.js"></script>
+    <!--script type="text/javascript" src="/ProyectoBases2/resources/js/controlTablaBuy.js"></script-->
+    <script type="text/javascript" src="/ProyectoBases2/resources/js/controlFactura.js"></script>
+    <script type="text/javascript" src="/ProyectoBases2/resources/js/controlEdit.js"></script>
     <script type="text/javascript" src="/ProyectoBases2/Logica/Javascript/Factura.js"></script>
+    <script type="text/javascript" src="/ProyectoBases2/Logica/Javascript/Producto.js"></script>
+    <!--<script type="text/javascript" src="/ProyectoBases2/resources/js/controlFacturaSell.js"></script>-->
 </body>
 </html>

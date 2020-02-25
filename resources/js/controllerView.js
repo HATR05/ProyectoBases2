@@ -1,5 +1,6 @@
 var url = "/ProyectoBases2/Logica/Entidades/Factura.php"
 var factura_id;
+var factura_Venta = true;
 var paramstr = window.location.search.substr(1);
 var paramarr = paramstr.split("&");
 var params = {};
@@ -74,6 +75,7 @@ function rellenar_factura() {
     //Asignación de atributos a elementos
     if (nit == 0 && nombreProveedor == "--") {
         //Esconde el div de proveedor 
+        factura_Venta = true;
         divProveedor.style.display = 'none';
         button.removeAttribute("disabled");
         //Trae los valores del cliente
@@ -81,6 +83,7 @@ function rellenar_factura() {
         selectCliente.innerHtml = nombreCliente;
     } else {
         //Esconde el div del cliente
+        factura_Venta = false;
         divCliente.style.display = 'none';
         button.setAttribute("disabled", "true");
         //Trae los valores del proveedor
@@ -94,7 +97,7 @@ function rellenar_factura() {
     inputSubtotal.value = subtotal;
     inputTotal.value = total;
 }
-
+/**Método para rellenar productos automáticamente**/
 function autorellenar_Productos() {
     var info = "opcion=traerProductos&factura_id=" + factura_id;
     var arrayCadena = "";
@@ -162,16 +165,10 @@ function imprimir_Factura() {
     //ventana.print();
     //ventana.close();
 }
-
-function editarFact() {
-    var selectEmp = document.getElementById('nameEmpleado');
-    var selectCli = document.getElementById("nameCliente");
-    var selectPro = document.getElementById("nameProveedor");
-    var divProd = document.getElementById("product");
-    divProd.style.display = 'flex';
-    var selectProduct = document.getElementById('producto');
-    selectEmp.disabled = false;
-    selectCli.disabled = false;
-    selectPro.disabled = false;
-    selectProduct.disabled = false;
-}
+/**Método para extraer el id de la factura que se desea ver en detalle**/
+$("#edit").click(function(e) {
+    e.preventDefault();
+    var data = $(this).closest('td');
+    var factura_id = data.html();
+    window.location = "/ProyectoBases2/paginas/factura/Edit.php?factura_id=" + document.getElementById('factura_id').value;
+});

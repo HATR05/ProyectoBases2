@@ -16,7 +16,7 @@ function crear() {
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
-            alert(xhr.responseText);
+            console.log(xhr.responseText);
         }
     };
     xhr.send(info);
@@ -25,7 +25,7 @@ function crear() {
 function crear_Manual(nombre, desc, valUnitario, cantidad, categoria) {
     var result = false;
     var response;
-     var url = "/ProyectoBases2/Logica/Entidades/Producto.php"
+    var url = "/ProyectoBases2/Logica/Entidades/Producto.php"
     var info = "opcion=crear&name=" + nombre + "&desc=" + desc + "&unidad=" + valUnitario + "&cantidad=" + cantidad + "&categoria=" + categoria;
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, false);
@@ -36,7 +36,7 @@ function crear_Manual(nombre, desc, valUnitario, cantidad, categoria) {
         }
     };
     xhr.send(info);
-    result =true;
+    result = true;
     return result;
 }
 
@@ -64,6 +64,23 @@ function editar() {
         }
     };
     xhr.send(info);
+}
+
+function editar_Manual(producto, nombre, des, valUnitario, cantidad, categoria) {
+    var url = "/ProyectoBases2/Logica/Entidades/Producto.php"
+    var response = false;
+    var info = "opcion=editar&producto=" + producto + "&nombre=" + nombre + "&desc=" + des + "&valUnitario=" + valUnitario + "&cantidad=" + cantidad + "&categoria=" + categoria;
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            alert(xhr.responseText);
+        }
+    };
+    xhr.send(info);
+    response = true;
+    return response;
 }
 
 function eliminar() {
@@ -106,8 +123,6 @@ function buscar() {
 /**Método para restar productos del stock / se usa en factura de venta**/
 function restar_Productos(producto, cantidad) {
     var url = "/ProyectoBases2/Logica/Entidades/Producto.php"
-    var response = "LLega a restar producto";
-    alert(response);
     var info = "opcion=restarProductos&producto=" + producto + "&cantidad=" + cantidad;
     var xhr = new XMLHttpRequest()
     xhr.open("POST", url, false);
@@ -118,12 +133,12 @@ function restar_Productos(producto, cantidad) {
         }
     };
     xhr.send(info)
-    alert(response);
+    console.log(response);
     return response;
 }
 /**Método para verificar si un producto existe, búsqueda según nombre del producto en la BD/ se uusa en factura de compra**/
-function existe (nomProduct){
-	var url = "/ProyectoBases2/Logica/Entidades/Producto.php"
+function existe(nomProduct) {
+    var url = "/ProyectoBases2/Logica/Entidades/Producto.php"
     var info = "opcion=buscar_Nombre&selectInfo=" + nomProduct;
     var response;
     var arrayResult;
@@ -132,14 +147,14 @@ function existe (nomProduct){
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
-             response = xhr.responseText;            
+            response = xhr.responseText;
         }
     };
     xhr.send(info);
     return response;
 }
 /**Método para ver cuál es el último id de producto / se usa en factura de compra**/
-function ultimo_Producto(){
+function ultimo_Producto() {
     var url = "/ProyectoBases2/Logica/Entidades/Producto.php"
     var info = "opcion=ultimo_Producto";
     var response;
@@ -149,7 +164,7 @@ function ultimo_Producto(){
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
-             response = xhr.responseText;            
+            response = xhr.responseText;
         }
     };
     xhr.send(info);
@@ -165,7 +180,7 @@ function actualizar_Stock(producto_id, cantidad) {
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
-             response = xhr.responseText;
+            response = xhr.responseText;
         }
     };
     xhr.send(info);

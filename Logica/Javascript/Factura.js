@@ -79,7 +79,6 @@ var guardarProductos = function() {
             }
         });
         if (producto != null) {
-            alert('El producto no es nulo');
             if ($('#warningDiv').html()) {
                 alert("Existen algunas advertencias pendientes, solucionelas antes de seguir, por favor.");
             } else {
@@ -127,7 +126,6 @@ function createBuy() {
         alert(mensaje);
     } else {
         var info = "opcion=crear&empleado=" + empleado_id + "&cliente=" + cliente_id + "&nitE=" + nit + "&fecha=" + fecha_factura + "&fechavenc=" + fecha_vencimiento + "&sal=" + saldo + "&subt=" + subtotal + "&t=" + total;
-       
         var xhr = new XMLHttpRequest()
         xhr.open("POST", url, false);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded", false);
@@ -220,7 +218,7 @@ function agregarProductos() {
                     console.log(response[0]);
                     detalle = response[1];
                     if (detalle == true) {
-                        var aux = actualizar_Stock(producto_id, cantidad);
+                        var aux = editar_Manual(producto_id, nombre_Prod, desc, valor_Unidad, cantidad, categoria);
                         actua = aux.split('--');
                         console.log(actua[0]);
                         actua = actua[1];
@@ -229,20 +227,20 @@ function agregarProductos() {
                         result = true;
                     }
                 } else {
-                    var info = "opcion=crearDetalle&producto=" + producto_id + "&cantidad=" + cantidad + "&costo=" + costo;
-                    var xhr = new XMLHttpRequest()
-                    xhr.open("POST", url, false);
-                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState == 4 && xhr.status == 200) {
-                            response = xhr.responseText.split('--');
-                        }
-                    };
-                     xhr.send(info)
-                    console.log(response[0]);
-                    detalle = response[1];
-                    if (detalle == true) {
-                        actua = crear_Manual(nombre_Prod, desc, valor_Unidad, cantidad, categoria);
+                    actua = crear_Manual(nombre_Prod, desc, valor_Unidad, cantidad, categoria);
+                    if (actua == true) {
+                        var info = "opcion=crearDetalle&producto=" + producto_id + "&cantidad=" + cantidad + "&costo=" + costo;
+                        var xhr = new XMLHttpRequest()
+                        xhr.open("POST", url, false);
+                        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                        xhr.onreadystatechange = function() {
+                            if (xhr.readyState == 4 && xhr.status == 200) {
+                                response = xhr.responseText.split('--');
+                            }
+                        };
+                        xhr.send(info)
+                        console.log(response[0]);
+                        detalle = response[1];
                     }
                     if (detalle == true && actua == true) {
                         result = true;
@@ -255,34 +253,61 @@ function agregarProductos() {
 }
 /**Métodos para editar factura**/
 /**Método para la actualización de facturas**/
-function actualizarFactu() {
-    var codFac = document.getElementById('codigoFactura').value;
-    var nuevoEmp = document.getElementById('nameEmpleado').value;
-    var nuevoCli = document.getElementById("nameCliente").value;
-    var nuevoPro = document.getElementById("nameProveedor").value;
-    var nuevoSaldo = document.getElementById('saldo').value;
-    var nuevoSubtotal = document.getElementById('subtotal').value;
-    var nuevoTotal = document.getElementById('total').value;
+function actualizarFactu(codFac, nuevoCli, nuevoPro, nuevoEmp, nuevoSaldo, nuevoSubtotal, nuevoTotal) {
+    var response = false;
     var info = "opcion=editar&factura_id=" + codFac + "&newClient=" + nuevoCli + "&newNit=" + nuevoPro + "&newEmpleado_id=" + nuevoEmp + "&newSaldo=" + nuevoSaldo + "&newSubtotal=" + nuevoSubtotal + "&newTotal=" + nuevoTotal;
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, false);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
-            alert(xhr.responseText);
+            response = xhr.responseText;
         }
     };
     xhr.send(info);
-    actuDetalle(codFac);
+    return response;
+}
+
+function crearDetalle(factura_id, producto_id, cantidad, costo) {
+    var detalle;
+    var info = "opcion=crearDetalleM&factura_id" + factura_id + "&producto=" + producto_id + "&cantidad=" + cantidad + "&costo=" + costo;
+    var xhr = new XMLHttpRequest()
+    xhr.open("POST", url, false);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            response = xhr.responseText.split('--');
+        }
+    };
+    xhr.send(info)
+    console.log(response[0]);
+    detalle = response[1];
+    return detalle;
+}
+
+function eliminarDetalle() {
+    var eliminarDetalle = false;
+    var info = "opcion=eliminar_Detalle&factura=" + factura_id;
+    var xhr = new XMLHttpRequest()
+    xhr.open("POST", url, false);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            eliminarDetalle = xhr.responseText;
+        }
+    };
+    xhr.send(info)
+    return eliminarDetalle;
 }
 /**Método para actualizar productos de factura guardados en la tabla Detalle_Factura**/
-function actuDetalle(factura_id) {
+function actuDetalleS() {
     var contador = 0;
     var producto = null;
     var nombre_Prod;
     var cantidad;
     var costo;
-    $('#tabla_productos ').find('tr').each(function() {
+    var response = false;
+    $('#tabla_productosS ').find('tr').each(function() {
         $(this).find('td').each(function() {
             switch (contador) {
                 case 0:
@@ -315,12 +340,77 @@ function actuDetalle(factura_id) {
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
-                    alert("hola");
+                    response = xhr.responseText;
                 }
             };
             xhr.send(info)
         }
     });
+    alert("LLega hasta aquí");
+    return response;
+}
+/**Método para actualizar productos de factura guardados en la tabla Detalle_Factura**/
+function actuDetalleB() {
+    var contador = 0;
+    var response = false;
+    var producto_id = null;
+    var nombre_Prod;
+    var desc;
+    var cantidad;
+    var costo;
+    var valor_Unidad;
+    var categoria;
+    $('#tabla_productosS ').find('tr').each(function() {
+        $(this).find('td').each(function() {
+            switch (contador) {
+                case 0:
+                    producto_id = $(this).text();
+                    contador++;
+                    break;
+                case 1:
+                    nombre_Prod = $(this).text();
+                    contador++;
+                    break;
+                case 2:
+                    desc = $(this).text();
+                    contador++;
+                    break;
+                case 3:
+                    costo = $(this).text();
+                    contador++;
+                    break;
+                case 4:
+                    valor_Unidad = $(this).text();
+                    contador++;
+                    break;
+                case 5:
+                    cantidad = $(this).text();
+                    contador++;
+                    break;
+                case 6:
+                    categoria = $(this).text();
+                    contador++;
+                    break;
+                case 7:
+                    contador = 0;
+                    break;
+            }
+        });
+        if (producto != null) {
+            var info = "opcion=editarDetalle&factura=" + factura_id + "&producto_id=" + producto_id + "&cantidad=" + cantidad + "&costo=" + costo;
+            var xhr = new XMLHttpRequest()
+            xhr.open("POST", url, false);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    response = xhr.responseText;
+                }
+            };
+            xhr.send(info)
+        }
+    });
+    alert("LLega hasta aquí");
+    return response;
 }
 /**Fin métodos para editar factura**/
 /**Método para eliminación total de la factura**/
