@@ -53,8 +53,9 @@
                         </a>
                     </li>
                     <li>
-                        <a data-toggle="collapse" href="#list" role="button" aria-expanded="false" aria-controls="list" class="nav-link"><i class="fa fa-list-alt"></i> Listar </a>
+                        <a href="/ProyectoBases2/paginas/factura/List.php" class="nav-link"><i class="fa fa-book"></i> Facturas </a>
                     </li>
+                    <li>
                         <a data-toggle="collapse" href="#settings" role="button" aria-expanded="false" aria-controls="settings" class="nav-link">
                             <i class="fa fa-support">
                             </i>
@@ -77,48 +78,29 @@
                     </h6>
                 </div>
             </nav>
-            <!--Navbar para telefonos -->
+              <!--Navbar para telefonos -->
             <nav class="ocultar navbarSh navbar navbar-expand-lg navbar-light bg-light">
-                <a data-toggle="collapse" class="navbar-brand" href="#bienvenida">
-                    StockManage
-                </a>
+                <a data-toggle="collapse" class="navbar-brand" href="#bienvenida">StockManage</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon">
-                    </span>
+                    <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a data-toggle="collapse" href="#add" role="button" aria-expanded="false" aria-controls="add" class="nav-link">
-                                <i class="fa fa-plus">
-                                </i>
-                                Agregar
-                            </a>
+                            <a data-toggle="collapse" href="#add" role="button" aria-expanded="false" aria-controls="add" class="nav-link"><i class="fa fa-plus"></i> Agregar </a>
                         </li>
                         <li class="nav-item">
-                            <a data-toggle="collapse" href="#list" role="button" aria-expanded="false" aria-controls="list" class="nav-link">
-                                <i class="fa fa-list">
-                                </i>
-                                Listar
-                            </a>
+                            <a data-toggle="collapse" href="#list" role="button" aria-expanded="false" aria-controls="list" class="nav-link"><i class="fa fa-list"></i> Listar </a>
                         </li>
                         <li class="nav-item">
                             <a href="/ProyectoBases2/paginas/factura/List.php" class="nav-link"><i class="fa fa-book"></i> Facturas </a>
                         </li>
                         <li class="nav-item">
-                            <a data-toggle="collapse" href="#settings" role="button" aria-expanded="false" aria-controls="settings" class="nav-link">
-                                <i class="fa fa-support">
-                                </i>
-                                Funciones Base
-                            </a>
+                            <a data-toggle="collapse" href="#settings" role="button" aria-expanded="false" aria-controls="settings" class="nav-link"><i class="fa fa-support"></i> Funciones Base </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="modal" data-target="#confirm" href="">
-                                <i class="fa fa-fw fa-power-off">
-                                </i>
-                                <span class="nav-link-text">
-                                    Cerrar sesión
-                                </span>
+                                <i class="fa fa-fw fa-power-off"></i><span class="nav-link-text">Cerrar sesión</span>
                             </a>
                         </li>
                     </ul>
